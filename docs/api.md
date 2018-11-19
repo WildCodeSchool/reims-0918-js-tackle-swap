@@ -94,7 +94,7 @@
   .post("/add_user")
   ```
 
-- UPDATE
+- UUPDATE
   - Action : Ajouter un utilisateur
   ```javascript
   .put("/update_user/:iduser")
