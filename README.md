@@ -7,5 +7,6 @@
 - Gautier
 - Mathieu
 - Leuthsouline
+- Corentin
 
 [Docs Route API](/docs/api.md)
