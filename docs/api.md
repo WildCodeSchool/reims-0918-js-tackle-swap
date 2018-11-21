@@ -67,7 +67,7 @@
 - GET
   - Action: Rechercher un article ou un utilisateur
   ```javascript
-  .get("/search?s=:search&type=:type")
+  .get("/search?s='mysearch'&type='type'")
   ```
 
 ## Section : Utilisateur
