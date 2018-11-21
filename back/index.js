@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/items", (req, res) => {
-  const limit = req.query.limit ? req.query.limit : 10;
+  const limit = req.query.limit ? req.query.limit : 20;
   const offset = req.query.offset ? req.query.offset : 0;
   res.send(
     `Affichage des produits par ${limit} à partir du produit numéro: ${offset}`
