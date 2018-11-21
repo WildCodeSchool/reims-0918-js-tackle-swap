@@ -1,0 +1,27 @@
+{
+  "name": "reims-0918-js-tackle-swap",
+  "version": "1.0.0",
+  "description": "fisherman swap marketplace",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WildCodeSchool/reims-0918-js-tackle-swap.git"
+  },
+  "keywords": [
+    "marketplace",
+    "swap",
+    "fisherman"
+  ],
+  "author": "Gautier, Mathieu, Leuthsouline, Corentin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WildCodeSchool/reims-0918-js-tackle-swap/issues"
+  },
+  "homepage": "https://github.com/WildCodeSchool/reims-0918-js-tackle-swap#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
