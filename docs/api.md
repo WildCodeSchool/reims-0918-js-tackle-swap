@@ -33,13 +33,13 @@
   - Action : Ajouter un article à ma vitrine
 
   ```javascript
-  .post("/add_item")
+  .post("/item")
   ```
 
   - Action : Ajouter un article à ma liste de favoris
 
   ```javascript
-  .post("/add_favorites/:iditem/:iduser")
+  .post("/favorites/:iditem/:iduser")
   ```
 
 - UPDATE
@@ -47,19 +47,19 @@
   - Action : Modifier un article de ma vitrine
 
   ```javascript
-  .put("/update_item/:iditem")
+  .put("/item/:iditem")
   ```
 
   - Action : Supprimer un article de ma vitrine
 
   ```javascript
-  .put("/update_item/delete/:iditem")
+  .put("/item/delete/:iditem")
   ```
 
 - DELETE
   - Action : Supprimer un article de mes favoris
   ```javascript
-  .put("/delete_favorites/:iditem/:iduser")
+  .delete("/favorites/:iditem/:iduser")
   ```
 
 ## Section : Recherche
@@ -91,7 +91,7 @@
   - Action : Ajouter un utilisateur
 
   ```javascript
-  .post("/add_user")
+  .post("/user")
   ```
 
 - UPDATE
@@ -99,6 +99,6 @@
   - Action : Ajouter un utilisateur
 
   ```javascript
-  .put("/update_user/:iduser")
+  .put("/user/:iduser")
 
   ```
