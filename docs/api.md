@@ -95,7 +95,10 @@
   ```
 
 - UPDATE
+
   - Action : Ajouter un utilisateur
+
   ```javascript
   .put("/update_user/:iduser")
+
   ```
