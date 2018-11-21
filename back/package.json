@@ -4,7 +4,8 @@
   "description": "marketplace swap for fishing",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node node_modules/db-migrate/bin/db-migrate"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
     "express": "^4.16.4",
     "install": "^0.12.2",
     "npm": "^6.4.1"
+  },
+  "devDependencies": {
+    "db-migrate": "^0.11.4"
   }
 }
