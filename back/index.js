@@ -12,9 +12,9 @@ app.use(
   })
 );
 
-app.post("/items", (req, res) => {
+app.post("/users", (req, res) => {
   const formData = req.body;
-  connection.query("INSERT INTO item SET ?", formData, (err, results) => {
+  connection.query("INSERT INTO users SET ?", formData, (err, results) => {
     if (err) {
       console.log(err);
       res
@@ -26,11 +26,11 @@ app.post("/items", (req, res) => {
   });
 });
 
-app.put("/items/:id", (req, res) => {
+app.put("/users/:id", (req, res) => {
   const idUser = req.params.id;
   const formData = req.body;
   connection.query(
-    "UPDATE item SET ? WHERE id = ?",
+    "UPDATE users SET ? WHERE id = ?",
     [formData, idUser],
     err => {
       if (err) {
