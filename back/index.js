@@ -67,13 +67,7 @@ app.get("/articles", (req, res) => {
       res.status(409).send("Erreur lors de la récupération des articles");
     } else {
       const data = results[0];
-      res
-        .status(200)
-        .send(
-          `Article: ${data.name} - identifiant: ${data.id} - description: ${
-            data.description
-          } - <a href="/article/${data.id}">Afficher la fiche de l'article</a>`
-        );
+      res.status(200).json(data);
     }
   });
 });
