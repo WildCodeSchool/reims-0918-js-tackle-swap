@@ -1,14 +1,6 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardTitle,
-  CardText,
-  CardBody,
-  CardImg,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
+import ThumbnailArticle from "./ThumbnailArticle";
+import { Container, Row } from "reactstrap";
 
 class ListArticles extends Component {
   constructor(props) {
@@ -18,6 +10,8 @@ class ListArticles extends Component {
         {
           id: 1,
           name: "leurre de 14",
+          picture:
+            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
           swap: 0,
           description: "Super leurre de bonne qualité",
           brand: "monsieurpecheur",
@@ -31,6 +25,8 @@ class ListArticles extends Component {
         {
           id: 1,
           name: "leurre de 18",
+          picture:
+            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
           swap: 0,
           description: "Super leurre de bonne qualité",
           brand: "monsieurpecheur",
@@ -44,6 +40,8 @@ class ListArticles extends Component {
         {
           id: 1,
           name: "leurre de 14",
+          picture:
+            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
           swap: 0,
           description: "Super leurre de bonne qualité",
           brand: "monsieurpecheur",
@@ -63,20 +61,7 @@ class ListArticles extends Component {
       <Container>
         <Row>
           {this.state.articles.map(article => (
-            <Col xs="6" sm="4" md="4" lg="3">
-              <Card>
-                <CardImg
-                  top
-                  width="100%"
-                  src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180"
-                  alt="Card image cap"
-                />
-                <CardBody>
-                  <CardTitle>Name:{article.name}</CardTitle>
-                  <CardText>Description:{article.description}</CardText>
-                </CardBody>
-              </Card>
-            </Col>
+            <ThumbnailArticle {...article} />
           ))}
         </Row>
       </Container>
