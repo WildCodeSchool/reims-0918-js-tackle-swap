@@ -3,8 +3,9 @@ const express = require("express");
 const app = express();
 const connection = require("./conf");
 const port = 3000;
-
 const bodyParser = require("body-parser");
+const defineLimit = require("./function/defineLimit");
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -49,27 +50,36 @@ app.get("/", (req, res) => {
   res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
-app.get("/articles", (req, res) => {
-  const limit =
-    req.query.limit && req.query.limit >= 20
-      ? req.query.limit <= 100
-        ? req.query.limit
-        : 100
-      : 20;
-  const totalBDD = 150;
-  const offset = req.query.offset
-    ? req.query.offset > totalBDD
-      ? totalBDD - limit
-      : req.query.offset
-    : 0;
-  connection.query("SELECT * from articles", (err, results) => {
-    if (err) {
-      res.status(409).send("Erreur lors de la récupération des articles");
-    } else {
-      const data = results[0];
-      res.status(200).json(data);
+// Return List Articles, with pagination
+app.get("/articles", async (req, res) => {
+  const numberArticlesPerPage = 20;
+  const rawMaxPages = await connection.query(
+    "SELECT COUNT(*) AS count FROM articles"
+  );
+  const maxPages = Math.ceil(rawMaxPages[0].count / numberArticlesPerPage);
+  const requestPage = parseInt(req.query.page);
+  const pageCalled =
+    requestPage && requestPage >= 1
+      ? requestPage <= maxPages
+        ? requestPage
+        : maxPages
+      : 1;
+
+  const limit = defineLimit(pageCalled, numberArticlesPerPage);
+  const rawResponseApi = await connection.query(
+    `SELECT id, name, picture from articles LIMIT ${limit}`
+  );
+  const responseApi = {
+    response: "success",
+    articles: rawResponseApi,
+    pagination: {
+      previousPage: false,
+      nextPage: false,
+      currentPage: pageCalled,
+      totalPages: maxPages
     }
-  });
+  };
+  res.status(200).json(responseApi);
 });
 
 app.get("/article/:id", (req, res) => {
