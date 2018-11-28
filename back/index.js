@@ -73,8 +73,8 @@ app.get("/articles", async (req, res) => {
     response: "success",
     articles: rawResponseApi,
     pagination: {
-      previousPage: false,
-      nextPage: false,
+      previousPage: pageCalled === 1 ? false : true,
+      nextPage: pageCalled === maxPages ? false : true,
       currentPage: pageCalled,
       totalPages: maxPages
     }
