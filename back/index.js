@@ -50,11 +50,13 @@ app.get("/", (req, res) => {
   res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
-// Retour de la liste des articles présents dans la base de donnée
+// Return List Articles, with pagination
 app.get("/articles", async (req, res) => {
   const numberArticlesPerPage = 20;
-  const rows = await connection.query("SELECT COUNT(*) AS count FROM articles");
-  const maxPages = Math.ceil(rows[0].count / numberArticlesPerPage);
+  const rawMaxPages = await connection.query(
+    "SELECT COUNT(*) AS count FROM articles"
+  );
+  const maxPages = Math.ceil(rawMaxPages[0].count / numberArticlesPerPage);
   const requestPage = parseInt(req.query.page);
   const pageCalled =
     requestPage && requestPage >= 1
@@ -64,30 +66,20 @@ app.get("/articles", async (req, res) => {
       : 1;
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
-  connection.query(
-    `SELECT id, name, picture from articles LIMIT ${limit}`,
-    (err, results) => {
-      if (err) {
-        const responseApi = {
-          response: "error",
-          message: err
-        };
-        res.status(409).json(responseApi);
-      } else {
-        const responseApi = {
-          response: "success",
-          articles: results,
-          pagination: {
-            previousPage: false,
-            nextPage: false,
-            currentPage: 1,
-            totalPages: 1
-          }
-        };
-        res.status(200).json(responseApi);
-      }
-    }
+  const rawResponseApi = await connection.query(
+    `SELECT id, name, picture from articles LIMIT ${limit}`
   );
+  const responseApi = {
+    response: "success",
+    articles: rawResponseApi,
+    pagination: {
+      previousPage: false,
+      nextPage: false,
+      currentPage: pageCalled,
+      totalPages: maxPages
+    }
+  };
+  res.status(200).json(responseApi);
 });
 
 app.get("/article/:id", (req, res) => {
