@@ -1,12 +1,55 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
+const connection = require("./conf");
 const port = 3000;
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+
+app.post("/users", (req, res) => {
+  const formData = req.body;
+  connection.query("INSERT INTO users SET ?", formData, (err, results) => {
+    if (err) {
+      console.log(err);
+      res
+        .status(409)
+        .send("La requête ne peut pas être traitée à l'état actuel");
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+app.put("/users/:id", (req, res) => {
+  const idUser = req.params.id;
+  const formData = req.body;
+  connection.query(
+    "UPDATE users SET ? WHERE id = ?",
+    [formData, idUser],
+    err => {
+      if (err) {
+        console.log(err);
+        res
+          .status(409)
+          .send("La requête ne peut pas être traitée à l'état actuel");
+      } else {
+        res.sendStatus(200);
+      }
+    }
+  );
+});
 
 app.get("/", (req, res) => {
   res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
-app.get("/items", (req, res) => {
+app.get("/articles", (req, res) => {
   const limit =
     req.query.limit && req.query.limit >= 20
       ? req.query.limit <= 100
@@ -19,27 +62,36 @@ app.get("/items", (req, res) => {
       ? totalBDD - limit
       : req.query.offset
     : 0;
-
-  res
-    .send(`Affichage des produits par ${limit} à partir de ${offset}`)
-    .status(200);
+  connection.query("SELECT * from articles", (err, results) => {
+    if (err) {
+      res.status(409).send("Erreur lors de la récupération des articles");
+    } else {
+      const data = results[0];
+      res.status(200).json(data);
+    }
+  });
 });
 
-app.get("/item/:id", (req, res) => {
-  const isExist = req.params.id === "4";
-
+app.get("/article/:id", (req, res) => {
+  const isExist = req.params.id === "1";
+  const idUser = req.params.id;
   isExist
-    ? res
-        .status(200)
-        .send(
-          `Affichage de la fiche produit d'un article en fonction de son id : ${
-            req.params.id
-          }`
-        )
+    ? connection.query(
+        "SELECT * from articles WHERE id = ?",
+        idUser,
+        (err, results) => {
+          if (err) {
+            res.status(409).send("Erreur lors de la récupération des articles");
+          } else {
+            const data = results[0];
+            res.status(200).json(data);
+          }
+        }
+      )
     : res.status(404).send("L'article demandé n'existe pas");
 });
 
-app.get("/user_items/:iduser", (req, res) => {
+app.get("/user_articles/:iduser", (req, res) => {
   const limit =
     req.query.limit && req.query.limit >= 20
       ? req.query.limit <= 100
