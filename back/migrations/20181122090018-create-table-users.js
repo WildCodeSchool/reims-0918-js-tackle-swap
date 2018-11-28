@@ -40,8 +40,8 @@ exports.up = function(db, callback) {
   );
 };
 
-exports.down = function(db) {
-  db.dropTable("users");
+exports.down = function(db, callback) {
+  db.dropTable("users", callback);
 };
 
 exports._meta = {
