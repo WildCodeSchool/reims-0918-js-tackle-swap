@@ -46,9 +46,7 @@ app.put("/users/:id", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send(
-    "Bienvenue le Marketplace incontournable des pêcheurs <br> <a href='/articles'>Afficher la liste des articles</a>"
-  );
+  res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
 app.get("/articles", (req, res) => {
@@ -106,7 +104,7 @@ app.get("/user_articles/:iduser", (req, res) => {
       ? totalBDD - limit
       : req.query.offset
     : 0;
-  const isExist = req.params.iduser === "1";
+  const isExist = req.params.iduser === "35";
 
   isExist
     ? res
@@ -121,7 +119,7 @@ app.get("/user_articles/:iduser", (req, res) => {
 
 app.listen(port, err => {
   if (err) {
-    throw new Error("Something bad happened...");
+    throw new Error("Something bad happened ...");
   }
 
   console.log(`Server is listening on ${port}`);
