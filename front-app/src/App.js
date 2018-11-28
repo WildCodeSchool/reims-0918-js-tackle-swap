@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+
 import "./App.css";
+
+import ListArticles from "./ListArticles";
 
 class App extends Component {
   render() {
-    return <div className="App">TackleSwap</div>;
+    return (
+      <div>
+        <ListArticles />
+      </div>
+    );
   }
 }
 
