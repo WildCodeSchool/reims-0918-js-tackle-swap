@@ -3,8 +3,9 @@ const express = require("express");
 const app = express();
 const connection = require("./conf");
 const port = 3000;
-
 const bodyParser = require("body-parser");
+const defineLimit = require("./function/defineLimit");
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -50,26 +51,40 @@ app.get("/", (req, res) => {
 });
 
 // Retour de la liste des articles présents dans la base de donnée
-app.get("/articles", (req, res) => {
-  const limit =
-    req.query.limit && req.query.limit >= 20
-      ? req.query.limit <= 100
-        ? req.query.limit
-        : 100
-      : 20;
-  const totalBDD = 150;
-  const offset = req.query.offset
-    ? req.query.offset > totalBDD
-      ? totalBDD - limit
-      : req.query.offset
-    : 0;
+app.get("/articles", async (req, res) => {
+  const numberArticlesPerPage = 20;
+  const rows = await connection.query("SELECT COUNT(*) AS count FROM articles");
+  const maxPages = Math.ceil(rows[0].count / numberArticlesPerPage);
+  const requestPage = parseInt(req.query.page);
+  const pageCalled =
+    requestPage && requestPage >= 1
+      ? requestPage <= maxPages
+        ? requestPage
+        : maxPages
+      : 1;
+
+  const limit = defineLimit(pageCalled, numberArticlesPerPage);
   connection.query(
-    `SELECT articles.id, articles.name, articles.picture from articles LIMIT ${offset}, ${limit}`,
+    `SELECT id, name, picture from articles LIMIT ${limit}`,
     (err, results) => {
       if (err) {
-        res.status(409).send("Erreur lors de la récupération des articles");
+        const responseApi = {
+          response: "error",
+          message: err
+        };
+        res.status(409).json(responseApi);
       } else {
-        res.status(200).json(results);
+        const responseApi = {
+          response: "success",
+          articles: results,
+          pagination: {
+            previousPage: false,
+            nextPage: false,
+            currentPage: 1,
+            totalPages: 1
+          }
+        };
+        res.status(200).json(responseApi);
       }
     }
   );
