@@ -49,6 +49,7 @@ app.get("/", (req, res) => {
   res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
+// Retour de la liste des articles présents dans la base de donnée
 app.get("/articles", (req, res) => {
   const limit =
     req.query.limit && req.query.limit >= 20
@@ -62,14 +63,16 @@ app.get("/articles", (req, res) => {
       ? totalBDD - limit
       : req.query.offset
     : 0;
-  connection.query("SELECT * from articles", (err, results) => {
-    if (err) {
-      res.status(409).send("Erreur lors de la récupération des articles");
-    } else {
-      const data = results[0];
-      res.status(200).json(data);
+  connection.query(
+    `SELECT articles.id, articles.name, articles.picture from articles LIMIT ${offset}, ${limit}`,
+    (err, results) => {
+      if (err) {
+        res.status(409).send("Erreur lors de la récupération des articles");
+      } else {
+        res.status(200).json(results);
+      }
     }
-  });
+  );
 });
 
 app.get("/article/:id", (req, res) => {
