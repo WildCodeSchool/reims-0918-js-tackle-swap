@@ -60,8 +60,8 @@ class ListArticles extends Component {
     return (
       <Container>
         <Row>
-          {this.state.articles.map(article => (
-            <ThumbnailArticle {...article} />
+          {this.state.articles.map((article, index) => (
+            <ThumbnailArticle {...article} key={index} />
           ))}
         </Row>
       </Container>

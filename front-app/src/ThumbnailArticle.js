@@ -19,7 +19,7 @@ const ThumbnailArticle = props => {
           <CardSubtitle>Categorie</CardSubtitle>
           <Row>
             <Col xs={{ size: "4", offset: "8" }}>
-              <i class="far fa-heart" />
+              <i className="far fa-heart" />
             </Col>
           </Row>
         </CardBody>
