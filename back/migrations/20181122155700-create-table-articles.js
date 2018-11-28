@@ -47,8 +47,8 @@ exports.up = function(db, callback) {
   );
 };
 
-exports.down = function(db) {
-  db.dropTable("articles");
+exports.down = function(db, callback) {
+  db.dropTable("articles", callback);
 };
 
 exports._meta = {
