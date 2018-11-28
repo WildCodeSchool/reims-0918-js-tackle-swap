@@ -56,7 +56,8 @@ app.get("/articles", async (req, res) => {
   const rawMaxPages = await connection.query(
     "SELECT COUNT(*) AS count FROM articles"
   );
-  const maxPages = Math.ceil(rawMaxPages[0].count / numberArticlesPerPage);
+  const totalArticles = rawMaxPages[0].count;
+  const maxPages = Math.ceil(totalArticles / numberArticlesPerPage);
   const requestPage = parseInt(req.query.page);
   const pageCalled =
     requestPage && requestPage >= 1
@@ -69,14 +70,13 @@ app.get("/articles", async (req, res) => {
   const rawResponseApi = await connection.query(
     `SELECT id, name, picture from articles LIMIT ${limit}`
   );
+
   const responseApi = {
     response: "success",
     articles: rawResponseApi,
     pagination: {
-      previousPage: pageCalled === 1 ? false : true,
-      nextPage: pageCalled === maxPages ? false : true,
-      currentPage: pageCalled,
-      totalPages: maxPages
+      numberArticlesPerPage: numberArticlesPerPage,
+      totalArticles
     }
   };
   res.status(200).json(responseApi);
