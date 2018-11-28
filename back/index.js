@@ -119,7 +119,7 @@ app.get("/user_articles/:iduser", (req, res) => {
 
 app.listen(port, err => {
   if (err) {
-    throw new Error("Something bad happened ...");
+    throw new Error("Something bad happened...");
   }
 
   console.log(`Server is listening on ${port}`);
