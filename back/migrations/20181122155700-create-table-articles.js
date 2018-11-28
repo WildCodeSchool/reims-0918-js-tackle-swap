@@ -23,6 +23,7 @@ exports.up = function(db, callback) {
       swap: { type: "boolean", notNull: true, defaultValue: false },
       description: { type: "text" },
       brand: { type: "string", length: 100 },
+      picture: { type: "string" },
       article_length: { type: "decimal", length: "6,2" },
       article_weight: { type: "int", length: 4 },
       article_color: { type: "string", length: 50 },
