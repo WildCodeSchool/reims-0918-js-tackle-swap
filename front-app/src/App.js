@@ -29,12 +29,12 @@ class App extends Component {
   callApiAllArticles = currentPage => {
     axios
       .get(`http://localhost:3000/articles?page=${currentPage}`)
-      .then(response =>
+      .then(results =>
         this.setState({
-          articles: response.data.articles,
+          articles: results.data.response.articles,
           pagination: {
             ...this.state.pagination,
-            ...response.data.pagination
+            ...results.data.response.pagination
           }
         })
       );

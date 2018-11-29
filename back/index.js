@@ -8,7 +8,8 @@ const bodyParser = require("body-parser");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
-const isError = require("./function/isError");
+const addLog = require("./function/addLog");
+const sendResponse = require("./function/sendResponse");
 
 app.use(bodyParser.json());
 app.use(
@@ -61,11 +62,13 @@ app.get("/articles", async (req, res) => {
   const rawMaxPages = await bddQuery("SELECT COUNT(*) AS count FROM articles");
 
   if (rawMaxPages.err) {
-    return res.status(409).json({
-      response: "error",
-      message:
-        "Erreur avec la base de donnée, veuillez contacter un administrateur"
-    });
+    addLog(rawMaxPages.err, "error-bdd");
+    sendResponse(
+      res,
+      409,
+      "error",
+      "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    );
   }
 
   const totalArticles = rawMaxPages.results[0].count;
@@ -84,22 +87,23 @@ app.get("/articles", async (req, res) => {
   );
 
   if (rawMaxPages.err) {
-    return res.status(409).json({
-      response: "error",
-      message:
-        "Erreur avec la base de donnée, veuillez contacter un administrateur"
-    });
+    addLog(rawMaxPages.err, "error-bdd");
+    sendResponse(
+      res,
+      409,
+      "error",
+      "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    );
   }
 
   const responseApi = {
-    response: "success",
     articles: rawResponseApi.results,
     pagination: {
       numberArticlesPerPage: numberArticlesPerPage,
       totalArticles
     }
   };
-  res.status(200).json(responseApi);
+  sendResponse(res, 200, "success", responseApi);
 });
 
 app.get("/article/:id", (req, res) => {
