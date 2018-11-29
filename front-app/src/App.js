@@ -84,8 +84,9 @@ class App extends Component {
           owner_id: 1
         }
       ],
-      activePage: 4
+      pagination: { activePage: 1 }
     };
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   handlePageChange(pageNumber) {
@@ -96,14 +97,15 @@ class App extends Component {
   render() {
     return (
       <div>
+        <ListArticles list={this.state.articles} />
         <Pagination
+          hideDisabled
           activePage={this.state.activePage}
           itemsCountPerPage={20}
-          totalItemsCount={67}
+          totalItemsCount={1000}
           pageRangeDisplayed={5}
           onChange={this.handlePageChange}
         />
-        <ListArticles list={this.state.articles} />
       </div>
     );
   }
