@@ -4,6 +4,7 @@ import "./App.css";
 import { Button } from "reactstrap";
 
 import ListArticles from "./ListArticles";
+import Pagination from "react-js-pagination";
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +15,12 @@ class App extends Component {
         activePage: 1
       }
     };
+    this.handlePageChange = this.handlePageChange.bind(this);
+  }
+
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({ activePage: pageNumber });
   }
 
   callApiAllArticles = currentPage => {
@@ -40,6 +47,14 @@ class App extends Component {
         <ListArticles list={this.state.articles} />
         <Button onClick={() => this.callApiAllArticles(1)}>Page 1</Button>
         <Button onClick={() => this.callApiAllArticles(2)}>Page 2</Button>
+        <Pagination
+          hideDisabled
+          activePage={this.state.activePage}
+          itemsCountPerPage={20}
+          totalItemsCount={1000}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange}
+        />
       </div>
     );
   }
