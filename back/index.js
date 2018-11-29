@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
-const isError = require("./function/isError");
+const addLog = require("./function/addLog");
 
 app.use(bodyParser.json());
 app.use(
@@ -61,6 +61,8 @@ app.get("/articles", async (req, res) => {
   const rawMaxPages = await bddQuery("SELECT COUNT(*) AS count FROM articles");
 
   if (rawMaxPages.err) {
+    addLog(rawMaxPages.err, "error");
+
     return res.status(409).json({
       response: "error",
       message:
