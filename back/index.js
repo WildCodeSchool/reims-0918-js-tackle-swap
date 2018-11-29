@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const connection = require("./conf");
 const port = 3000;
@@ -15,6 +16,7 @@ app.use(
     extended: true
   })
 );
+app.use(cors());
 
 app.post("/users", (req, res) => {
   const formData = req.body;
