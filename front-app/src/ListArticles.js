@@ -13,7 +13,7 @@ const ListArticles = ({ list }) => (
   </Container>
 );
 
-MyComponent.propTypes = {
+ListArticles.propTypes = {
   list: PropTypes.array.isRequired
 };
 
