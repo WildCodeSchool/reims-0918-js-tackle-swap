@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-
 import ListArticles from "./ListArticles";
+import Pagination from "react-js-pagination";
 
 class App extends Component {
   constructor(props) {
@@ -83,14 +83,29 @@ class App extends Component {
           create_at: "2018-11-28T09:18:52.000Z",
           owner_id: 1
         }
-      ]
+      ],
+      pagination: { activePage: 1 }
     };
+    this.handlePageChange = this.handlePageChange.bind(this);
+  }
+
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({ activePage: pageNumber });
   }
 
   render() {
     return (
       <div>
         <ListArticles list={this.state.articles} />
+        <Pagination
+          hideDisabled
+          activePage={this.state.activePage}
+          itemsCountPerPage={20}
+          totalItemsCount={1000}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange}
+        />
       </div>
     );
   }
