@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "./App.css";
+import { Button } from "reactstrap";
+
 import ListArticles from "./ListArticles";
 import Pagination from "react-js-pagination";
 
@@ -7,84 +10,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articles: [
-        {
-          id: 1,
-          name: "leurre de 14",
-          picture:
-            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
-          swap: 0,
-          description: "Super leurre de bonne qualité",
-          brand: "monsieurpecheur",
-          article_length: 14.5,
-          article_weight: 15,
-          article_color: "rouge",
-          article_state: 3,
-          create_at: "2018-11-28T09:18:52.000Z",
-          owner_id: 1
-        },
-        {
-          id: 1,
-          name: "leurre de 18",
-          picture:
-            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
-          swap: 0,
-          description: "Super leurre de bonne qualité",
-          brand: "monsieurpecheur",
-          article_length: 14.5,
-          article_weight: 15,
-          article_color: "rouge",
-          article_state: 3,
-          create_at: "2018-11-28T09:18:52.000Z",
-          owner_id: 1
-        },
-        {
-          id: 1,
-          name: "leurre de 14",
-          picture:
-            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
-          swap: 0,
-          description: "Super leurre de bonne qualité",
-          brand: "monsieurpecheur",
-          article_length: 14.5,
-          article_weight: 15,
-          article_color: "rouge",
-          article_state: 3,
-          create_at: "2018-11-28T09:18:52.000Z",
-          owner_id: 1
-        },
-        {
-          id: 1,
-          name: "leurre de 14",
-          picture:
-            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
-          swap: 0,
-          description: "Super leurre de bonne qualité",
-          brand: "monsieurpecheur",
-          article_length: 14.5,
-          article_weight: 15,
-          article_color: "rouge",
-          article_state: 3,
-          create_at: "2018-11-28T09:18:52.000Z",
-          owner_id: 1
-        },
-        {
-          id: 1,
-          name: "leurre de 14",
-          picture:
-            "https://www.1max2peche.com/wp-content/uploads/2017/01/leurre-souple-technique-peche.jpg",
-          swap: 0,
-          description: "Super leurre de bonne qualité",
-          brand: "monsieurpecheur",
-          article_length: 14.5,
-          article_weight: 15,
-          article_color: "rouge",
-          article_state: 3,
-          create_at: "2018-11-28T09:18:52.000Z",
-          owner_id: 1
-        }
-      ],
-      pagination: { activePage: 1 }
+      articles: [],
+      pagination: {
+        activePage: 1
+      }
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
@@ -94,10 +23,30 @@ class App extends Component {
     this.setState({ activePage: pageNumber });
   }
 
+  callApiAllArticles = currentPage => {
+    axios
+      .get(`http://localhost:3000/articles?page=${currentPage}`)
+      .then(response =>
+        this.setState({
+          articles: response.data.articles,
+          pagination: {
+            ...this.state.pagination,
+            ...response.data.pagination
+          }
+        })
+      );
+  };
+
+  componentDidMount() {
+    this.callApiAllArticles(this.state.pagination.activePage);
+  }
+
   render() {
     return (
       <div>
         <ListArticles list={this.state.articles} />
+        <Button onClick={() => this.callApiAllArticles(1)}>Page 1</Button>
+        <Button onClick={() => this.callApiAllArticles(2)}>Page 2</Button>
         <Pagination
           hideDisabled
           activePage={this.state.activePage}
