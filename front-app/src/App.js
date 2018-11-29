@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
-import { Button } from "reactstrap";
 
 import ListArticles from "./ListArticles";
 import Pagination from "react-js-pagination";
@@ -19,8 +18,12 @@ class App extends Component {
   }
 
   handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({ activePage: pageNumber });
+    this.setState(
+      {
+        pagination: { ...this.state.pagination, activePage: pageNumber }
+      },
+      () => this.callApiAllArticles(this.state.pagination.activePage)
+    );
   }
 
   callApiAllArticles = currentPage => {
@@ -45,8 +48,6 @@ class App extends Component {
     return (
       <div>
         <ListArticles list={this.state.articles} />
-        <Button onClick={() => this.callApiAllArticles(1)}>Page 1</Button>
-        <Button onClick={() => this.callApiAllArticles(2)}>Page 2</Button>
         <Pagination
           hideDisabled
           activePage={this.state.activePage}
