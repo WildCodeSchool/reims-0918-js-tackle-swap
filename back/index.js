@@ -4,7 +4,10 @@ const app = express();
 const connection = require("./conf");
 const port = 3000;
 const bodyParser = require("body-parser");
+
 const defineLimit = require("./function/defineLimit");
+const bddQuery = require("./function/bddQuery");
+const isError = require("./function/isError");
 
 app.use(bodyParser.json());
 app.use(
@@ -53,10 +56,17 @@ app.get("/", (req, res) => {
 // Return List Articles, with pagination
 app.get("/articles", async (req, res) => {
   const numberArticlesPerPage = 20;
-  const rawMaxPages = await connection.query(
-    "SELECT COUNT(*) AS count FROM articles"
-  );
-  const totalArticles = rawMaxPages[0].count;
+  const rawMaxPages = await bddQuery("SELECT COUNT(*) AS count FROM articles");
+
+  if (rawMaxPages.err) {
+    return res.status(409).json({
+      response: "error",
+      message:
+        "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    });
+  }
+
+  const totalArticles = rawMaxPages.results[0].count;
   const maxPages = Math.ceil(totalArticles / numberArticlesPerPage);
   const requestPage = parseInt(req.query.page);
   const pageCalled =
@@ -67,13 +77,21 @@ app.get("/articles", async (req, res) => {
       : 1;
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
-  const rawResponseApi = await connection.query(
+  const rawResponseApi = await bddQuery(
     `SELECT id, name, picture from articles LIMIT ${limit}`
   );
 
+  if (rawMaxPages.err) {
+    return res.status(409).json({
+      response: "error",
+      message:
+        "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    });
+  }
+
   const responseApi = {
     response: "success",
-    articles: rawResponseApi,
+    articles: rawResponseApi.results,
     pagination: {
       numberArticlesPerPage: numberArticlesPerPage,
       totalArticles
