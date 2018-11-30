@@ -45,9 +45,9 @@ class ListArticles extends Component {
     );
   }
 }
-
 ListArticles.propTypes = {
-  list: PropTypes.array.isRequired
+  articles: PropTypes.array.isRequired,
+  pagination: PropTypes.object.isRequired
 };
 
 export default ListArticles;
