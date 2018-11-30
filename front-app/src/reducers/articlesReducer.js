@@ -1,4 +1,4 @@
-import { ARTICLES_RECEIVED } from "../actions/actiontypes";
+import { ARTICLES_RECEIVED } from "../actions/actionTypes";
 
 const articlesReducer = (prevState = [], action) => {
   switch (action.type) {

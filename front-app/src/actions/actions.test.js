@@ -1,5 +1,9 @@
-import { ARTICLES_RECEIVED, FETCH_ARTICLES } from "./actiontypes";
-import { makeArticlesReceivedAction, makeFetchArticlesAction } from "./actions";
+import { ARTICLES_RECEIVED, FETCH_ARTICLES, CHANGE_PAGE } from "./actiontypes";
+import {
+  makeArticlesReceivedAction,
+  makeFetchArticlesAction,
+  makeChangePageAction
+} from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
   it("should return a ARTICLES_RECEIVED action", () => {
@@ -40,5 +44,18 @@ describe("makeFetchArticlesAction", () => {
     };
 
     expect(makeFetchArticlesAction()).toEqual(expected);
+  });
+});
+
+describe("makeChangePageAction", () => {
+  it("should return a CHANGE_PAGE action", () => {
+    const prevState = 2;
+
+    const expected = {
+      type: CHANGE_PAGE,
+      pageNumber: prevState
+    };
+
+    expect(makeChangePageAction(prevState)).toEqual(expected);
   });
 });
