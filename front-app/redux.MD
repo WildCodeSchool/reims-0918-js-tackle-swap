@@ -7,7 +7,10 @@
     type: ARTICLES_RECEIVED,
     responseApi: {
       articles: [...],
-      pagination: {...}
+      pagination: {
+        numberArticlesPerPage: 20,
+        totalArticles: 27
+      }
     }
   }
 ```
@@ -36,7 +39,7 @@ When ARTICLES_RECEIVED is dispatched, state becomes action.articles
 const initialeState = { activePage: 1 };
 ```
 
-When ARTICLES_RECEIVED is dispatched, state becomes action.pagination
+When ARTICLES_RECEIVED is dispatched, add in state action.pagination
 
 - loadingReducer
 
