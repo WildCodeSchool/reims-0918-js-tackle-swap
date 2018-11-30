@@ -23,6 +23,15 @@
 }
 ```
 
+- CHANGE_PAGE is dispatched when click on an other page
+
+```javascript
+{
+  type: CHANGE_PAGE,
+  pageNumber: 2
+}
+```
+
 ## Reducers
 
 - articlesReducer
@@ -40,6 +49,7 @@ const initialeState = { activePage: 1 };
 ```
 
 When ARTICLES_RECEIVED is dispatched, state becomes action.pagination
+When CHANGE_PAGE is dispatch, update state action.pagination.activePage
 
 - loadingReducer
 
