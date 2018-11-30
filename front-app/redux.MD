@@ -1,6 +1,6 @@
 ## Action
 
-- ARTICLES_RECEIVED is dispatched when we receive the api response
+- ARTICLES_RECEIVED is dispatched when we receive the api response (responseApi.articles)
 
 ```javascript
   {
@@ -8,6 +8,7 @@
     responseApi: {
       articles: [...],
       pagination: {
+        activePage: 1,
         numberArticlesPerPage: 20,
         totalArticles: 27
       }
