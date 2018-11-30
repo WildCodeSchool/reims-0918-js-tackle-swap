@@ -39,7 +39,7 @@ When ARTICLES_RECEIVED is dispatched, state becomes action.articles
 const initialeState = { activePage: 1 };
 ```
 
-When ARTICLES_RECEIVED is dispatched, add in state action.pagination
+When ARTICLES_RECEIVED is dispatched, state becomes action.pagination
 
 - loadingReducer
 
