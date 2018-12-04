@@ -99,6 +99,7 @@ app.get("/articles", async (req, res) => {
   const responseApi = {
     articles: rawResponseApi.results,
     pagination: {
+      activePage: pageCalled,
       numberArticlesPerPage: numberArticlesPerPage,
       totalArticles
     }

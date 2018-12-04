@@ -1,6 +1,6 @@
 ## Action
 
-- ARTICLES_RECEIVED is dispatched when we receive the api response
+- ARTICLES_RECEIVED is dispatched when we receive the api response (responseApi.articles)
 
 ```javascript
   {
@@ -8,6 +8,7 @@
     responseApi: {
       articles: [...],
       pagination: {
+        activePage: 1,
         numberArticlesPerPage: 20,
         totalArticles: 27
       }
@@ -20,6 +21,15 @@
 ```javascript
 {
   type: FETCH_ARTICLES;
+}
+```
+
+- CHANGE_PAGE is dispatched when click on an other page
+
+```javascript
+{
+  type: CHANGE_PAGE,
+  pageNumber: 2
 }
 ```
 
@@ -40,6 +50,7 @@ const initialeState = { activePage: 1 };
 ```
 
 When ARTICLES_RECEIVED is dispatched, state becomes action.pagination
+When CHANGE_PAGE is dispatch, update state action.pagination.activePage
 
 - loadingReducer
 
