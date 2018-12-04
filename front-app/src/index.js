@@ -1,29 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { createStore, combineReducers } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import { routerMiddleware, ConnectedRouter } from "connected-react-router";
 import { Provider } from "react-redux";
-
-import articlesReducer from "./reducers/articlesReducer";
-import paginationReducer from "./reducers/paginationReducer";
-import loadingReducer from "./reducers/loadingReducer";
+import rootReducers from "./reducers/";
+import { createBrowserHistory } from "history";
 
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+const history = createBrowserHistory();
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
-  combineReducers({
-    articles: articlesReducer,
-    pagination: paginationReducer,
-    loading: loadingReducer
-  }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  rootReducers(history),
+  composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
 );
