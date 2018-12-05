@@ -148,6 +148,11 @@ app.get("/article/:id", async (req, res) => {
   sendResponse(res, 200, "success", responseApi);
 });
 
+// Received and insert Article on BDD
+app.post("/article", (req, res) => {
+  console.log(req.body);
+});
+
 app.get("/user_articles/:iduser", (req, res) => {
   const limit =
     req.query.limit && req.query.limit >= 20
