@@ -20,6 +20,7 @@ exports.up = function(db, callback) {
     [
       "lastname",
       "firstname",
+      "nickname",
       "email",
       "email_confirmation",
       "password",
@@ -33,6 +34,7 @@ exports.up = function(db, callback) {
     [
       "THOMAS",
       "Mathieu",
+      "Kawacke",
       "kawacke@gmail.com",
       "zoiueznhliuef75638294775",
       "password",
