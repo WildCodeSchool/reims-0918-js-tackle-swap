@@ -79,12 +79,9 @@ describe("makeArticleDetailsAction", () => {
       article_color: "rouge",
       article_state: 3,
       create_at: "",
-      lastname: "DE SOTO COBET",
-      firstname: "Corentin",
       nickname: "Coco",
       email: "corentin.dsc@gmail.com",
       profil_picture: "url de photo",
-      adress: "7 rue Capitaine Alfred Dreyfus",
       postal_code: "51100",
       city: "Reims"
     };
