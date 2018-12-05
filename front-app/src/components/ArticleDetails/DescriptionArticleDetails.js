@@ -1,10 +1,9 @@
 import React from "react";
-import { CardTitle, CardText } from "reactstrap";
 
 const DescriptionArticleDetails = () => (
   <div>
-    <CardTitle>Description</CardTitle>
-    <CardText>bonjour</CardText>
+    <h1>Description</h1>
+    <h2>bonjour</h2>
   </div>
 );
 
