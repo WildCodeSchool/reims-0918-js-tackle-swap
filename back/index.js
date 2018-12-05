@@ -107,23 +107,26 @@ app.get("/articles", async (req, res) => {
   sendResponse(res, 200, "success", responseApi);
 });
 
-app.get("/article/:id", (req, res) => {
-  const isExist = req.params.id === "1";
-  const idUser = req.params.id;
-  isExist
-    ? connection.query(
-        "SELECT * from articles WHERE id = ?",
-        idUser,
-        (err, results) => {
-          if (err) {
-            res.status(409).send("Erreur lors de la récupération des articles");
-          } else {
-            const data = results[0];
-            res.status(200).json(data);
-          }
-        }
-      )
-    : res.status(404).send("L'article demandé n'existe pas");
+// Return Article Details, selected with his id
+app.get("/article/:id", async (req, res) => {
+  const idArticle = [req.params.id];
+  const rawArticleDetails = await bddQuery(
+    `SELECT a.*, u.email, u.nickname FROM articles AS a JOIN users AS u ON a.owner_id = u.id WHERE a.id = ${idArticle}`
+  );
+
+  if (rawArticleDetails.err) {
+    addLog(rawArticleDetails.err, "error-bdd");
+    sendResponse(
+      res,
+      404,
+      "error",
+      "L'article demandé n'existe pas dans la base de donnée."
+    );
+  }
+
+  const responseApi = rawArticleDetails.results;
+
+  sendResponse(res, 200, "success", responseApi);
 });
 
 app.get("/user_articles/:iduser", (req, res) => {
