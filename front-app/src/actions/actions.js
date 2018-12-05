@@ -2,7 +2,7 @@ import {
   ARTICLES_RECEIVED,
   FETCH_ARTICLES,
   CHANGE_PAGE,
-  ARTICLE_DETAILS
+  SHOW_ARTICLE_DETAILS
 } from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
@@ -19,7 +19,7 @@ export const makeChangePageAction = pageNumber => ({
   pageNumber
 });
 
-export const makeArticleDetailsAction = responseApi => ({
-  type: ARTICLE_DETAILS,
+export const makeShowArticleDetailsAction = responseApi => ({
+  type: SHOW_ARTICLE_DETAILS,
   responseApi
 });

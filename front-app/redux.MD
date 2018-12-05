@@ -29,18 +29,18 @@
 ```javascript
 {
   type: CHANGE_PAGE,
-  responseApi: {
-      articles: [...]
-  }
+  pageNumber: 2
 }
 ```
 
-- ARTICLE_DETAILS is dispatched when click on an article
+- SHOW_ARTICLE_DETAILS is dispatched when click on an article
 
 ```javascript
 {
-  type: ARTICLE_DETAILS,
-  pageNumber: 2
+  type: SHOW_ARTICLE_DETAILS,
+  responseApi: {
+      articles: [...]
+  }
 }
 ```
 
@@ -72,10 +72,10 @@ const initialeState = false;
 When FETCH_ARTICLES is dispatched, state becomes true
 When ARTICLES_RECEIVED is dispatched, state becomes false
 
-- articleDetailsReducer
+- showArticleDetailsReducer
 
 ```javascript
 const initialeState = {};
 ```
 
-When ARTICLE_DETAILS is dispatched, state becomes action.article
+When SHOW_ARTICLE_DETAILS is dispatched, state becomes action.article

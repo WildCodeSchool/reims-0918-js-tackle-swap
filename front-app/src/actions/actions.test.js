@@ -2,13 +2,13 @@ import {
   ARTICLES_RECEIVED,
   FETCH_ARTICLES,
   CHANGE_PAGE,
-  ARTICLE_DETAILS
+  SHOW_ARTICLE_DETAILS
 } from "./actionTypes";
 import {
   makeArticlesReceivedAction,
   makeFetchArticlesAction,
   makeChangePageAction,
-  makeArticleDetailsAction
+  makeShowArticleDetailsAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -66,7 +66,7 @@ describe("makeChangePageAction", () => {
   });
 });
 
-describe("makeArticleDetailsAction", () => {
+describe("makeShowArticleDetailsAction", () => {
   it("should return details of the selected article", () => {
     const responseApi = {
       id: 3,
@@ -87,9 +87,9 @@ describe("makeArticleDetailsAction", () => {
     };
 
     const expected = {
-      type: ARTICLE_DETAILS,
+      type: SHOW_ARTICLE_DETAILS,
       responseApi
     };
-    expect(makeArticleDetailsAction(responseApi)).toEqual(expected);
+    expect(makeShowArticleDetailsAction(responseApi)).toEqual(expected);
   });
 });

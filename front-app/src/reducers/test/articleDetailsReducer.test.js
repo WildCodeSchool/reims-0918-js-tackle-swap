@@ -1,8 +1,8 @@
-import articleDetailsReducer from "../articleDetailsReducer";
-import { makeArticleDetailsAction } from "../../actions/actions";
+import showArticleDetailsReducer from "../showArticleDetailsReducer";
+import { makeShowArticleDetailsAction } from "../../actions/actions";
 
-describe("articleDetailsReducer", () => {
-  it("handles ARTICLE_DETAILS action", () => {
+describe("showArticleDetailsReducer", () => {
+  it("handles SHOW_ARTICLE_DETAILS action", () => {
     const prevState = {};
     const responseApi = {
       id: 3,
@@ -22,7 +22,7 @@ describe("articleDetailsReducer", () => {
       city: "Reims"
     };
 
-    const action = makeArticleDetailsAction(responseApi);
+    const action = makeShowArticleDetailsAction(responseApi);
     const expected = {
       id: 3,
       name: "leurre de 24",
@@ -40,6 +40,6 @@ describe("articleDetailsReducer", () => {
       postal_code: "51100",
       city: "Reims"
     };
-    expect(articleDetailsReducer(prevState, action)).toEqual(expected);
+    expect(showArticleDetailsReducer(prevState, action)).toEqual(expected);
   });
 });
