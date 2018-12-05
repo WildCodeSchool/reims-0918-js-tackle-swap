@@ -29,6 +29,17 @@
 ```javascript
 {
   type: CHANGE_PAGE,
+  responseApi: {
+      articles: [...]
+  }
+}
+```
+
+- ARTICLE_DETAILS is dispatched when click on an article
+
+```javascript
+{
+  type: ARTICLE_DETAILS,
   pageNumber: 2
 }
 ```
@@ -60,3 +71,11 @@ const initialeState = false;
 
 When FETCH_ARTICLES is dispatched, state becomes true
 When ARTICLES_RECEIVED is dispatched, state becomes false
+
+- articleDetailsReducer
+
+```javascript
+const initialeState = {};
+```
+
+When ARTICLE_DETAILS is dispatched, state becomes action.article

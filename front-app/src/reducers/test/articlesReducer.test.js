@@ -1,5 +1,5 @@
-import articlesReducer from "./articlesReducer";
-import { makeArticlesReceivedAction } from "../actions/actions";
+import articlesReducer from "../articlesReducer";
+import { makeArticlesReceivedAction } from "../../actions/actions";
 
 describe("articlesReducer", () => {
   it("handles ARTICLES_RECEIVED action", () => {
