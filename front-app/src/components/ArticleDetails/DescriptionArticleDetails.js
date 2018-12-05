@@ -1,8 +1,10 @@
 import React from "react";
+import { CardTitle, CardText } from "reactstrap";
 
 const DescriptionArticleDetails = () => (
   <div>
-    <p>Description</p>
+    <CardTitle>Description</CardTitle>
+    <CardText>bonjour</CardText>
   </div>
 );
 

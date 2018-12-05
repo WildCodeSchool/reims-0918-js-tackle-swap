@@ -25,7 +25,6 @@ class ListArticles extends Component {
   }
   render() {
     const { pagination, articles } = this.props;
-
     return (
       <Container className="pt-3">
         <Row>

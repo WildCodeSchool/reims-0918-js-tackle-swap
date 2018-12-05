@@ -1,8 +1,9 @@
 import React from "react";
+import { CardImg } from "reactstrap";
 
-const PicturesArticleDetails = () => (
+const PicturesArticleDetails = ({ picture }) => (
   <div>
-    <p>Images</p>
+    <CardImg top width="100%" src={picture} alt="Picture article" />
   </div>
 );
 
