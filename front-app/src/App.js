@@ -12,7 +12,7 @@ class App extends Component {
       <div>
         <Switch>
           <Route exact path="/" component={ListArticlesContainer} />
-          <Route exact path="/article" component={ArticleDetails} />
+          <Route exact path="/article/:id" component={ArticleDetails} />
           <Route path="/ajouter-un-article" component={AddArticleContainer} />
         </Switch>
       </div>
