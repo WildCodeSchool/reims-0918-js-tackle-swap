@@ -1,8 +1,14 @@
-import { ARTICLES_RECEIVED, FETCH_ARTICLES, CHANGE_PAGE } from "./actiontypes";
+import {
+  ARTICLES_RECEIVED,
+  FETCH_ARTICLES,
+  CHANGE_PAGE,
+  SHOW_ARTICLE_DETAILS
+} from "./actionTypes";
 import {
   makeArticlesReceivedAction,
   makeFetchArticlesAction,
-  makeChangePageAction
+  makeChangePageAction,
+  makeShowArticleDetailsAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -57,5 +63,33 @@ describe("makeChangePageAction", () => {
     };
 
     expect(makeChangePageAction(prevState)).toEqual(expected);
+  });
+});
+
+describe("makeShowArticleDetailsAction", () => {
+  it("should return details of the selected article", () => {
+    const responseApi = {
+      id: 3,
+      name: "leurre de 24",
+      description: "Permet de capturer de superbes poissons",
+      brand: "MonsieurPêcheur",
+      picture: "https//www.photosuperleurre.jpg",
+      article_length: 14.5,
+      article_weight: 15,
+      article_color: "rouge",
+      article_state: 3,
+      create_at: "",
+      nickname: "Coco",
+      email: "corentin.dsc@gmail.com",
+      profil_picture: "url de photo",
+      postal_code: "51100",
+      city: "Reims"
+    };
+
+    const expected = {
+      type: SHOW_ARTICLE_DETAILS,
+      responseApi
+    };
+    expect(makeShowArticleDetailsAction(responseApi)).toEqual(expected);
   });
 });
