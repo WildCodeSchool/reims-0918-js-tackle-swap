@@ -110,6 +110,25 @@ app.get("/articles", async (req, res) => {
 // Return Article Details, selected with his id
 app.get("/article/:id", async (req, res) => {
   const idArticle = [req.params.id];
+
+  const rawIsExist = await bddQuery(
+    `SELECT COUNT(*) AS count FROM articles WHERE id = ${idArticle}`
+  );
+
+  if (rawIsExist.err) {
+    addLog(idExist.err, "error-bdd");
+    sendResponse(
+      res,
+      409,
+      "error",
+      "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    );
+  }
+  const isExist = rawIsExist.results[0].count;
+  if (!isExist) {
+    sendResponse(res, 404, "error", "L'article demandé n'existe pas");
+  }
+
   const rawArticleDetails = await bddQuery(
     `SELECT a.*, u.email, u.nickname FROM articles AS a JOIN users AS u ON a.owner_id = u.id WHERE a.id = ${idArticle}`
   );
@@ -118,9 +137,9 @@ app.get("/article/:id", async (req, res) => {
     addLog(rawArticleDetails.err, "error-bdd");
     sendResponse(
       res,
-      404,
+      409,
       "error",
-      "L'article demandé n'existe pas dans la base de donnée."
+      "Erreur avec la base de donnée, veuillez contacter un administrateur"
     );
   }
 
