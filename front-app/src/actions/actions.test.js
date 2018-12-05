@@ -1,8 +1,14 @@
-import { ARTICLES_RECEIVED, FETCH_ARTICLES, CHANGE_PAGE } from "./actiontypes";
+import {
+  ARTICLES_RECEIVED,
+  FETCH_ARTICLES,
+  CHANGE_PAGE,
+  ARTICLE_DETAILS
+} from "./actionTypes";
 import {
   makeArticlesReceivedAction,
   makeFetchArticlesAction,
-  makeChangePageAction
+  makeChangePageAction,
+  makeArticleDetailsAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -57,5 +63,36 @@ describe("makeChangePageAction", () => {
     };
 
     expect(makeChangePageAction(prevState)).toEqual(expected);
+  });
+});
+
+describe("makeArticleDetailsAction", () => {
+  it("should return details of the selected article", () => {
+    const responseApi = {
+      id: 3,
+      name: "leurre de 24",
+      description: "Permet de capturer de superbes poissons",
+      brand: "MonsieurPêcheur",
+      picture: "https//www.photosuperleurre.jpg",
+      article_length: 14.5,
+      article_weight: 15,
+      article_color: "rouge",
+      article_state: 3,
+      create_at: "",
+      lastname: "DE SOTO COBET",
+      firstname: "Corentin",
+      nickname: "Coco",
+      email: "corentin.dsc@gmail.com",
+      profil_picture: "url de photo",
+      adress: "7 rue Capitaine Alfred Dreyfus",
+      postal_code: "51100",
+      city: "Reims"
+    };
+
+    const expected = {
+      type: ARTICLE_DETAILS,
+      responseApi
+    };
+    expect(makeArticleDetailsAction(responseApi)).toEqual(expected);
   });
 });
