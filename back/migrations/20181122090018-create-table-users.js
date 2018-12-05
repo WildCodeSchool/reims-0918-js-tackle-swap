@@ -21,6 +21,7 @@ exports.up = function(db, callback) {
       id: { type: "int", primaryKey: true, autoIncrement: true },
       lastname: { type: "string", notNull: true, length: 100 },
       firstname: { type: "string", notNull: true, length: 100 },
+      nickname: { type: "string", length: 100 },
       email: { type: "string", notNull: true },
       email_confirmation: { type: "string", notNull: true, length: 50 },
       password: { type: "string", notNull: true },

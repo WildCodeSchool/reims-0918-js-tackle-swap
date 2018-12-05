@@ -20,6 +20,7 @@ exports.up = function(db, callback) {
     [
       "lastname",
       "firstname",
+      "nickname",
       "email",
       "email_confirmation",
       "password",
@@ -33,6 +34,7 @@ exports.up = function(db, callback) {
     [
       "DE SOTO COBET",
       "Corentin",
+      "KoKo",
       "corentin.dsc@gmail.com",
       "azeazeazeazecwxc135454454687",
       "password",
@@ -50,6 +52,7 @@ exports.up = function(db, callback) {
     [
       "lastname",
       "firstname",
+      "nickname",
       "email",
       "email_confirmation",
       "password",
@@ -63,6 +66,7 @@ exports.up = function(db, callback) {
     [
       "CHANTHATHIRATH",
       "Leuthsouline",
+      "Astou",
       "leuthsouline@gmail.com",
       "dfsdfsfdsdfxhfgjg235956232",
       "password",
@@ -80,6 +84,7 @@ exports.up = function(db, callback) {
     [
       "lastname",
       "firstname",
+      "nickname",
       "email",
       "email_confirmation",
       "password",
@@ -92,6 +97,7 @@ exports.up = function(db, callback) {
     ],
     [
       "SIMONIN",
+      "Gautier",
       "Gautier",
       "gautier08000@hotmail.com",
       "azeazeazeazecwxc135454454687",
