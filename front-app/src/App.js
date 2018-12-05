@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router";
 
 import ListArticlesContainer from "./containers/ListArticlesContainer";
 import ArticleDetails from "./components/ArticleDetails";
+import AddArticleContainer from "./containers/AddArticleContainer";
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={ListArticlesContainer} />
           <Route exact path="/article" component={ArticleDetails} />
+          <Route path="/ajouter-un-article" component={AddArticleContainer} />
         </Switch>
       </div>
     );
