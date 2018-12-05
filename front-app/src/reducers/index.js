@@ -4,7 +4,7 @@ import { connectRouter } from "connected-react-router";
 import articlesReducer from "./articlesReducer";
 import paginationReducer from "./paginationReducer";
 import loadingReducer from "./loadingReducer";
-import articleDetailsReducer from "./showArticleDetailsReducer";
+import showArticleDetailsReducer from "./showArticleDetailsReducer";
 
 const rootReducers = history =>
   combineReducers({
