@@ -1,8 +1,8 @@
 import React from "react";
 
-const PicturesArticleDetails = () => (
+const PicturesArticleDetails = ({ picture }) => (
   <div>
-    <p>Images</p>
+    <img src={picture} top width="100%" alt="article pictures" />
   </div>
 );
 
