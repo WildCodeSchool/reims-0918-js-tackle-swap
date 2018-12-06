@@ -5,6 +5,9 @@ import background from "./images/background-white.jpg";
 
 import ListArticlesContainer from "./containers/ListArticlesContainer";
 import ArticleDetails from "./components/ArticleDetails";
+import NavBar from "./components/NavBar";
+import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
+import AddArticleContainer from "./containers/AddArticleContainer";
 
 class App extends Component {
   render() {
@@ -15,9 +18,15 @@ class App extends Component {
     };
     return (
       <div style={styles}>
+        <NavBar />
         <Switch>
           <Route exact path="/" component={ListArticlesContainer} />
-          <Route exact path="/article" component={ArticleDetails} />
+          <Route
+            exact
+            path="/article/:id"
+            component={ArticleDetailsContainer}
+          />
+          <Route path="/ajouter-un-article" component={AddArticleContainer} />
         </Switch>
       </div>
     );
