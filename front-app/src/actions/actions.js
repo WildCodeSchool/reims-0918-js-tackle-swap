@@ -1,4 +1,9 @@
-import { ARTICLES_RECEIVED, FETCH_ARTICLES, CHANGE_PAGE } from "./actionTypes";
+import {
+  ARTICLES_RECEIVED,
+  FETCH_ARTICLES,
+  CHANGE_PAGE,
+  SHOW_ARTICLE_DETAILS
+} from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
   type: ARTICLES_RECEIVED,
@@ -12,4 +17,9 @@ export const makeFetchArticlesAction = () => ({
 export const makeChangePageAction = pageNumber => ({
   type: CHANGE_PAGE,
   pageNumber
+});
+
+export const makeShowArticleDetailsAction = responseApi => ({
+  type: SHOW_ARTICLE_DETAILS,
+  responseApi
 });

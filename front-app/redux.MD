@@ -33,6 +33,17 @@
 }
 ```
 
+- SHOW_ARTICLE_DETAILS is dispatched when click on an article
+
+```javascript
+{
+  type: SHOW_ARTICLE_DETAILS,
+  responseApi: {
+      articles: [...]
+  }
+}
+```
+
 ## Reducers
 
 - articlesReducer
@@ -60,3 +71,11 @@ const initialeState = false;
 
 When FETCH_ARTICLES is dispatched, state becomes true
 When ARTICLES_RECEIVED is dispatched, state becomes false
+
+- showArticleDetailsReducer
+
+```javascript
+const initialeState = {};
+```
+
+When SHOW_ARTICLE_DETAILS is dispatched, state becomes action.article
