@@ -61,7 +61,7 @@ const AddArticle = props => {
           <div>
             <label>Poid de l'article :</label>
             <div>
-              <Field name="article_weigth" component="input" type="number" />
+              <Field name="article_weight" component="input" type="number" />
             </div>
           </div>
           <div>
@@ -73,7 +73,7 @@ const AddArticle = props => {
           <div>
             <label>État de l'article :</label>
             <div>
-              <Field name="article_stat" component="select">
+              <Field name="article_state" component="select">
                 <option />
                 <option value="1">Usé</option>
                 <option value="2">Bon état</option>

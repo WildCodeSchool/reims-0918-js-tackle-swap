@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  articleDetails: responseApi =>
+  articleDetailsReceived: responseApi =>
     dispatch(makeShowArticleDetailsAction(responseApi))
 });
 

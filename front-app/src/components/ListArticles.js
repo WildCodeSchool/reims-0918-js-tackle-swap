@@ -15,7 +15,7 @@ class ListArticles extends Component {
 
   callApiAllArticles = currentPage => {
     axios
-      .get(`http://localhost:3000/articles?page=${currentPage}`)
+      .get(`http://localhost:5000/articles?page=${currentPage}`)
       .then(results => this.props.articlesReceived(results.data.response));
   };
 
