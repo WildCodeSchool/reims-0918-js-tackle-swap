@@ -1,5 +1,5 @@
-import paginationReducer from "./paginationReducer";
-import { makeArticlesReceivedAction } from "../actions/actions";
+import paginationReducer from "../paginationReducer";
+import { makeArticlesReceivedAction } from "../../actions/actions";
 
 describe("paginationReducer", () => {
   it("handles ARTICLES_RECEIVED action", () => {
