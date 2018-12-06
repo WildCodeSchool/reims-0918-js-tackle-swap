@@ -11,7 +11,7 @@ import { Row, Col, Container } from "reactstrap";
 class ArticleDetails extends Component {
   callApiArticleDetails = id => {
     axios
-      .get(`http://localhost:3000/article/${id}`)
+      .get(`http://localhost:5000/article/${id}`)
       .then(results =>
         this.props.articleDetailsReceived(results.data.response[0])
       );

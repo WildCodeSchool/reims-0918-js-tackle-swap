@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const connection = require("./conf");
-const port = 3000;
+const port = 5000;
 const bodyParser = require("body-parser");
 
 const defineLimit = require("./function/defineLimit");
