@@ -4,14 +4,45 @@ import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetail
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
+import axios from "axios";
+
+import { Row, Col, Container } from "reactstrap";
+
 class ArticleDetails extends Component {
+  callApiArticleDetails = id => {
+    axios
+      .get(`http://localhost:3000/article/${id}`)
+      .then(results => this.props.articleDetails(results.data.response[0]));
+  };
+
+  componentDidMount() {
+    this.callApiArticleDetails(this.props.match.params.id);
+  }
+
   render() {
     return (
       <div>
-        <FavoriteArticleDetails />
-        <PicturesArticleDetails />
-        <DescriptionArticleDetails />
-        <InteractionsArticleDetails />
+        <Container>
+          <Row>
+            <Col>
+              <h1>john</h1>
+            </Col>
+            <Col>
+              <FavoriteArticleDetails />
+            </Col>
+          </Row>
+          <Col>
+            <Row>
+              <PicturesArticleDetails />
+            </Row>
+            <Row>
+              <DescriptionArticleDetails />
+            </Row>
+            <Row>
+              <InteractionsArticleDetails />
+            </Row>
+          </Col>
+        </Container>
       </div>
     );
   }

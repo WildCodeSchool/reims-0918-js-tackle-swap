@@ -2,7 +2,8 @@ import React from "react";
 
 const DescriptionArticleDetails = () => (
   <div>
-    <p>Description</p>
+    <h1>Description</h1>
+    <h2>bonjour</h2>
   </div>
 );
 
