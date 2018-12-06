@@ -149,8 +149,10 @@ app.get("/article/:id", async (req, res) => {
 });
 
 // Received and insert Article on BDD
-app.post("/article", (req, res) => {
+app.post("/article", async (req, res) => {
   console.log(req.body);
+  const insertArticle = await bddQuery("INSERT INTO articles SET ?", req.body);
+  console.log(insertArticle);
 });
 
 app.get("/user_articles/:iduser", (req, res) => {
