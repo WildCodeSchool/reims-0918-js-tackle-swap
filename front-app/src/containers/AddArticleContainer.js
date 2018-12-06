@@ -8,6 +8,7 @@ class AddArticleContainer extends Component {
       "http://localhost:3000/article",
       Object.assign({ owner_id: 1 }, values)
     );
+
   render() {
     return <AddArticle onSubmit={this.submit} />;
   }
