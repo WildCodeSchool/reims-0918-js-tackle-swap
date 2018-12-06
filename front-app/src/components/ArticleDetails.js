@@ -6,8 +6,6 @@ import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
 import axios from "axios";
 
-import { Row, Col, Container } from "reactstrap";
-
 class ArticleDetails extends Component {
   callApiArticleDetails = id => {
     axios
@@ -24,27 +22,11 @@ class ArticleDetails extends Component {
   render() {
     return (
       <div>
-        <Container>
-          <Row>
-            <Col>
-              <h1>john</h1>
-            </Col>
-            <Col>
-              <FavoriteArticleDetails />
-            </Col>
-          </Row>
-          <Col>
-            <Row>
-              <PicturesArticleDetails />
-            </Row>
-            <Row>
-              <DescriptionArticleDetails />
-            </Row>
-            <Row>
-              <InteractionsArticleDetails />
-            </Row>
-          </Col>
-        </Container>
+        <h1>john</h1>
+        <FavoriteArticleDetails />
+        <PicturesArticleDetails />
+        <DescriptionArticleDetails />
+        <InteractionsArticleDetails />
       </div>
     );
   }
