@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Switch } from "react-router";
 
 import ListArticlesContainer from "./containers/ListArticlesContainer";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar/NavBar";
 import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
 import AddArticleContainer from "./containers/AddArticleContainer";
 
