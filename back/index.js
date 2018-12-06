@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const connection = require("./conf");
-const port = 3000;
+const port = 5000;
 const bodyParser = require("body-parser");
 
 const defineLimit = require("./function/defineLimit");
@@ -149,8 +149,10 @@ app.get("/article/:id", async (req, res) => {
 });
 
 // Received and insert Article on BDD
-app.post("/article", (req, res) => {
+app.post("/article", async (req, res) => {
   console.log(req.body);
+  const insertArticle = await bddQuery("INSERT INTO articles SET ?", req.body);
+  console.log(insertArticle);
 });
 
 app.get("/user_articles/:iduser", (req, res) => {
