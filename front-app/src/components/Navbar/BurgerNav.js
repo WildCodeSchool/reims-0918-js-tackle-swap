@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -23,10 +24,7 @@ const styles = {
 
 class BurgerNav extends React.Component {
   state = {
-    top: false,
-    left: false,
-    bottom: false,
-    right: false
+    left: false
   };
 
   toggleDrawer = (side, open) => () => {
@@ -41,18 +39,26 @@ class BurgerNav extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
+          {[
+            { name: "Accueil", path: "/" },
+            { name: "Rechercher", path: "/" },
+            { name: "Ajouter un article", path: "/ajouter-un-article" },
+            { name: "Message", path: "/" },
+            { name: "Profil", path: "/" },
+            { name: "Paramètres", path: "/" }
+          ].map((link, index) => (
+            <ListItem button key={index}>
+              {/* <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              </ListItemIcon> */}
+              {/* <ListItemText primary={link.name} /> */}
+              <Link to={link.path}>{link.name}</Link>
             </ListItem>
           ))}
         </List>
-        <Divider />
+        {/* <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
+          {["Paramètres", "Trash", "Spam"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -60,7 +66,7 @@ class BurgerNav extends React.Component {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </div>
     );
 

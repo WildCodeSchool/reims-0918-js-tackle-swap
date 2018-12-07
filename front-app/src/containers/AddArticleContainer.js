@@ -5,7 +5,7 @@ import axios from "axios";
 class AddArticleContainer extends Component {
   submit = values =>
     axios.post(
-      "http://localhost:3000/article",
+      "http://localhost:5000/article",
       Object.assign({ owner_id: 1 }, values)
     );
 
