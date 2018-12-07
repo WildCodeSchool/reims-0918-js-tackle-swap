@@ -19,15 +19,17 @@ class App extends Component {
     return (
       <div style={styles}>
         <NavBar />
-        <Switch>
-          <Route exact path="/" component={ListArticlesContainer} />
-          <Route
-            exact
-            path="/article/:id"
-            component={ArticleDetailsContainer}
-          />
-          <Route path="/ajouter-un-article" component={AddArticleContainer} />
-        </Switch>
+        <div style={{ padding: "10px" }}>
+          <Switch>
+            <Route exact path="/" component={ListArticlesContainer} />
+            <Route
+              exact
+              path="/article/:id"
+              component={ArticleDetailsContainer}
+            />
+            <Route path="/ajouter-un-article" component={AddArticleContainer} />
+          </Switch>
+        </div>
       </div>
     );
   }

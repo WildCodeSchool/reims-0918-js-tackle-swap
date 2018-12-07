@@ -27,20 +27,18 @@ class ListArticles extends Component {
     const { pagination, articles } = this.props;
     return (
       <div>
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid
-              container
-              alignItems="center"
-              direction="row"
-              justify="space-between"
-            >
-              {articles.map((article, index) => (
-                <ThumbnailArticle {...article} key={index} />
-              ))}
-            </Grid>
-          </Grid>
+        <Grid
+          container
+          spacing={8}
+          alignItems="center"
+          direction="row"
+          justify="space-around"
+        >
+          {articles.map((article, index) => (
+            <ThumbnailArticle {...article} key={index} />
+          ))}
         </Grid>
+
         <Pagination
           hideDisabled
           activePage={pagination.activePage}

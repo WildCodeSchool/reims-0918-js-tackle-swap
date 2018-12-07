@@ -21,7 +21,7 @@ const styles = {
 function ThumbnailArticle(props) {
   const { classes, picture, name, id } = props;
   return (
-    <Grid xs={6} sm={4} md={3} lg={2}>
+    <Grid item xs={6} sm={4} md={3} lg={2}>
       <Link to={{ pathname: `/article/${id}` }}>
         <Card className={classes.card}>
           <CardActionArea>
