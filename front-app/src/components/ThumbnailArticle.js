@@ -1,18 +1,37 @@
 import React from "react";
-import {
-  Card,
-  CardTitle,
-  CardBody,
-  CardImg,
-  Row,
-  Col,
-  CardSubtitle
-} from "reactstrap";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
-const ThumbnailArticle = ({ name, picture }) => {
+const styles = {
+  card: {
+    maxWidth: 300
+  },
+  media: {
+    height: 140
+  }
+};
+
+function ThumbnailArticle(props) {
+  const { classes, picture, name } = props;
   return (
-    <Col xs="6" sm="4" md="4" lg="3">
+    <Grid xs={6} sm={4} md={3} lg={2}>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia className={classes.media} image={picture} />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {name}
+            </Typography>
+            <Typography component="p">Description</Typography>
+          </CardContent>
+        </CardActionArea>
+        {/* { <Col xs="6" sm="4" md="4" lg="3">
       <Card
         style={{
           border: "1px solid white",
@@ -30,15 +49,14 @@ const ThumbnailArticle = ({ name, picture }) => {
               <i className="far fa-heart" />
             </Col>
           </Row>
-        </CardBody>
+        </CardBody>} */}
       </Card>
-    </Col>
+    </Grid>
   );
-};
+}
 
 ThumbnailArticle.propTypes = {
-  picture: propTypes.string.isRequired,
-  name: propTypes.string.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-export default ThumbnailArticle;
+export default withStyles(styles)(ThumbnailArticle);

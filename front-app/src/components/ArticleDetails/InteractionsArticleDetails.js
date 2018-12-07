@@ -1,14 +1,10 @@
 import React from "react";
-import { Row, Button } from "reactstrap";
 
 const InteractionsArticleDetails = () => (
   <div>
-    <Row>
-      <Button>Contacter pour proposer un échange</Button>
-    </Row>
-    <Row>
-      <Button>Partager</Button>
-    </Row>
+    <p>Contacter pour proposer un échange</p>
+
+    <p>Partager</p>
   </div>
 );
 
