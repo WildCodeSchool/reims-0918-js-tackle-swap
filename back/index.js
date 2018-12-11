@@ -7,7 +7,6 @@ const port = 5000;
 const bodyParser = require("body-parser");
 const auth = require("./routes/auth");
 const user = require("./routes/user");
-require("./passport-strategy");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
@@ -20,6 +19,8 @@ app.use(
     extended: true
   })
 );
+require("./passport-strategy");
+
 app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", auth);

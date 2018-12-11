@@ -12,13 +12,14 @@ passport.use(
       passwordField: "password"
     },
     async (nickname, password, cb) => {
-      nickname = JSON.stringify(nickname);
-      password = JSON.stringify(password);
-      const isRegistered = await bddQuery(
-        `SELECT id, nickname from users where nickname = ${nickname}
-         and password = ${password}`
+      const userQuery = await bddQuery(
+        `SELECT id, nickname from users where nickname = ?
+         and password = ?`,
+        [nickname, password]
       );
-      const user = isRegistered.results[0];
+      console.log(userQuery);
+
+      const user = userQuery.results[0];
       if (!user) {
         return cb(null, false, { message: "Incorrect nickname or password." });
       } else {
