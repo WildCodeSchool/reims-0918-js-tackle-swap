@@ -24,7 +24,7 @@ function ButtonAppBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar style={{ backgroundColor: "#009682" }} position="static">
         <Toolbar>
           <IconButton
             className={classes.menuButton}
