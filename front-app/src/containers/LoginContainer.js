@@ -7,7 +7,8 @@ class LoginContainer extends Component {
   submit = values =>
     axios
       .post("http://localhost:5000/auth/login", values)
-      .then(result => ls.set("token-tackle-swap", result.data.token));
+      .then(result => ls.set("jwt-tackle-swap", result.data.token))
+      .catch(result => console.log("response ERROR:", result));
   render() {
     return <Login onSubmit={this.submit} />;
   }
