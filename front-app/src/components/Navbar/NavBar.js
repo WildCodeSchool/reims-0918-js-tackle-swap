@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -22,7 +21,11 @@ const styles = {
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
+    marginRight: 20,
+    color: "inherit"
+  },
+  logo: {
+    padding: "5% 10%"
   }
 };
 
@@ -86,9 +89,13 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              Tackle Swap
-            </Typography>
+
+            <img
+              src="http://image.noelshack.com/fichiers/2018/50/3/1544610771-logof-white.png"
+              alt="Logo"
+              width="40%"
+              className={classes.logo}
+            />
           </Toolbar>
         </AppBar>
         <div>
