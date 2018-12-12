@@ -61,6 +61,29 @@ const Register = props => {
       <Grid item xs={12}>
         <Paper>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label>Sex</label>
+              <div>
+                <label>
+                  <Field
+                    name="gender"
+                    component="input"
+                    type="radio"
+                    value="m"
+                  />
+                  Homme
+                </label>
+                <label>
+                  <Field
+                    name="gender"
+                    component="input"
+                    type="radio"
+                    value="f"
+                  />
+                  Femme
+                </label>
+              </div>
+            </div>
             <Field
               name="lastname"
               type="text"
