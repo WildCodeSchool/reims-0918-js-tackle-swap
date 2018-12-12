@@ -18,8 +18,13 @@ const styles = {
   media: {
     height: 140
   },
-  text: {
-    color: "#00cccc",
+  textTitle: {
+    color: "#009682"
+  },
+  textDescription: {
+    color: "#00cccc"
+  },
+  link: {
     textDecoration: "none"
   }
 };
@@ -28,20 +33,26 @@ function ThumbnailArticle(props) {
   const { classes, picture, name, id } = props;
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
-      <Link to={{ pathname: `/article/${id}` }}>
+      <Link className={classes.link} to={{ pathname: `/article/${id}` }}>
         <Card className={classes.card}>
           <CardActionArea>
             <CardMedia className={classes.media} image={picture} />
             <CardContent>
               <Typography
-                className={classes.text}
+                className={classes.textTitle}
                 gutterBottom
-                variant="h5"
+                variant="h6"
                 component="h2"
               >
                 {name}
               </Typography>
-              <Typography component="p">Description</Typography>
+              <Typography
+                className={classes.textDescription}
+                variant="h6"
+                component="p"
+              >
+                Description
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
