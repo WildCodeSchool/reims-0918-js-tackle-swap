@@ -161,11 +161,12 @@ app.post(
   "/article",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    req.body = Object.assign({ owner_id: req.user.id }, req.body);
     const insertArticle = await bddQuery(
       "INSERT INTO articles SET ?",
       req.body
     );
-    const responseApi = insertArticle.results.insertId;
+    const responseApi = { insertId: insertArticle.results.insertId };
     sendResponse(res, 200, "success", { responseApi });
   }
 );
