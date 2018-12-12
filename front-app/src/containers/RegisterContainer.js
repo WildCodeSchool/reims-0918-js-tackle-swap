@@ -7,6 +7,7 @@ class RegisterContainer extends Component {
       lastname: values.lastname,
       firstname: values.firstname,
       email: values.email,
+      nickname: values.nickname,
       password: values.password
     });
   render() {
