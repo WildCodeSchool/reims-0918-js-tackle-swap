@@ -18,6 +18,10 @@ const validate = values => {
     errors.email = "Adresse mail invalide.";
   }
 
+  if (!values.nickname) {
+    errors.nickname = "Requis.";
+  }
+
   if (!values.password) {
     errors.password = "Requis.";
   } else if (values.password.length < 6) {
@@ -74,6 +78,12 @@ const Register = props => {
               type="email"
               component={renderField}
               label="Adresse Mail"
+            />
+            <Field
+              name="nickname"
+              type="nickname"
+              component={renderField}
+              label="Pseudo"
             />
             <Field
               name="password"
