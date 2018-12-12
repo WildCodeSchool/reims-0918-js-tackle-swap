@@ -11,14 +11,14 @@ const Login = props => {
         <Paper>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label htmlFor="email">Adresse Mail :</label>
+              <label htmlFor="nickname">Pseudo :</label>
               <div>
                 <Field
-                  name="email"
-                  id="email"
+                  name="nickname"
+                  id="nickname"
                   component="input"
                   type="text"
-                  placeholder="Email"
+                  placeholder="Votre pseudo"
                 />
               </div>
             </div>
