@@ -1,10 +1,10 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
 const InteractionsArticleDetails = () => (
   <div>
-    <p>Contacter pour proposer un échange</p>
-
-    <p>Partager</p>
+    <Button variant="contained">Proposer un échange</Button>
+    <Button variant="contained">Partager</Button>
   </div>
 );
 
