@@ -17,7 +17,6 @@ passport.use(
          and password = ?`,
         [nickname, password]
       );
-      console.log(userQuery);
 
       const user = userQuery.results[0];
       if (!user) {
