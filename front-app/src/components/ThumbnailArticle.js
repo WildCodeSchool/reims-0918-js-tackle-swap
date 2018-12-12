@@ -11,10 +11,16 @@ import Grid from "@material-ui/core/Grid";
 
 const styles = {
   card: {
-    maxWidth: 300
+    maxWidth: 300,
+    backgroundColor: "#e6f7ff",
+    border: "2px solid white"
   },
   media: {
     height: 140
+  },
+  text: {
+    color: "#00cccc",
+    textDecoration: "none"
   }
 };
 
@@ -27,7 +33,12 @@ function ThumbnailArticle(props) {
           <CardActionArea>
             <CardMedia className={classes.media} image={picture} />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
+              <Typography
+                className={classes.text}
+                gutterBottom
+                variant="h5"
+                component="h2"
+              >
                 {name}
               </Typography>
               <Typography component="p">Description</Typography>
