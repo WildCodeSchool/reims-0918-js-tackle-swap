@@ -10,6 +10,7 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import MenuIcon from "@material-ui/icons/Menu";
+import ls from "local-storage";
 
 const styles = {
   root: {
@@ -41,21 +42,37 @@ class ButtonAppBar extends Component {
   render() {
     const { classes } = this.props;
 
+    let list = [
+      { id: 0, name: "Accueil", path: "/" },
+      { id: 10, name: "Rechercher", path: "/" },
+      { id: 20, name: "Message", path: "/" },
+      { id: 30, name: "Profil", path: "/" },
+      { id: 40, name: "Paramètres", path: "/" }
+    ];
+
+    if (ls.get("jwt-tackle-swap")) {
+      list = [
+        ...list,
+        { id: 15, name: "Ajouter un article", path: "/ajouter-un-article" },
+        { id: 99, name: "Se déconnecter", path: "/" }
+      ];
+    } else {
+      list = [
+        ...list,
+        { id: 98, name: "Se connecter", path: "/se-connecter" },
+        { id: 99, name: "S'inscrire", path: "/s-inscrire" }
+      ];
+    }
     const sideList = (
       <div className={classes.list}>
         <List>
-          {[
-            { name: "Accueil", path: "/" },
-            { name: "Rechercher", path: "/" },
-            { name: "Ajouter un article", path: "/ajouter-un-article" },
-            { name: "Message", path: "/" },
-            { name: "Profil", path: "/" },
-            { name: "Paramètres", path: "/" }
-          ].map((link, index) => (
-            <ListItem button key={index}>
-              <Link to={link.path}>{link.name}</Link>
-            </ListItem>
-          ))}
+          {list
+            .sort((a, b) => a.id - b.id)
+            .map((link, index) => (
+              <ListItem button key={index}>
+                <Link to={link.path}>{link.name}</Link>
+              </ListItem>
+            ))}
         </List>
       </div>
     );
