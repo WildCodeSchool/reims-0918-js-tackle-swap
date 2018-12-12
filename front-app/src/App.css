@@ -22,6 +22,32 @@
   color: #61dafb;
 }
 
+.ArticleDetails {
+  background-color: white;
+  opacity: 0.8;
+}
+
+.TextDescription {
+  padding-left: 10px;
+  color: #009682;
+  margin-top: 0px;
+}
+
+.FontSize {
+  font-size: 20px;
+  padding-left: 10px;
+  color: #293d3d;
+}
+
+.ColorButton {
+  background-color: #009682;
+}
+
+.HeartPositionColor {
+  text-align: "right";
+  background-color: #009682;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
