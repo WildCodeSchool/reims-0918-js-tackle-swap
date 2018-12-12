@@ -6,7 +6,6 @@ const connection = require("./conf");
 const port = 5000;
 const bodyParser = require("body-parser");
 const auth = require("./routes/auth");
-const user = require("./routes/user");
 const passport = require("passport");
 
 const defineLimit = require("./function/defineLimit");
@@ -25,9 +24,8 @@ require("./passport-strategy");
 app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", auth);
-app.use("/user", user);
 
-app.post("/users", (req, res) => {
+app.post("/user", (req, res) => {
   const formData = req.body;
   connection.query("INSERT INTO users SET ?", formData, (err, results) => {
     if (err) {

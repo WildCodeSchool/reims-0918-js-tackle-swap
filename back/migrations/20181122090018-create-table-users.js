@@ -23,7 +23,6 @@ exports.up = function(db, callback) {
       firstname: { type: "string", notNull: true, length: 100 },
       nickname: { type: "string", length: 100 },
       email: { type: "string", notNull: true },
-      email_confirmation: { type: "string", notNull: true, length: 50 },
       password: { type: "string", notNull: true },
       registration_date: {
         type: "datetime",
