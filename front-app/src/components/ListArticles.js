@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ThumbnailArticle from "./ThumbnailArticle";
-import { Container, Row } from "reactstrap";
 
 import axios from "axios";
 
 import PropTypes from "prop-types";
 import Pagination from "react-js-pagination";
+import Grid from "@material-ui/core/Grid";
 
 class ListArticles extends Component {
   handlePageChange = pageNumber => {
@@ -26,12 +26,19 @@ class ListArticles extends Component {
   render() {
     const { pagination, articles } = this.props;
     return (
-      <Container className="pt-3">
-        <Row>
+      <div>
+        <Grid
+          container
+          spacing={8}
+          alignItems="center"
+          direction="row"
+          justify="space-around"
+        >
           {articles.map((article, index) => (
             <ThumbnailArticle {...article} key={index} />
           ))}
-        </Row>
+        </Grid>
+
         <Pagination
           hideDisabled
           activePage={pagination.activePage}
@@ -40,7 +47,7 @@ class ListArticles extends Component {
           pageRangeDisplayed={5}
           onChange={this.handlePageChange}
         />
-      </Container>
+      </div>
     );
   }
 }

@@ -1,14 +1,10 @@
 import React from "react";
-import { Row, Button } from "reactstrap";
+import Button from "@material-ui/core/Button";
 
 const InteractionsArticleDetails = () => (
   <div>
-    <Row>
-      <Button>Contacter pour proposer un échange</Button>
-    </Row>
-    <Row>
-      <Button>Partager</Button>
-    </Row>
+    <Button variant="contained">Proposer un échange</Button>
+    <Button variant="contained">Partager</Button>
   </div>
 );
 
