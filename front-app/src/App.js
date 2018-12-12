@@ -7,6 +7,8 @@ import ListArticlesContainer from "./containers/ListArticlesContainer";
 import NavBar from "./components/Navbar/NavBar";
 import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
 import AddArticleContainer from "./containers/AddArticleContainer";
+import LoginContainer from "./containers/LoginContainer";
+import RegisterContainer from "./containers/RegisterContainer";
 
 class App extends Component {
   render() {
@@ -28,6 +30,8 @@ class App extends Component {
               component={ArticleDetailsContainer}
             />
             <Route path="/ajouter-un-article" component={AddArticleContainer} />
+            <Route path="/se-connecter" component={LoginContainer} />
+            <Route path="/s-inscrire" component={RegisterContainer} />
           </Switch>
         </div>
       </div>
