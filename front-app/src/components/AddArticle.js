@@ -2,11 +2,11 @@ import React, { Fragment } from "react";
 import { Field, reduxForm } from "redux-form";
 
 const AddArticle = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { handleSubmit, pristine, reset, submitting, onSubmit } = props;
   return (
     <Fragment>
       <h4>Ajouter un article à votre vitrine :</h4>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>Nom du leurre :</label>
           <div>

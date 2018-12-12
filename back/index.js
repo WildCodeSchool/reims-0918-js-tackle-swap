@@ -5,6 +5,9 @@ const app = express();
 const connection = require("./conf");
 const port = 5000;
 const bodyParser = require("body-parser");
+const auth = require("./routes/auth");
+const user = require("./routes/user");
+const passport = require("passport");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
@@ -17,7 +20,12 @@ app.use(
     extended: true
   })
 );
+require("./passport-strategy");
+
 app.use(cors());
+app.use(express.static("public"));
+app.use("/auth", auth);
+app.use("/user", user);
 
 app.post("/users", (req, res) => {
   const formData = req.body;
@@ -149,11 +157,18 @@ app.get("/article/:id", async (req, res) => {
 });
 
 // Received and insert Article on BDD
-app.post("/article", async (req, res) => {
-  console.log(req.body);
-  const insertArticle = await bddQuery("INSERT INTO articles SET ?", req.body);
-  console.log(insertArticle);
-});
+app.post(
+  "/article",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const insertArticle = await bddQuery(
+      "INSERT INTO articles SET ?",
+      req.body
+    );
+    const responseApi = insertArticle.results.insertId;
+    sendResponse(res, 200, "success", { responseApi });
+  }
+);
 
 app.get("/user_articles/:iduser", (req, res) => {
   const limit =
