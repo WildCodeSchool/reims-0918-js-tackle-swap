@@ -27,7 +27,7 @@ app.use(express.static("public"));
 app.use("/auth", auth);
 app.use("/user", user);
 
-app.post("/users", (req, res) => {
+app.post("/user", (req, res) => {
   const formData = req.body;
   connection.query("INSERT INTO users SET ?", formData, (err, results) => {
     if (err) {
