@@ -9,16 +9,18 @@ const DescriptionArticleDetails = ({
   brand
 }) => (
   <div>
-    <h1>Description</h1>
-    <p>{description}</p>
-    <h2>Catégorie : </h2>
-    <h2>Caractéristiques</h2>
+    <h2 className="TextDescription"> Description</h2>
+    <p className="FontSize">{description}</p>
+    <h2 className="TextDescription">Catégorie : </h2>
+    <h2 className="TextDescription">Caractéristiques</h2>
     <ul>
-      <li>Marque: {brand}</li>
-      <li>Couleur: {article_color}</li>
-      <li>Poids: {article_weight} g</li>
-      <li>Longueur: {article_length} mm</li>
-      <li>Etat: {article_state}/5</li>
+      <div className="FontSize">
+        <li>Marque: {brand}</li>
+        <li>Couleur: {article_color}</li>
+        <li>Poids: {article_weight} g</li>
+        <li>Longueur: {article_length} mm</li>
+        <li>Etat: {article_state}/5</li>
+      </div>
     </ul>
   </div>
 );

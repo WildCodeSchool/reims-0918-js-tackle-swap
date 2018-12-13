@@ -22,15 +22,17 @@ class ArticleDetails extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.articleDetails.name}</h1>
+        <div className="ArticleDetails">
+          <h1 className="TextDescription">{this.props.articleDetails.name}</h1>
 
-        <FavoriteArticleDetails />
+          <FavoriteArticleDetails />
 
-        <PicturesArticleDetails {...this.props.articleDetails} />
+          <PicturesArticleDetails {...this.props.articleDetails} />
 
-        <DescriptionArticleDetails {...this.props.articleDetails} />
+          <DescriptionArticleDetails {...this.props.articleDetails} />
 
-        <InteractionsArticleDetails />
+          <InteractionsArticleDetails />
+        </div>
       </div>
     );
   }
