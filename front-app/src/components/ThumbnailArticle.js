@@ -60,7 +60,7 @@ function ThumbnailArticle(props) {
                   paddingRight: "0px"
                 }}
               >
-                <i className="far fa-heart" />
+                <i style={{ color: "#00cccc" }} className="far fa-heart" />
               </div>
             </CardContent>
           </CardActionArea>

@@ -25,6 +25,14 @@ const styles = {
   },
   logo: {
     padding: "5% 8%"
+  },
+  list: {
+    backgroundColor: "#e6f7ff",
+    height: "810px"
+  },
+  Title: {
+    color: "#009682",
+    textDecoration: "none"
   }
 };
 
@@ -53,7 +61,9 @@ class ButtonAppBar extends Component {
             { name: "Paramètres", path: "/" }
           ].map((link, index) => (
             <ListItem button key={index}>
-              <Link to={link.path}>{link.name}</Link>
+              <Link to={link.path} className={classes.Title}>
+                {link.name}
+              </Link>
             </ListItem>
           ))}
         </List>
