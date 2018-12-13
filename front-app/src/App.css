@@ -30,7 +30,13 @@
 .TextDescription {
   padding-left: 10px;
   color: #009682;
+}
+.TitleDescription {
+  padding-left: 10px;
+  color: #00cccc;
   margin-top: 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .FontSize {

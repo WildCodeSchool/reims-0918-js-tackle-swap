@@ -31,9 +31,6 @@ const styles = theme => ({
   },
   mobileStepper: {
     backgroundColor: "#d1e0e0"
-  },
-  colorArrow: {
-    color: "red"
   }
 });
 
@@ -94,29 +91,29 @@ class SwipeableTextMobileStepper extends React.Component {
           className={classes.mobileStepper}
           nextButton={
             <Button
-              className={classes.colorArrow}
+              style={{ color: "#293d3d" }}
               size="small"
               onClick={this.handleNext}
               disabled={activeStep === maxSteps - 1}
             >
               {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft className={classes.colorArrow} />
+                <KeyboardArrowLeft />
               ) : (
-                <KeyboardArrowRight className="colorArrow" />
+                <KeyboardArrowRight />
               )}
             </Button>
           }
           backButton={
             <Button
-              className={classes.colorArrow}
+              style={{ color: "#293d3d" }}
               size="small"
               onClick={this.handleBack}
               disabled={activeStep === 0}
             >
               {theme.direction === "rtl" ? (
-                <KeyboardArrowRight className="colorArrow" />
+                <KeyboardArrowRight />
               ) : (
-                <KeyboardArrowLeft className="colorArrow" />
+                <KeyboardArrowLeft />
               )}
             </Button>
           }

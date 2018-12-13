@@ -24,7 +24,7 @@ const styles = {
     color: "inherit"
   },
   logo: {
-    padding: "5% 10%"
+    padding: "5% 8%"
   }
 };
 
@@ -70,7 +70,7 @@ class ButtonAppBar extends Component {
               aria-label="Menu"
               onClick={this.toggleDrawer(true)}
             >
-              <MenuIcon />
+              <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
 
             <img

@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
-    backgroundColor: "#009688"
+    backgroundColor: "#009682"
   }
 });
 
@@ -15,14 +15,14 @@ function InteractionsArticleDetails(props) {
     <div>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009688" }}
+        style={{ border: "2px solid #009682" }}
         className={classes.button}
       >
         Proposer un échange
       </Button>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009688" }}
+        style={{ border: "2px solid #009682" }}
         className={classes.button}
       >
         Partager
