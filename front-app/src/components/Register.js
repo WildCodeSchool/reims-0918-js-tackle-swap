@@ -18,6 +18,10 @@ const validate = values => {
     errors.email = "Adresse mail invalide.";
   }
 
+  if (!values.nickname) {
+    errors.nickname = "Requis.";
+  }
+
   if (!values.password) {
     errors.password = "Requis.";
   } else if (values.password.length < 6) {
@@ -57,6 +61,29 @@ const Register = props => {
       <Grid item xs={12}>
         <Paper>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label>Sex</label>
+              <div>
+                <label>
+                  <Field
+                    name="gender"
+                    component="input"
+                    type="radio"
+                    value="m"
+                  />
+                  Homme
+                </label>
+                <label>
+                  <Field
+                    name="gender"
+                    component="input"
+                    type="radio"
+                    value="f"
+                  />
+                  Femme
+                </label>
+              </div>
+            </div>
             <Field
               name="lastname"
               type="text"
@@ -74,6 +101,12 @@ const Register = props => {
               type="email"
               component={renderField}
               label="Adresse Mail"
+            />
+            <Field
+              name="nickname"
+              type="nickname"
+              component={renderField}
+              label="Pseudo"
             />
             <Field
               name="password"
