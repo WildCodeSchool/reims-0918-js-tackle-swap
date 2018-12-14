@@ -6,6 +6,7 @@ class RegisterContainer extends Component {
   submit = values =>
     axios
       .post("http://localhost:5000/user", {
+        gender: values.gender,
         lastname: values.lastname,
         firstname: values.firstname,
         email: values.email,
