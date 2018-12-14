@@ -25,7 +25,15 @@ const styles = {
     color: "inherit"
   },
   logo: {
-    padding: "5% 10%"
+    padding: "5% 8%"
+  },
+  list: {
+    backgroundColor: "#e6f7ff",
+    height: "810px"
+  },
+  Title: {
+    color: "#009682",
+    textDecoration: "none"
   }
 };
 
@@ -69,7 +77,7 @@ class ButtonAppBar extends Component {
           {list
             .sort((a, b) => a.id - b.id)
             .map((link, index) => (
-              <ListItem button key={index}>
+              <ListItem button key={index} className={classes.Title}>
                 <Link to={link.path}>{link.name}</Link>
               </ListItem>
             ))}
@@ -87,7 +95,7 @@ class ButtonAppBar extends Component {
               aria-label="Menu"
               onClick={this.toggleDrawer(true)}
             >
-              <MenuIcon />
+              <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
 
             <img

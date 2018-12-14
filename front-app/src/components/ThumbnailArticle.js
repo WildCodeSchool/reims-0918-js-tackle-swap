@@ -19,10 +19,10 @@ const styles = {
     height: 140
   },
   textTitle: {
-    color: "#009682"
+    color: "#00cccc"
   },
   textDescription: {
-    color: "#00cccc"
+    color: "#009682"
   },
   link: {
     textDecoration: "none"
@@ -48,11 +48,20 @@ function ThumbnailArticle(props) {
               </Typography>
               <Typography
                 className={classes.textDescription}
-                variant="h6"
+                variant="subtitle1"
                 component="p"
               >
-                Description
+                Trop beau leurre et bonne qualité...
               </Typography>
+              <div
+                style={{
+                  textAlign: "right",
+                  color: "#009682",
+                  paddingRight: "0px"
+                }}
+              >
+                <i style={{ color: "#00cccc" }} className="far fa-heart" />
+              </div>
             </CardContent>
           </CardActionArea>
         </Card>
