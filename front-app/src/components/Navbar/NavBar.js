@@ -47,6 +47,11 @@ class ButtonAppBar extends Component {
       open
     });
   };
+
+  disconnect = e => {
+    e.preventDefault();
+    ls.clear();
+  };
   render() {
     const { classes } = this.props;
 
@@ -78,7 +83,13 @@ class ButtonAppBar extends Component {
             .sort((a, b) => a.id - b.id)
             .map((link, index) => (
               <ListItem button key={index} className={classes.Title}>
-                <Link to={link.path}>{link.name}</Link>
+                {link.name === "Se déconnecter" ? (
+                  <Link to={link.path} onClick={e => this.disconnect(e)}>
+                    {link.name}
+                  </Link>
+                ) : (
+                  <Link to={link.path}>{link.name}</Link>
+                )}
               </ListItem>
             ))}
         </List>
