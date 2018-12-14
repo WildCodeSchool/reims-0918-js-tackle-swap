@@ -2,13 +2,17 @@ import {
   ARTICLES_RECEIVED,
   FETCH_ARTICLES,
   CHANGE_PAGE,
-  SHOW_ARTICLE_DETAILS
+  SHOW_ARTICLE_DETAILS,
+  SHOW_FLASH_MESSAGE,
+  CLOSE_FLASH_MESSAGE
 } from "./actionTypes";
 import {
   makeArticlesReceivedAction,
   makeFetchArticlesAction,
   makeChangePageAction,
-  makeShowArticleDetailsAction
+  makeShowArticleDetailsAction,
+  makeShowFlashMessageAction,
+  makeCloseFlashMessageAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -91,5 +95,25 @@ describe("makeShowArticleDetailsAction", () => {
       responseApi
     };
     expect(makeShowArticleDetailsAction(responseApi)).toEqual(expected);
+  });
+});
+
+describe("makeShowFlashMessageAction", () => {
+  it("should display the correct flash message in the snackbar", () => {
+    const message = "Connection réussie";
+    const expected = {
+      type: SHOW_FLASH_MESSAGE,
+      message
+    };
+    expect(makeShowFlashMessageAction(message)).toEqual(expected);
+  });
+});
+
+describe("makeCloseFlashMessageAction", () => {
+  it("should empty the flashmessage and hide the snackbar", () => {
+    const expected = {
+      type: CLOSE_FLASH_MESSAGE
+    };
+    expect(makeCloseFlashMessageAction()).toEqual(expected);
   });
 });

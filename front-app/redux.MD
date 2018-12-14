@@ -44,6 +44,30 @@
 }
 ```
 
+- SHOW_FLASh_MESSAGE is dispatched when user realize an action
+
+```javascript
+{
+  type: SHOW_FLASH_MESSAGE,
+  responseApi: {
+      flashMessage:"message",
+      open: true
+  }
+}
+```
+
+- CLOSE_FLASH_MESSAGE is dispatched when user close flash message
+
+```javascript
+{
+  type: CLOSE_FLASH_MESSAGE,
+  responseApi: {
+      flashMessage:"",
+      open:false
+  }
+}
+```
+
 ## Reducers
 
 - articlesReducer
@@ -79,3 +103,19 @@ const initialeState = {};
 ```
 
 When SHOW_ARTICLE_DETAILS is dispatched, state becomes action.article
+
+- showFlashMessageReducer
+
+```javascript
+const initialeState = { message: "message", open: false };
+```
+
+When SHOW_FLASH_MESSAGE is dispatched, state becomes action.openFlash
+
+- closeFlashMessageReducer
+
+```javascript
+const initialeState = { message: "message", open: true };
+```
+
+When CLOSE_FLASH_MESSAGE is dispatched, state becomes action.closeFlash

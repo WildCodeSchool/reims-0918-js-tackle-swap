@@ -1,17 +1,15 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 import Login from "../components/Login";
-import axios from "axios";
-import ls from "local-storage";
+import { makeShowFlashMessageAction } from "../actions/actions";
 
-class LoginContainer extends Component {
-  submit = values =>
-    axios
-      .post("http://localhost:5000/auth/login", values)
-      .then(result => ls.set("jwt-tackle-swap", result.data.token))
-      .catch(result => console.log("response ERROR:", result));
-  render() {
-    return <Login onSubmit={this.submit} />;
-  }
-}
+const mapStateToProps = state => ({});
 
-export default LoginContainer;
+const mapDispatchToProps = dispatch => ({
+  setFlashMessage: responseApi =>
+    dispatch(makeShowFlashMessageAction(responseApi))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
