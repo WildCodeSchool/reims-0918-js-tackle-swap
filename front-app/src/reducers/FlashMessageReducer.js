@@ -9,7 +9,7 @@ const FlashMessageReducer = (
     case SHOW_FLASH_MESSAGE:
       return { ...action.flashMessage, open: true };
     case CLOSE_FLASH_MESSAGE:
-      return { message: "", open: false };
+      return { message: "", open: false, type: "success" };
     default:
       return prevState;
   }
