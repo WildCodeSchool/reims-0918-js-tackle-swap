@@ -22,15 +22,25 @@ class ArticleDetails extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.articleDetails.name}</h1>
+        <div className="ArticleDetails">
+          <h2 className="TitleDescription">
+            {this.props.articleDetails.name}
+            <i
+              className="far fa-heart"
+              style={{
+                color: "#00cccc",
+                fontSize: "22px",
+                padding: "5px"
+              }}
+            />
+          </h2>
 
-        <FavoriteArticleDetails />
+          <PicturesArticleDetails {...this.props.articleDetails} />
 
-        <PicturesArticleDetails {...this.props.articleDetails} />
+          <DescriptionArticleDetails {...this.props.articleDetails} />
 
-        <DescriptionArticleDetails {...this.props.articleDetails} />
-
-        <InteractionsArticleDetails />
+          <InteractionsArticleDetails />
+        </div>
       </div>
     );
   }
