@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 });
 
-function MySnackbarContent(props) {
+function SnackbarContents(props) {
   const { classes, className, message, onClose, variant } = props;
   const Icon = variantIcon[variant];
 
@@ -64,9 +64,9 @@ function MySnackbarContent(props) {
   );
 }
 
-const MySnackbarContentWrapper = withStyles(styles)(MySnackbarContent);
+const SnackbarContentsWrapper = withStyles(styles)(SnackbarContents);
 
-class SimpleSnackbar extends React.Component {
+class SnackbarFlashMessage extends React.Component {
   render() {
     const { classes } = this.props;
     return (
@@ -80,7 +80,7 @@ class SimpleSnackbar extends React.Component {
           autoHideDuration={6000}
           onClose={this.props.hideFlashMessage}
         >
-          <MySnackbarContentWrapper
+          <SnackbarContentsWrapper
             onClose={this.props.hideFlashMessage}
             variant={this.props.flashMessage.type}
             message={this.props.flashMessage.message}
@@ -91,8 +91,8 @@ class SimpleSnackbar extends React.Component {
   }
 }
 
-SimpleSnackbar.propTypes = {
+SnackbarFlashMessage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SimpleSnackbar);
+export default withStyles(styles)(SnackbarFlashMessage);
