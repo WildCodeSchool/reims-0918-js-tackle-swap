@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 });
 
-function SnackbarContents(props) {
+const SnackbarContents = props => {
   const { classes, className, message, onClose, variant } = props;
   const Icon = variantIcon[variant];
 
@@ -62,34 +62,31 @@ function SnackbarContents(props) {
       ]}
     />
   );
-}
+};
 
 const SnackbarContentsWrapper = withStyles(styles)(SnackbarContents);
 
-class SnackbarFlashMessage extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          open={this.props.flashMessage.open}
-          autoHideDuration={6000}
-          onClose={this.props.hideFlashMessage}
-        >
-          <SnackbarContentsWrapper
-            onClose={this.props.hideFlashMessage}
-            variant={this.props.flashMessage.type}
-            message={this.props.flashMessage.message}
-          />
-        </Snackbar>
-      </div>
-    );
-  }
-}
+const SnackbarFlashMessage = props => {
+  return (
+    <div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={props.flashMessage.open}
+        autoHideDuration={6000}
+        onClose={props.hideFlashMessage}
+      >
+        <SnackbarContentsWrapper
+          onClose={props.hideFlashMessage}
+          variant={props.flashMessage.type}
+          message={props.flashMessage.message}
+        />
+      </Snackbar>
+    </div>
+  );
+};
 
 SnackbarFlashMessage.propTypes = {
   classes: PropTypes.object.isRequired
