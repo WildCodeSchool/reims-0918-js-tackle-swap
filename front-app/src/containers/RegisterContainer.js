@@ -1,24 +1,15 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 import Register from "../components/Register";
-import axios from "axios";
+import { makeShowFlashMessageAction } from "../actions/actions";
 
-class RegisterContainer extends Component {
-  submit = values =>
-    axios
-      .post("http://localhost:5000/user", {
-        gender: values.gender,
-        lastname: values.lastname,
-        firstname: values.firstname,
-        email: values.email,
-        nickname: values.nickname,
-        password: values.password
-      })
-      .then(result => console.log("user add", result))
-      .catch(result => console.log("response ERROR:", result));
+const mapStateToProps = state => ({});
 
-  render() {
-    return <Register onSubmit={this.submit} />;
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  setFlashMessage: responseApi =>
+    dispatch(makeShowFlashMessageAction(responseApi))
+});
 
-export default RegisterContainer;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);
