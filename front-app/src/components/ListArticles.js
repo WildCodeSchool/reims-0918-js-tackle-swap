@@ -3,10 +3,8 @@ import ThumbnailArticle from "./ThumbnailArticle";
 import InfiniteScroll from "react-infinite-scroller";
 
 import axios from "axios";
-import ls from "local-storage";
 
 import PropTypes from "prop-types";
-import Pagination from "react-js-pagination";
 import Grid from "@material-ui/core/Grid";
 
 class ListArticles extends Component {
