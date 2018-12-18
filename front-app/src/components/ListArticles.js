@@ -33,32 +33,31 @@ class ListArticles extends Component {
   }
   render() {
     const { pagination, articles } = this.props;
-
-    const loader = <div className="loader">Loading ...</div>;
-    const result = articles.map(
-      (article, index) =>
-        // <ThumbnailArticle {...article} key={index} />
-        article.name
-    );
-    return (
-      <div>
-        <InfiniteScroll
-          pageStart={1}
-          loadMore={this.callApiAllArticles}
-          hasMore={pagination.nextPage}
-          loader={loader}
-        >
-          <Grid
-            container
-            spacing={8}
-            alignItems="center"
-            direction="row"
-            justify="space-around"
-          >
-            {result}
-          </Grid>
-        </InfiniteScroll>
+    const loader = (
+      <div className="loader" key={0}>
+        Loading ...
       </div>
+    );
+    const result = articles.map((article, index) => (
+      <ThumbnailArticle {...article} key={index} />
+    ));
+    return (
+      <InfiniteScroll
+        pageStart={1}
+        loadMore={this.callApiAllArticles}
+        hasMore={pagination.nextPage}
+        loader={loader}
+      >
+        <Grid
+          container
+          spacing={8}
+          alignItems="center"
+          direction="row"
+          justify="space-around"
+        >
+          {result}
+        </Grid>
+      </InfiniteScroll>
     );
   }
 }
