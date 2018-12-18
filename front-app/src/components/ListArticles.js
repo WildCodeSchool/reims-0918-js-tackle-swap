@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import ThumbnailArticle from "./ThumbnailArticle";
+import InfiniteScroll from "react-infinite-scroller";
 
 import axios from "axios";
+import ls from "local-storage";
 
 import PropTypes from "prop-types";
 import Pagination from "react-js-pagination";
 import Grid from "@material-ui/core/Grid";
 
 class ListArticles extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasMoreItems: true
+    };
+  }
   handlePageChange = pageNumber => {
     this.props.changePage(pageNumber);
     this.callApiAllArticles(pageNumber);
@@ -25,28 +33,31 @@ class ListArticles extends Component {
   }
   render() {
     const { pagination, articles } = this.props;
+
+    const loader = <div className="loader">Loading ...</div>;
+    const result = articles.map(
+      (article, index) =>
+        // <ThumbnailArticle {...article} key={index} />
+        article.name
+    );
     return (
       <div>
-        <Grid
-          container
-          spacing={8}
-          alignItems="center"
-          direction="row"
-          justify="space-around"
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={this.callApiAllArticles}
+          hasMore={pagination.nextPage}
+          loader={loader}
         >
-          {articles.map((article, index) => (
-            <ThumbnailArticle {...article} key={index} />
-          ))}
-        </Grid>
-
-        <Pagination
-          hideDisabled
-          activePage={pagination.activePage}
-          itemsCountPerPage={pagination.numberArticlesPerPage}
-          totalItemsCount={pagination.totalArticles}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange}
-        />
+          <Grid
+            container
+            spacing={8}
+            alignItems="center"
+            direction="row"
+            justify="space-around"
+          >
+            {result}
+          </Grid>
+        </InfiniteScroll>
       </div>
     );
   }

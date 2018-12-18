@@ -95,7 +95,10 @@ const Register = props => {
         nickname: values.nickname,
         password: values.password
       })
-      .then(result => setFlashMessage(result.data.flashMessage))
+      .then(result => {
+        setFlashMessage(result.data.flashMessage);
+        props.history.push("/se-connecter");
+      })
       .catch(result => console.log("response ERROR:", result));
 
   return (

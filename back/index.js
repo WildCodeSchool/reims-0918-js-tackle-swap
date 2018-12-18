@@ -106,13 +106,15 @@ app.get("/articles", async (req, res) => {
       "Erreur avec la base de donnée, veuillez contacter un administrateur"
     );
   }
-
+  const nextPage =
+    pageCalled * numberArticlesPerPage < totalArticles ? true : false;
   const responseApi = {
     articles: rawResponseApi.results,
     pagination: {
       activePage: pageCalled,
       numberArticlesPerPage: numberArticlesPerPage,
-      totalArticles
+      totalArticles,
+      nextPage
     }
   };
   sendResponse(res, 200, "success", responseApi);

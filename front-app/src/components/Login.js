@@ -3,6 +3,7 @@ import { Paper, Grid } from "@material-ui/core";
 import { Field, reduxForm } from "redux-form";
 import axios from "axios";
 import ls from "local-storage";
+import { withRouter } from "react-router-dom";
 
 const Login = props => {
   const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
@@ -13,6 +14,7 @@ const Login = props => {
       .then(result => {
         ls.set("jwt-tackle-swap", result.data.token);
         setFlashMessage(result.data.flashMessage);
+        props.history.push("/");
       })
       .catch(result => console.log("response ERROR:", result));
   return (
