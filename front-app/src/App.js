@@ -9,7 +9,7 @@ import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
 import AddArticleContainer from "./containers/AddArticleContainer";
 import LoginContainer from "./containers/LoginContainer";
 import RegisterContainer from "./containers/RegisterContainer";
-import FlashMessage from "./containers/FlashMessageContainer";
+import FlashMessageContainer from "./containers/FlashMessageContainer";
 
 class App extends Component {
   render() {
@@ -34,7 +34,7 @@ class App extends Component {
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />
           </Switch>
-          <FlashMessage />
+          <FlashMessageContainer />
         </div>
       </div>
     );
