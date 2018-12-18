@@ -22,9 +22,11 @@ class ListArticles extends Component {
   };
 
   callApiAllArticles = currentPage => {
-    axios
-      .get(`http://localhost:5000/articles?page=${currentPage}`)
-      .then(results => this.props.articlesReceived(results.data.response));
+    setTimeout(() => {
+      axios
+        .get(`http://localhost:5000/articles?page=${currentPage}`)
+        .then(results => this.props.articlesReceived(results.data.response));
+    }, 2000);
   };
 
   componentDidMount() {
@@ -38,9 +40,6 @@ class ListArticles extends Component {
         Loading ...
       </div>
     );
-    const result = articles.map((article, index) => (
-      <ThumbnailArticle {...article} key={index} />
-    ));
     return (
       <InfiniteScroll
         pageStart={1}
@@ -55,7 +54,9 @@ class ListArticles extends Component {
           direction="row"
           justify="space-around"
         >
-          {result}
+          {articles.map((article, index) => (
+            <ThumbnailArticle {...article} key={index} />
+          ))}
         </Grid>
       </InfiniteScroll>
     );
