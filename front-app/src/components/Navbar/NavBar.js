@@ -105,11 +105,11 @@ class ButtonAppBar extends Component {
           alt="photo profil"
           className={classes.photoProfil}
         />
-        <List className={classes.Title}>
+        <List>
           {list
             .sort((a, b) => a.id - b.id)
             .map((link, index) => (
-              <ListItem button key={index} className={classes.Title}>
+              <ListItem button key={index}>
                 <ListItemIcon>{link.icon}</ListItemIcon>
                 <Link to={link.path} className={classes.Title}>
                   {link.name}
