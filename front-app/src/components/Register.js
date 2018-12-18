@@ -1,9 +1,16 @@
 import React from "react";
 import { Paper, Grid } from "@material-ui/core";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 import { Field, reduxForm } from "redux-form";
 
 const validate = values => {
   const errors = {};
+  if (!values.gender) {
+    errors.gender = "Requis.";
+  }
   if (!values.lastname) {
     errors.lastname = "Requis.";
   }
@@ -16,6 +23,10 @@ const validate = values => {
     errors.email = "Requis";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = "Adresse mail invalide.";
+  }
+
+  if (!values.nickname) {
+    errors.nickname = "Requis.";
   }
 
   if (!values.password) {
@@ -32,6 +43,7 @@ const validate = values => {
 
   return errors;
 };
+
 const renderField = ({
   input,
   label,
@@ -49,6 +61,25 @@ const renderField = ({
   </div>
 );
 
+const renderRadioGroup = ({
+  input,
+  meta: { touched, error, warning },
+  label,
+  ...rest
+}) => (
+  <React.Fragment>
+    <label>{label} : </label>{" "}
+    {touched &&
+      ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+    <RadioGroup
+      {...input}
+      {...rest}
+      valueselected={input.value}
+      onChange={(event, value) => input.onChange(value)}
+    />
+  </React.Fragment>
+);
+
 const Register = props => {
   const { handleSubmit, pristine, reset, submitting, onSubmit } = props;
 
@@ -57,6 +88,10 @@ const Register = props => {
       <Grid item xs={12}>
         <Paper>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <Field name="gender" component={renderRadioGroup} label="Sexe">
+              <FormControlLabel value="F" control={<Radio />} label="Female" />
+              <FormControlLabel value="M" control={<Radio />} label="Male" />
+            </Field>
             <Field
               name="lastname"
               type="text"
@@ -74,6 +109,12 @@ const Register = props => {
               type="email"
               component={renderField}
               label="Adresse Mail"
+            />
+            <Field
+              name="nickname"
+              type="nickname"
+              component={renderField}
+              label="Pseudo"
             />
             <Field
               name="password"
