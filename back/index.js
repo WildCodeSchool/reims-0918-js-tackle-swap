@@ -34,7 +34,12 @@ app.post("/user", (req, res) => {
         .status(409)
         .send("La requête ne peut pas être traitée à l'état actuel");
     } else {
-      res.sendStatus(200);
+      res.status(200).json({
+        flashMessage: {
+          message: "Vous êtes maintenant inscrit sur le site.",
+          type: "success"
+        }
+      });
     }
   });
 });
