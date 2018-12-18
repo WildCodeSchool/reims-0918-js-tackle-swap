@@ -114,23 +114,23 @@ class ButtonAppBar extends Component {
           {list
             .sort((a, b) => a.id - b.id)
             .map((link, index) => (
-              <React.Fragment>
-                <ListItem button key={index}>
-                  <ListItemIcon>{link.icon}</ListItemIcon>
+              <ListItem button key={index}>
+                <ListItemIcon>{link.icon}</ListItemIcon>
+
+                {link.name === "Se déconnecter" ? (
+                  <Link
+                    to={link.path}
+                    onClick={e => this.disconnect(e)}
+                    className={classes.Title}
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
                   <Link to={link.path} className={classes.Title}>
                     {link.name}
                   </Link>
-                </ListItem>
-                <ListItem button key={index} className={classes.Title}>
-                  {link.name === "Se déconnecter" ? (
-                    <Link to={link.path} onClick={e => this.disconnect(e)}>
-                      {link.name}
-                    </Link>
-                  ) : (
-                    <Link to={link.path}>{link.name}</Link>
-                  )}
-                </ListItem>
-              </React.Fragment>
+                )}
+              </ListItem>
             ))}
         </List>
       </div>
