@@ -2,7 +2,9 @@ import {
   ARTICLES_RECEIVED,
   FETCH_ARTICLES,
   CHANGE_PAGE,
-  SHOW_ARTICLE_DETAILS
+  SHOW_ARTICLE_DETAILS,
+  SHOW_FLASH_MESSAGE,
+  CLOSE_FLASH_MESSAGE
 } from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
@@ -22,4 +24,13 @@ export const makeChangePageAction = pageNumber => ({
 export const makeShowArticleDetailsAction = responseApi => ({
   type: SHOW_ARTICLE_DETAILS,
   responseApi
+});
+
+export const makeShowFlashMessageAction = responseApi => ({
+  type: SHOW_FLASH_MESSAGE,
+  flashMessage: responseApi
+});
+
+export const makeCloseFlashMessageAction = () => ({
+  type: CLOSE_FLASH_MESSAGE
 });

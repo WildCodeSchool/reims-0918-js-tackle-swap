@@ -22,11 +22,7 @@ passport.use(
       if (!user) {
         return cb(null, false, { message: "Pseudo ou mot de passe incorrect" });
       } else {
-        return cb(
-          null,
-          { id: user.id, nickname: user.nickname },
-          { message: "Connecté" }
-        );
+        return cb(null, { id: user.id, nickname: user.nickname });
       }
     }
   )
