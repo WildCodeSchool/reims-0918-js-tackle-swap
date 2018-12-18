@@ -4,6 +4,8 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import axios from "axios";
+
 import { Field, reduxForm } from "redux-form";
 
 const validate = values => {
@@ -81,16 +83,29 @@ const renderRadioGroup = ({
 );
 
 const Register = props => {
-  const { handleSubmit, pristine, reset, submitting, onSubmit } = props;
+  const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
+
+  const submit = values =>
+    axios
+      .post("http://localhost:5000/user", {
+        gender: values.gender,
+        lastname: values.lastname,
+        firstname: values.firstname,
+        email: values.email,
+        nickname: values.nickname,
+        password: values.password
+      })
+      .then(result => setFlashMessage(result.data.flashMessage))
+      .catch(result => console.log("response ERROR:", result));
 
   return (
     <Grid container>
       <Grid item xs={12}>
         <Paper>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(submit)}>
             <Field name="gender" component={renderRadioGroup} label="Sexe">
-              <FormControlLabel value="F" control={<Radio />} label="Female" />
-              <FormControlLabel value="M" control={<Radio />} label="Male" />
+              <FormControlLabel value="F" control={<Radio />} label="Femme" />
+              <FormControlLabel value="M" control={<Radio />} label="Homme" />
             </Field>
             <Field
               name="lastname"

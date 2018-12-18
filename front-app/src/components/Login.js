@@ -1,15 +1,25 @@
 import React from "react";
 import { Paper, Grid } from "@material-ui/core";
 import { Field, reduxForm } from "redux-form";
+import axios from "axios";
+import ls from "local-storage";
 
 const Login = props => {
-  const { handleSubmit, pristine, reset, submitting, onSubmit } = props;
+  const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
 
+  const submit = values =>
+    axios
+      .post("http://localhost:5000/auth/login", values)
+      .then(result => {
+        ls.set("jwt-tackle-swap", result.data.token);
+        setFlashMessage(result.data.flashMessage);
+      })
+      .catch(result => console.log("response ERROR:", result));
   return (
     <Grid container>
       <Grid item xs={12}>
         <Paper>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(submit)}>
             <div>
               <label htmlFor="nickname">Pseudo :</label>
               <div>
