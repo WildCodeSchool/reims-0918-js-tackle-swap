@@ -5,6 +5,9 @@ import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -53,7 +56,7 @@ class ButtonAppBar extends Component {
       <div className={classes.list}>
         <List>
           {[
-            { name: "Accueil", path: "/" },
+            { name: "Accueil", path: "/", icon: "tretre" },
             { name: "Rechercher", path: "/" },
             { name: "Ajouter un article", path: "/ajouter-un-article" },
             { name: "Message", path: "/" },
@@ -61,6 +64,7 @@ class ButtonAppBar extends Component {
             { name: "Paramètres", path: "/" }
           ].map((link, index) => (
             <ListItem button key={index}>
+              <ListItemIcon>{link.icon}</ListItemIcon>
               <Link to={link.path} className={classes.Title}>
                 {link.name}
               </Link>
