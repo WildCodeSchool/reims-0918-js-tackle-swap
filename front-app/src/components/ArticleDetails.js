@@ -25,14 +25,7 @@ class ArticleDetails extends Component {
         <div className="ArticleDetails">
           <h2 className="TitleDescription">
             {this.props.articleDetails.name}
-            <i
-              className="far fa-heart"
-              style={{
-                color: "#00cccc",
-                fontSize: "22px",
-                padding: "5px"
-              }}
-            />
+            <FavoriteArticleDetails />
           </h2>
 
           <PicturesArticleDetails {...this.props.articleDetails} />
