@@ -12,21 +12,24 @@ const AddArticleSecondPage = props => {
           onChange={event => handleChangeAddPicture(event)}
         />
       </div>
-      {picturesUploaded.length > 0 && (
-        <div>
-          <img
-            src={`${process.env.REACT_APP_URL_API}${picturesUploaded[0]}`}
-            alt={picturesUploaded[0]}
-            style={{
-              maxHeight: 170,
-              maxWidth: 170,
-              marginLeft: 10,
-              width: "100%",
-              objectFit: "contain"
-            }}
-          />
-        </div>
-      )}
+      {picturesUploaded.length > 0 &&
+        picturesUploaded.map(picture => (
+          <div>
+            <img
+              src={`${process.env.REACT_APP_URL_API}${picture}`}
+              alt={picturesUploaded[0]}
+              style={{
+                maxHeight: 170,
+                maxWidth: 170,
+                margin: 10,
+                width: "100%",
+                objectFit: "contain"
+              }}
+            />
+            <p>En faire la photo principale</p>
+            <p>Supprimer</p>
+          </div>
+        ))}
       <div>
         <button>Prévisualiser mon annonce</button>
       </div>

@@ -30,7 +30,9 @@ const styles = {
 };
 
 function ThumbnailArticle(props) {
-  const { classes, picture, name, id } = props;
+  const { classes, pictures, name, id } = props;
+  const mainPicture = pictures.filter(picture => picture.main_picture);
+  const picture = mainPicture[0].url_picture;
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
       <Link className={classes.link} to={{ pathname: `/article/${id}` }}>

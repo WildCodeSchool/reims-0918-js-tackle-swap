@@ -106,7 +106,7 @@ app.get("/articles", async (req, res) => {
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name FROM articles LIMIT ${limit}`
+    `SELECT id, name FROM articles ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -119,20 +119,26 @@ app.get("/articles", async (req, res) => {
     );
   }
   const articles = rawResponseApi.results;
+
   const rawArticlesPictures = await bddQuery(
-    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id BETWEEN 1 AND 20`
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id BETWEEN ${
+      articles[0].id
+    } AND ${articles[articles.length - 1].id}`
   );
 
   // create object with ID for keys to group picture by id
   const groupPicturesById = rawArticlesPictures.results.reduce((acc, obj) => {
-    var cle = obj["article_id"];
+    const cle = obj["article_id"];
     if (!acc[cle]) {
-      acc[cle] = [];
+      acc[cle] = [{ mainIsDefine: false }];
     }
     acc[cle] = [
       ...acc[cle],
       { url_picture: obj.url_picture, main_picture: obj.main_picture }
     ];
+    if (obj.main_picture) {
+      acc[cle][0].mainIsDefine = true;
+    }
     return acc;
   }, {});
 
@@ -143,9 +149,14 @@ app.get("/articles", async (req, res) => {
     const currentId = obj.id;
 
     if (keyPictures.includes(currentId.toString())) {
-      obj.picture = groupPicturesById[currentId];
+      const mainIsDefine = groupPicturesById[currentId][0].mainIsDefine;
+      groupPicturesById[currentId].shift();
+      if (!mainIsDefine) {
+        groupPicturesById[currentId][0].main_picture = 1;
+      }
+      obj.pictures = groupPicturesById[currentId];
     } else {
-      obj.picture = [
+      obj.pictures = [
         {
           url_picture: "/data/pictures_articles/default.png",
           main_picture: 1
@@ -206,7 +217,19 @@ app.get("/article/:id", async (req, res) => {
     );
   }
 
-  const responseApi = rawArticleDetails.results;
+  const rawArticlePictures = await bddQuery(
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id = ${idArticle}`
+  );
+
+  const pictures = rawArticlePictures.results.reduce((acc, obj) => {
+    return [
+      ...acc,
+      { url_picture: obj.url_picture, main_picture: obj.main_picture }
+    ];
+  }, []);
+
+  let responseApi = rawArticleDetails.results;
+  responseApi[0].pictures = pictures;
 
   sendResponse(res, 200, "success", responseApi);
 });
@@ -261,13 +284,12 @@ app.post(
             }
           });
         }
-        const picture = {
-          picture: `/data/pictures_articles/${idArticle}/${currentUpload.name}`
-        };
+        const picture = `/data/pictures_articles/${idArticle}/${
+          currentUpload.name
+        }`;
 
         const insertArticle = await bddQuery(
-          `UPDATE articles SET ? WHERE id = ${idArticle}`,
-          [picture]
+          `INSERT INTO pictures_articles (url_picture, article_id) VALUES ('${picture}', ${idArticle} )`
         );
         if (insertArticle.err) {
           return sendResponse(res, 409, "error", {
@@ -278,12 +300,7 @@ app.post(
           });
         }
 
-        sendResponse(
-          res,
-          200,
-          "success",
-          `/data/pictures_articles/${idArticle}/${currentUpload.name}`
-        );
+        sendResponse(res, 200, "success", picture);
       }
     );
 
