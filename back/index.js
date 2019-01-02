@@ -106,7 +106,7 @@ app.get("/articles", async (req, res) => {
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name, picture from articles LIMIT ${limit}`
+    `SELECT id, name FROM articles LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -118,10 +118,48 @@ app.get("/articles", async (req, res) => {
       "Erreur avec la base de donnée, veuillez contacter un administrateur"
     );
   }
+  const articles = rawResponseApi.results;
+  const rawArticlesPictures = await bddQuery(
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id BETWEEN 1 AND 20`
+  );
+
+  // create object with ID for keys to group picture by id
+  const groupPicturesById = rawArticlesPictures.results.reduce((acc, obj) => {
+    var cle = obj["article_id"];
+    if (!acc[cle]) {
+      acc[cle] = [];
+    }
+    acc[cle] = [
+      ...acc[cle],
+      { url_picture: obj.url_picture, main_picture: obj.main_picture }
+    ];
+    return acc;
+  }, {});
+
+  const keyPictures = Object.keys(groupPicturesById);
+
+  // create object array with object array for pictures
+  articlesResult = articles.reduce((acc, obj) => {
+    const currentId = obj.id;
+
+    if (keyPictures.includes(currentId.toString())) {
+      obj.picture = groupPicturesById[currentId];
+    } else {
+      obj.picture = [
+        {
+          url_picture: "/data/pictures_articles/default.png",
+          main_picture: 1
+        }
+      ];
+    }
+    acc = [...acc, obj];
+    return acc;
+  }, []);
+
   const nextPage =
     pageCalled * numberArticlesPerPage < totalArticles ? true : false;
   const responseApi = {
-    articles: rawResponseApi.results,
+    articles: articlesResult,
     pagination: {
       activePage: pageCalled,
       numberArticlesPerPage: numberArticlesPerPage,

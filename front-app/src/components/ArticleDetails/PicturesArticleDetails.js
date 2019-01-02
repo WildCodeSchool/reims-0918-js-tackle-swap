@@ -27,7 +27,8 @@ const styles = theme => ({
     display: "block",
     maxWidth: 400,
     overflow: "hidden",
-    width: "100%"
+    width: "100%",
+    objectFit: "contain"
   },
   mobileStepper: {
     backgroundColor: "#d1e0e0"

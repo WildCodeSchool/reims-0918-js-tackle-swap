@@ -16,28 +16,22 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   db.createTable(
-    "articles",
+    "pictures_articles",
     {
       id: { type: "int", primaryKey: true, autoIncrement: true },
-      name: { type: "string", notNull: true },
-      swap: { type: "boolean", notNull: true, defaultValue: false },
-      description: { type: "text" },
-      brand: { type: "string", length: 100 },
-      article_length: { type: "decimal", length: "6,2" },
-      article_weight: { type: "int", length: 4 },
-      article_color: { type: "string", length: 50 },
-      article_state: { type: "int", length: 1 },
-      create_at: {
+      url_picture: { type: "string" },
+      main_picture: { type: "boolean", notNull: true, defaultValue: false },
+      upload_at: {
         type: "datetime",
         notNull: true,
         defaultValue: new String("NOW()")
       },
-      owner_id: {
+      article_id: {
         type: "int",
         notNull: true,
         foreignKey: {
-          name: "articles_users_id_fk",
-          table: "users",
+          name: "pictures_articles_articles_id_fk",
+          table: "articles",
           mapping: "id",
           rules: { onDelete: "CASCADE" }
         }
@@ -48,7 +42,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable("articles", callback);
+  db.dropTable("pictures_articles", callback);
 };
 
 exports._meta = {

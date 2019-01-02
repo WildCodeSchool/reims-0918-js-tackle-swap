@@ -17,6 +17,13 @@ const AddArticleSecondPage = props => {
           <img
             src={`${process.env.REACT_APP_URL_API}${picturesUploaded[0]}`}
             alt={picturesUploaded[0]}
+            style={{
+              maxHeight: 170,
+              maxWidth: 170,
+              marginLeft: 10,
+              width: "100%",
+              objectFit: "contain"
+            }}
           />
         </div>
       )}
