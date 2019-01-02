@@ -33,5 +33,8 @@ export const validate = values => {
     errors.passwordBis = "Les deux mots de passes ne sont pas identiques.";
   }
 
+  if (!values.name) {
+    errors.name = "Requis.";
+  }
   return errors;
 };

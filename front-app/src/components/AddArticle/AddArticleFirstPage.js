@@ -85,7 +85,5 @@ const AddArticleFirstPage = props => {
 };
 export default reduxForm({
   form: "addArticle",
-  destroyOnUnmount: false, // <------ preserve form data
-  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
   validate
 })(AddArticleFirstPage);
