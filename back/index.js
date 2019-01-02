@@ -7,18 +7,30 @@ const port = 5000;
 const bodyParser = require("body-parser");
 const auth = require("./routes/auth");
 const passport = require("passport");
+const fileUpload = require("express-fileupload");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
 const addLog = require("./function/addLog");
 const sendResponse = require("./function/sendResponse");
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "10mb", extended: true }));
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    limit: "10mb",
+    extended: true,
+    parameterLimit: 1000000
   })
 );
+
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+    createParentPath: true
+  })
+);
+app.use("/data", express.static(__dirname + "/data"));
 require("./passport-strategy");
 
 app.use(cors());
@@ -172,7 +184,72 @@ app.post(
       req.body
     );
     const responseApi = { insertId: insertArticle.results.insertId };
-    sendResponse(res, 200, "success", { responseApi });
+    sendResponse(res, 200, "success", responseApi);
+  }
+);
+
+app.post(
+  "/picture/article/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idArticle = req.params.id;
+    if (!req.files) {
+      return sendResponse(res, 500, "error", {
+        flashMessage: {
+          message: "Merci de remplir le champ photo.",
+          type: "error"
+        }
+      });
+    }
+    const currentUpload = req.files.picture;
+    if (!currentUpload.mimetype.includes("image/")) {
+      return sendResponse(res, 500, "error", {
+        flashMessage: {
+          message: "Merci d'envoyer uniquement des images / photos.",
+          type: "error"
+        }
+      });
+    }
+
+    currentUpload.mv(
+      `${__dirname}/data/pictures_articles/${idArticle}/${currentUpload.name}`,
+      async err => {
+        if (err) {
+          console.log(err);
+          return sendResponse(res, 500, "error", {
+            flashMessage: {
+              message: "Un problème est survenu durant l'upload de l'image.",
+              type: "error"
+            }
+          });
+        }
+        const picture = {
+          picture: `/data/pictures_articles/${idArticle}/${currentUpload.name}`
+        };
+
+        const insertArticle = await bddQuery(
+          `UPDATE articles SET ? WHERE id = ${idArticle}`,
+          [picture]
+        );
+        if (insertArticle.err) {
+          return sendResponse(res, 409, "error", {
+            flashMessage: {
+              message: insertArticle.err,
+              type: "error"
+            }
+          });
+        }
+
+        sendResponse(
+          res,
+          200,
+          "success",
+          `/data/pictures_articles/${idArticle}/${currentUpload.name}`
+        );
+      }
+    );
+
+    console.log(currentUpload);
   }
 );
 

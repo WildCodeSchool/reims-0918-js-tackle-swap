@@ -58,7 +58,7 @@ class SwipeableTextMobileStepper extends React.Component {
   render() {
     const tutorialSteps = [
       {
-        imgPath: this.props.picture
+        imgPath: `${process.env.REACT_APP_URL_API}${this.props.picture}`
       }
     ];
     const { classes, theme } = this.props;

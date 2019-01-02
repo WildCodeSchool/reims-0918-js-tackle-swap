@@ -18,7 +18,8 @@ class AddArticle extends Component {
     this.state = {
       page: 1,
       idArticle: null,
-      selectedFilesUpload: null
+      selectedFilesUpload: null,
+      picturesUploaded: []
     };
   }
   onSubmitInformations = values =>
@@ -41,12 +42,11 @@ class AddArticle extends Component {
 
   handleChangeAddPicture = event => {
     this.setState({ selectedFilesUpload: event.target.files[0] }, () =>
-      console.log(this.state.selectedFilesUpload)
+      this.submitPicture()
     );
   };
 
-  submitPicture = event => {
-    event.preventDefault();
+  submitPicture = () => {
     const data = new FormData();
     data.append("picture", this.state.selectedFilesUpload);
 
@@ -62,7 +62,19 @@ class AddArticle extends Component {
           }
         }
       )
-      .then(result => console.log(result));
+      .then(result => {
+        console.log(result);
+        document.getElementById("picture").value = "";
+        this.setState({
+          picturesUploaded: [
+            ...this.state.picturesUploaded,
+            result.data.response
+          ]
+        });
+      })
+      .catch(error =>
+        console.log(error.response.data.response.flashMessage.message)
+      );
   };
 
   nextPage(e) {
@@ -89,6 +101,7 @@ class AddArticle extends Component {
                 onSubmit={this.nextPage}
                 handleChangeAddPicture={this.handleChangeAddPicture}
                 submitPicture={this.submitPicture}
+                picturesUploaded={this.state.picturesUploaded}
               />
             )}
             {page === 3 && <p>Add</p>}

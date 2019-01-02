@@ -1,21 +1,27 @@
 import React from "react";
 
 const AddArticleSecondPage = props => {
-  const { handleChangeAddPicture, submitPicture } = props;
+  const { handleChangeAddPicture, picturesUploaded } = props;
   return (
     <form>
       <div>
         <input
           type="file"
-          name="pictures"
-          multiple
+          name="picture"
+          id="picture"
           onChange={event => handleChangeAddPicture(event)}
         />
       </div>
+      {picturesUploaded.length > 0 && (
+        <div>
+          <img
+            src={`${process.env.REACT_APP_URL_API}${picturesUploaded[0]}`}
+            alt={picturesUploaded[0]}
+          />
+        </div>
+      )}
       <div>
-        <button onClick={event => submitPicture(event)}>
-          Ajouter mon leurre
-        </button>
+        <button>Prévisualiser mon annonce</button>
       </div>
     </form>
   );

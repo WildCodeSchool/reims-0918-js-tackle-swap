@@ -36,7 +36,10 @@ function ThumbnailArticle(props) {
       <Link className={classes.link} to={{ pathname: `/article/${id}` }}>
         <Card className={classes.card}>
           <CardActionArea>
-            <CardMedia className={classes.media} image={picture} />
+            <CardMedia
+              className={classes.media}
+              image={`${process.env.REACT_APP_URL_API}${picture}`}
+            />
             <CardContent>
               <Typography
                 className={classes.textTitle}
