@@ -336,7 +336,6 @@ app.get("/user_articles/:iduser", (req, res) => {
 });
 
 app.put("/main", async (req, res) => {
-  console.log(req.query);
   const { idPicture, idArticle } = req.query;
   const upadteMainPicture = await bddQuery(
     `UPDATE pictures_articles sicles SET main_picture = (CASE WHEN id = ${idPicture} THEN TRUE ELSE FALSE END) WHERE article_id = ${idArticle}`
@@ -354,6 +353,24 @@ app.put("/main", async (req, res) => {
   sendResponse(res, 200, "success", {
     idPicture,
     idArticle
+  });
+});
+
+app.delete("/picture/:id", async (req, res) => {
+  const idPicture = req.params.id;
+  const deletePicture = await bddQuery(
+    `DELETE FROM pictures_articles WHERE id = ${idPicture}`
+  );
+  if (deletePicture.err) {
+    return sendResponse(res, 500, "error", {
+      flashMessage: {
+        message: "Un problème est survenu durant la suppression de l'image.",
+        type: "error"
+      }
+    });
+  }
+  sendResponse(res, 200, "success", {
+    idPicture
   });
 });
 
