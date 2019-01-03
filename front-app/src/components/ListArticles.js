@@ -20,11 +20,9 @@ class ListArticles extends Component {
   };
 
   callApiAllArticles = currentPage => {
-    setTimeout(() => {
-      axios
-        .get(`http://localhost:5000/articles?page=${currentPage}`)
-        .then(results => this.props.articlesReceived(results.data.response));
-    }, 2000);
+    axios
+      .get(`http://localhost:5000/articles?page=${currentPage}`)
+      .then(results => this.props.articlesReceived(results.data.response));
   };
 
   componentDidMount() {

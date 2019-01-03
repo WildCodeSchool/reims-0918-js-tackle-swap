@@ -7,18 +7,30 @@ const port = 5000;
 const bodyParser = require("body-parser");
 const auth = require("./routes/auth");
 const passport = require("passport");
+const fileUpload = require("express-fileupload");
 
 const defineLimit = require("./function/defineLimit");
 const bddQuery = require("./function/bddQuery");
 const addLog = require("./function/addLog");
 const sendResponse = require("./function/sendResponse");
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "10mb", extended: true }));
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    limit: "10mb",
+    extended: true,
+    parameterLimit: 1000000
   })
 );
+
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+    createParentPath: true
+  })
+);
+app.use("/data", express.static(__dirname + "/data"));
 require("./passport-strategy");
 
 app.use(cors());
@@ -94,7 +106,7 @@ app.get("/articles", async (req, res) => {
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name, picture from articles LIMIT ${limit}`
+    `SELECT id, name FROM articles ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -106,10 +118,59 @@ app.get("/articles", async (req, res) => {
       "Erreur avec la base de donnée, veuillez contacter un administrateur"
     );
   }
+  const articles = rawResponseApi.results;
+
+  const rawArticlesPictures = await bddQuery(
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id BETWEEN ${
+      articles[0].id
+    } AND ${articles[articles.length - 1].id}`
+  );
+
+  // create object with ID for keys to group picture by id
+  const groupPicturesById = rawArticlesPictures.results.reduce((acc, obj) => {
+    const cle = obj["article_id"];
+    if (!acc[cle]) {
+      acc[cle] = [{ mainIsDefine: false }];
+    }
+    acc[cle] = [
+      ...acc[cle],
+      { url_picture: obj.url_picture, main_picture: obj.main_picture }
+    ];
+    if (obj.main_picture) {
+      acc[cle][0].mainIsDefine = true;
+    }
+    return acc;
+  }, {});
+
+  const keyPictures = Object.keys(groupPicturesById);
+
+  // create object array with object array for pictures
+  const articlesResult = articles.reduce((acc, obj) => {
+    const currentId = obj.id;
+
+    if (keyPictures.includes(currentId.toString())) {
+      const mainIsDefine = groupPicturesById[currentId][0].mainIsDefine;
+      groupPicturesById[currentId].shift();
+      if (!mainIsDefine) {
+        groupPicturesById[currentId][0].main_picture = 1;
+      }
+      obj.pictures = groupPicturesById[currentId];
+    } else {
+      obj.pictures = [
+        {
+          url_picture: "/data/pictures_articles/default.png",
+          main_picture: 1
+        }
+      ];
+    }
+    acc = [...acc, obj];
+    return acc;
+  }, []);
+
   const nextPage =
     pageCalled * numberArticlesPerPage < totalArticles ? true : false;
   const responseApi = {
-    articles: rawResponseApi.results,
+    articles: articlesResult,
     pagination: {
       activePage: pageCalled,
       numberArticlesPerPage: numberArticlesPerPage,
@@ -156,7 +217,19 @@ app.get("/article/:id", async (req, res) => {
     );
   }
 
-  const responseApi = rawArticleDetails.results;
+  const rawArticlePictures = await bddQuery(
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id = ${idArticle}`
+  );
+
+  const pictures = rawArticlePictures.results.reduce((acc, obj) => {
+    return [
+      ...acc,
+      { url_picture: obj.url_picture, main_picture: obj.main_picture }
+    ];
+  }, []);
+
+  let responseApi = rawArticleDetails.results;
+  responseApi[0].pictures = pictures;
 
   sendResponse(res, 200, "success", responseApi);
 });
@@ -172,7 +245,67 @@ app.post(
       req.body
     );
     const responseApi = { insertId: insertArticle.results.insertId };
-    sendResponse(res, 200, "success", { responseApi });
+    sendResponse(res, 200, "success", responseApi);
+  }
+);
+
+app.post(
+  "/picture/article/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idArticle = req.params.id;
+    if (!req.files) {
+      return sendResponse(res, 500, "error", {
+        flashMessage: {
+          message: "Merci de remplir le champ photo.",
+          type: "error"
+        }
+      });
+    }
+    const currentUpload = req.files.picture;
+    if (!currentUpload.mimetype.includes("image/")) {
+      return sendResponse(res, 500, "error", {
+        flashMessage: {
+          message: "Merci d'envoyer uniquement des images / photos.",
+          type: "error"
+        }
+      });
+    }
+
+    currentUpload.mv(
+      `${__dirname}/data/pictures_articles/${idArticle}/${currentUpload.name}`,
+      async err => {
+        if (err) {
+          console.log(err);
+          return sendResponse(res, 500, "error", {
+            flashMessage: {
+              message: "Un problème est survenu durant l'upload de l'image.",
+              type: "error"
+            }
+          });
+        }
+        const picture = `/data/pictures_articles/${idArticle}/${
+          currentUpload.name
+        }`;
+
+        const insertArticle = await bddQuery(
+          `INSERT INTO pictures_articles (url_picture, article_id) VALUES ('${picture}', ${idArticle} )`
+        );
+        if (insertArticle.err) {
+          return sendResponse(res, 409, "error", {
+            flashMessage: {
+              message: insertArticle.err,
+              type: "error"
+            }
+          });
+        }
+        sendResponse(res, 200, "success", {
+          picture,
+          idPicture: insertArticle.results.insertId,
+          mainPicture: 0
+        });
+      }
+    );
   }
 );
 
@@ -200,6 +333,28 @@ app.get("/user_articles/:iduser", (req, res) => {
         )
         .status(202)
     : res.status(404).send("La vitrine recherchée n'existe pas");
+});
+
+app.put("/main", async (req, res) => {
+  console.log(req.query);
+  const { idPicture, idArticle } = req.query;
+  const upadteMainPicture = await bddQuery(
+    `UPDATE pictures_articles sicles SET main_picture = (CASE WHEN id = ${idPicture} THEN TRUE ELSE FALSE END) WHERE article_id = ${idArticle}`
+  );
+  if (upadteMainPicture.err) {
+    return sendResponse(res, 500, "error", {
+      flashMessage: {
+        message:
+          "Un problème est survenu durant la mise à jour de l'image principale.",
+        type: "error"
+      }
+    });
+  }
+
+  sendResponse(res, 200, "success", {
+    idPicture,
+    idArticle
+  });
 });
 
 app.listen(port, err => {

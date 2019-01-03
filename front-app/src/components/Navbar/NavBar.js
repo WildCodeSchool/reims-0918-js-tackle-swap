@@ -107,7 +107,7 @@ class ButtonAppBar extends Component {
       <div className={classes.list}>
         <img
           src="http://image.noelshack.com/fichiers/2018/51/2/1545143709-avatar.png"
-          alt="photo profil"
+          alt="profil"
           className={classes.photoProfil}
         />
         <List>

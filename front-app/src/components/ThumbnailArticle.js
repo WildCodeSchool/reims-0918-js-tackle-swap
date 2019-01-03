@@ -5,7 +5,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
@@ -30,14 +29,20 @@ const styles = {
 };
 
 function ThumbnailArticle(props) {
-  const { classes, picture, name, id } = props;
+  const { classes, pictures, name, id } = props;
+  const mainPicture = pictures.filter(picture => picture.main_picture);
+  const picture = mainPicture[0].url_picture;
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
       <Link className={classes.link} to={{ pathname: `/article/${id}` }}>
         <Card className={classes.card}>
           <CardActionArea>
-            <CardMedia className={classes.media} image={picture} />
             <CardContent>
+              <img
+                src={`${process.env.REACT_APP_URL_API}${picture}`}
+                alt={`${process.env.REACT_APP_URL_API}${picture}`}
+                style={{ width: "100%", height: 140, objectFit: "contain" }}
+              />
               <Typography
                 className={classes.textTitle}
                 gutterBottom

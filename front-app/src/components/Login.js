@@ -65,6 +65,8 @@ const Login = props => {
   );
 };
 
-export default reduxForm({
-  form: "login"
-})(Login);
+export default withRouter(
+  reduxForm({
+    form: "login"
+  })(Login)
+);

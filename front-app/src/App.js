@@ -6,7 +6,7 @@ import background from "./images/background-white.jpg";
 import ListArticlesContainer from "./containers/ListArticlesContainer";
 import NavBar from "./components/Navbar/NavBar";
 import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
-import AddArticleContainer from "./containers/AddArticleContainer";
+import AddArticle from "./components/AddArticle/AddArticle";
 import LoginContainer from "./containers/LoginContainer";
 import RegisterContainer from "./containers/RegisterContainer";
 import FlashMessageContainer from "./containers/FlashMessageContainer";
@@ -30,7 +30,7 @@ class App extends Component {
               path="/article/:id"
               component={ArticleDetailsContainer}
             />
-            <Route path="/ajouter-un-article" component={AddArticleContainer} />
+            <Route path="/ajouter-un-article" component={AddArticle} />
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />
           </Switch>

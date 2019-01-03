@@ -1,86 +1,12 @@
 import React from "react";
 import { Paper, Grid } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import axios from "axios";
-
 import { Field, reduxForm } from "redux-form";
-
-const validate = values => {
-  const errors = {};
-  if (!values.gender) {
-    errors.gender = "Requis.";
-  }
-  if (!values.lastname) {
-    errors.lastname = "Requis.";
-  }
-
-  if (!values.firstname) {
-    errors.firstname = "Requis.";
-  }
-
-  if (!values.email) {
-    errors.email = "Requis";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = "Adresse mail invalide.";
-  }
-
-  if (!values.nickname) {
-    errors.nickname = "Requis.";
-  }
-
-  if (!values.password) {
-    errors.password = "Requis.";
-  } else if (values.password.length < 6) {
-    errors.password = "6 caractères minimum.";
-  }
-
-  if (!values.passwordBis) {
-    errors.passwordBis = "Requis.";
-  } else if (values.password !== values.passwordBis) {
-    errors.passwordBis = "Les deux mots de passes ne sont pas identiques.";
-  }
-
-  return errors;
-};
-
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning }
-}) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type} />
-      {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
-
-const renderRadioGroup = ({
-  input,
-  meta: { touched, error, warning },
-  label,
-  ...rest
-}) => (
-  <React.Fragment>
-    <label>{label} : </label>{" "}
-    {touched &&
-      ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-    <RadioGroup
-      {...input}
-      {...rest}
-      valueselected={input.value}
-      onChange={(event, value) => input.onChange(value)}
-    />
-  </React.Fragment>
-);
+import { renderField, renderRadioGroup } from "./Form/RenderField";
+import { validate } from "./Form/Validate";
 
 const Register = props => {
   const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
