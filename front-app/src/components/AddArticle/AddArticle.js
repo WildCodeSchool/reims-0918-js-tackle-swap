@@ -13,6 +13,7 @@ class AddArticle extends Component {
     this.onSubmitInformations = this.onSubmitInformations.bind(this);
     this.handleChangeAddPicture = this.handleChangeAddPicture.bind(this);
     this.submitPicture = this.submitPicture.bind(this);
+    this.defineMainPicture = this.defineMainPicture.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.state = {
@@ -77,6 +78,33 @@ class AddArticle extends Component {
       );
   };
 
+  defineMainPicture(idPicture) {
+    axios
+      .put(
+        `http://localhost:5000/main?idPicture=${idPicture}&idArticle=${
+          this.state.idArticle
+        }`,
+        {
+          headers: {
+            ContentType: "multipart/form-data",
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        console.log(results);
+        const { idPicture } = results.data.response;
+        const picturesUploaded = [...this.state.picturesUploaded];
+        const newPicturesUplaoded = picturesUploaded.map(picture =>
+          picture.idPicture === parseInt(idPicture)
+            ? { ...picture, mainPicture: 1 }
+            : { ...picture, mainPicture: 0 }
+        );
+        this.setState({ picturesUploaded: newPicturesUplaoded });
+      });
+  }
+
   nextPage(e) {
     e.preventDefault();
     this.setState({ page: this.state.page + 1 });
@@ -102,6 +130,8 @@ class AddArticle extends Component {
                 handleChangeAddPicture={this.handleChangeAddPicture}
                 submitPicture={this.submitPicture}
                 picturesUploaded={this.state.picturesUploaded}
+                idArticle={this.state.idArticle}
+                defineMainPicture={this.defineMainPicture}
               />
             )}
             {page === 3 && <p>Add</p>}

@@ -145,7 +145,7 @@ app.get("/articles", async (req, res) => {
   const keyPictures = Object.keys(groupPicturesById);
 
   // create object array with object array for pictures
-  articlesResult = articles.reduce((acc, obj) => {
+  const articlesResult = articles.reduce((acc, obj) => {
     const currentId = obj.id;
 
     if (keyPictures.includes(currentId.toString())) {
@@ -299,12 +299,13 @@ app.post(
             }
           });
         }
-
-        sendResponse(res, 200, "success", picture);
+        sendResponse(res, 200, "success", {
+          picture,
+          idPicture: insertArticle.results.insertId,
+          mainPicture: 0
+        });
       }
     );
-
-    console.log(currentUpload);
   }
 );
 
@@ -332,6 +333,28 @@ app.get("/user_articles/:iduser", (req, res) => {
         )
         .status(202)
     : res.status(404).send("La vitrine recherchée n'existe pas");
+});
+
+app.put("/main", async (req, res) => {
+  console.log(req.query);
+  const { idPicture, idArticle } = req.query;
+  const upadteMainPicture = await bddQuery(
+    `UPDATE pictures_articles sicles SET main_picture = (CASE WHEN id = ${idPicture} THEN TRUE ELSE FALSE END) WHERE article_id = ${idArticle}`
+  );
+  if (upadteMainPicture.err) {
+    return sendResponse(res, 500, "error", {
+      flashMessage: {
+        message:
+          "Un problème est survenu durant la mise à jour de l'image principale.",
+        type: "error"
+      }
+    });
+  }
+
+  sendResponse(res, 200, "success", {
+    idPicture,
+    idArticle
+  });
 });
 
 app.listen(port, err => {

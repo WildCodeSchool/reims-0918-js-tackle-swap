@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { Grid, Button } from "@material-ui/core";
 
 const AddArticleSecondPage = props => {
-  const { handleChangeAddPicture, picturesUploaded } = props;
+  const { handleChangeAddPicture, picturesUploaded, defineMainPicture } = props;
   return (
-    <form>
+    <Fragment>
       <div>
         <input
           type="file"
@@ -11,29 +12,57 @@ const AddArticleSecondPage = props => {
           id="picture"
           onChange={event => handleChangeAddPicture(event)}
         />
+        {picturesUploaded.length > 0 && (
+          <Grid container>
+            {picturesUploaded.map((pictureUploaded, index) => (
+              <Grid item key={index}>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <img
+                      src={`${process.env.REACT_APP_URL_API}${
+                        pictureUploaded.picture
+                      }`}
+                      alt={pictureUploaded[0]}
+                      style={{
+                        maxHeight: 140,
+                        maxWidth: 140,
+                        margin: 10,
+                        width: "100%",
+                        objectFit: "contain"
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    {pictureUploaded.mainPicture ? (
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "green", color: "white" }}
+                        disabled
+                      >
+                        Photo principale
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          defineMainPicture(pictureUploaded.idPicture)
+                        }
+                      >
+                        Mettre photo principale
+                      </Button>
+                    )}
+                    <Button>Supprimer la photo</Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </div>
-      {picturesUploaded.length > 0 &&
-        picturesUploaded.map((picture, index) => (
-          <div key={index}>
-            <img
-              src={`${process.env.REACT_APP_URL_API}${picture}`}
-              alt={picturesUploaded[0]}
-              style={{
-                maxHeight: 170,
-                maxWidth: 170,
-                margin: 10,
-                width: "100%",
-                objectFit: "contain"
-              }}
-            />
-            <p>En faire la photo principale</p>
-            <p>Supprimer</p>
-          </div>
-        ))}
       <div>
         <button>Prévisualiser mon annonce</button>
       </div>
-    </form>
+    </Fragment>
   );
 };
 export default AddArticleSecondPage;
