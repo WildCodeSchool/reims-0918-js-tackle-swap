@@ -14,6 +14,7 @@ class AddArticle extends Component {
     this.handleChangeAddPicture = this.handleChangeAddPicture.bind(this);
     this.submitPicture = this.submitPicture.bind(this);
     this.defineMainPicture = this.defineMainPicture.bind(this);
+    this.deletePicture = this.deletePicture.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.state = {
@@ -86,20 +87,35 @@ class AddArticle extends Component {
         }`,
         {
           headers: {
-            ContentType: "multipart/form-data",
             Accept: "application/json",
             authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
           }
         }
       )
       .then(results => {
-        console.log(results);
         const { idPicture } = results.data.response;
         const picturesUploaded = [...this.state.picturesUploaded];
         const newPicturesUplaoded = picturesUploaded.map(picture =>
           picture.idPicture === parseInt(idPicture)
             ? { ...picture, mainPicture: 1 }
             : { ...picture, mainPicture: 0 }
+        );
+        this.setState({ picturesUploaded: newPicturesUplaoded });
+      });
+  }
+  deletePicture(idPicture) {
+    axios
+      .delete(`http://localhost:5000/picture/${idPicture}`, {
+        headers: {
+          Accept: "application/json",
+          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+        }
+      })
+      .then(results => {
+        const { idPicture } = results.data.response;
+        const picturesUploaded = [...this.state.picturesUploaded];
+        const newPicturesUplaoded = picturesUploaded.filter(
+          picture => picture.idPicture !== parseInt(idPicture)
         );
         this.setState({ picturesUploaded: newPicturesUplaoded });
       });
@@ -132,6 +148,7 @@ class AddArticle extends Component {
                 picturesUploaded={this.state.picturesUploaded}
                 idArticle={this.state.idArticle}
                 defineMainPicture={this.defineMainPicture}
+                deletePicture={this.deletePicture}
               />
             )}
             {page === 3 && <p>Add</p>}

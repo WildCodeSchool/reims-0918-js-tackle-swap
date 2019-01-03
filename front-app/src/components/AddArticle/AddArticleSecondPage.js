@@ -2,7 +2,12 @@ import React, { Fragment } from "react";
 import { Grid, Button } from "@material-ui/core";
 
 const AddArticleSecondPage = props => {
-  const { handleChangeAddPicture, picturesUploaded, defineMainPicture } = props;
+  const {
+    handleChangeAddPicture,
+    picturesUploaded,
+    defineMainPicture,
+    deletePicture
+  } = props;
   return (
     <Fragment>
       <div>
@@ -51,7 +56,11 @@ const AddArticleSecondPage = props => {
                         Mettre photo principale
                       </Button>
                     )}
-                    <Button>Supprimer la photo</Button>
+                    <Button
+                      onClick={() => deletePicture(pictureUploaded.idPicture)}
+                    >
+                      Supprimer la photo
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
