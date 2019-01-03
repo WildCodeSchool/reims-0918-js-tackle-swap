@@ -106,7 +106,7 @@ app.get("/articles", async (req, res) => {
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name FROM articles ORDER BY id LIMIT ${limit}`
+    `SELECT id, name FROM articles WHERE online = true ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
