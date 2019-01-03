@@ -21,6 +21,7 @@ class ArticleDetails extends Component {
   }
 
   render() {
+    console.log(this.props.articleDetails);
     return (
       <div>
         <div className="ArticleDetails">

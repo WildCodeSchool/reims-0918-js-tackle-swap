@@ -229,7 +229,15 @@ app.get("/article/:id", async (req, res) => {
   }, []);
 
   let responseApi = rawArticleDetails.results;
-  responseApi[0].pictures = pictures;
+  responseApi[0].pictures =
+    pictures.length > 0
+      ? picture
+      : [
+          {
+            url_picture: "/data/pictures_articles/default.png",
+            main_picture: 1
+          }
+        ];
 
   sendResponse(res, 200, "success", responseApi);
 });
