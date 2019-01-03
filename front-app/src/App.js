@@ -30,6 +30,11 @@ class App extends Component {
               path="/article/:id"
               component={ArticleDetailsContainer}
             />
+            <Route
+              exact
+              path="/previsualisation/:id"
+              component={ArticleDetailsContainer}
+            />
             <Route path="/ajouter-un-article" component={AddArticle} />
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />

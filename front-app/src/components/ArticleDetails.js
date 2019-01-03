@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PicturesArticleDetails from "./ArticleDetails/PicturesArticleDetails";
 import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetails";
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
+import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
 import axios from "axios";
@@ -31,8 +32,11 @@ class ArticleDetails extends Component {
           <PicturesArticleDetails {...this.props.articleDetails} />
 
           <DescriptionArticleDetails {...this.props.articleDetails} />
-
-          <InteractionsArticleDetails />
+          {this.props.match.url.includes("article") ? (
+            <InteractionsArticleDetails />
+          ) : (
+            <InteractionsArticleDetailsPreview />
+          )}
         </div>
       </div>
     );
