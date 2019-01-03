@@ -13,8 +13,8 @@ const AddArticleSecondPage = props => {
         />
       </div>
       {picturesUploaded.length > 0 &&
-        picturesUploaded.map(picture => (
-          <div>
+        picturesUploaded.map((picture, index) => (
+          <div key={index}>
             <img
               src={`${process.env.REACT_APP_URL_API}${picture}`}
               alt={picturesUploaded[0]}
