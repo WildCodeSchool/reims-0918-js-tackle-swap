@@ -36,7 +36,7 @@ const AddArticleSecondPage = props => {
                     {pictureUploaded.mainPicture ? (
                       <Button
                         variant="contained"
-                        style={{ backgroundColor: "green", color: "white" }}
+                        style={{ backgroundColor: "#009682", color: "white" }}
                         disabled
                       >
                         Photo principale
