@@ -10,7 +10,8 @@ const styles = theme => ({
 });
 
 function InteractionsArticleDetails(props) {
-  const { classes } = props;
+  const { classes, onlineArticle, online } = props;
+  const idArticle = props.id;
   return (
     <div>
       <Button
@@ -20,13 +21,25 @@ function InteractionsArticleDetails(props) {
       >
         Modifier mon annonce
       </Button>
-      <Button
-        variant="contained"
-        style={{ border: "2px solid #009682" }}
-        className={classes.button}
-      >
-        Mettre en ligne
-      </Button>
+      {online ? (
+        <Button
+          variant="contained"
+          style={{ border: "2px solid #009682" }}
+          className={classes.button}
+          onClick={() => onlineArticle(idArticle, false)}
+        >
+          Mettre hors ligne
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          style={{ border: "2px solid #009682" }}
+          className={classes.button}
+          onClick={() => onlineArticle(idArticle, true)}
+        >
+          Mettre en ligne
+        </Button>
+      )}
     </div>
   );
 }

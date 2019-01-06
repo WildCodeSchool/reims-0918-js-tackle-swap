@@ -20,7 +20,7 @@ passport.use(
 
       const user = userQuery.results[0];
       if (!user) {
-        return cb(null, false, { message: "Pseudo ou mot de passe incorrect" });
+        return cb(null, false, "Pseudo ou mot de passe incorrect.");
       } else {
         return cb(null, { id: user.id, nickname: user.nickname });
       }

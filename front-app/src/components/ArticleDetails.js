@@ -8,6 +8,10 @@ import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 import axios from "axios";
 
 class ArticleDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.onlineArticle = this.onlineArticle.bind(this);
+  }
   callApiArticleDetails = id => {
     axios
       .get(`http://localhost:5000/article/${id}`)
@@ -15,6 +19,15 @@ class ArticleDetails extends Component {
         this.props.articleDetailsReceived(results.data.response[0])
       );
   };
+
+  onlineArticle(idArticle, online) {
+    axios
+      .put(`http://localhost:5000/article_${idArticle}/online_${online}`)
+      .then(results => {
+        console.log(results);
+        this.props.setFlashMessage(results.data.response.flashMessage);
+      });
+  }
 
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
@@ -36,7 +49,10 @@ class ArticleDetails extends Component {
           {this.props.match.url.includes("article") ? (
             <InteractionsArticleDetails />
           ) : (
-            <InteractionsArticleDetailsPreview />
+            <InteractionsArticleDetailsPreview
+              {...this.props.articleDetails}
+              onlineArticle={this.onlineArticle}
+            />
           )}
         </div>
       </div>
