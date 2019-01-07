@@ -25,7 +25,7 @@ git clone git@github.com:WildCodeSchool/reims-0918-js-tackle-swap.git
 
 #### Modules:
 
-First go to the back file and use the following command to install packages.
+First go to the back folder and use the following command to install packages.
 
 ```
 npm install
@@ -64,7 +64,7 @@ npm run migrate down
 
 #### Modules:
 
-Now go to the front file and use the following command to install packages.
+Now go to the front folder and use the following command to install packages.
 
 ```
 npm install
@@ -76,14 +76,8 @@ The .env reference the listenning adress of the server
 
 ### USE THE APP
 
-Use can now use the app, go to the front file and use the following command
+You can now use the app, go to the front folder and use the following command
 
 ```
 npm start
-```
-
-If you want to get all database's informations, go to the back file use this command
-
-```
-node index.js
 ```
