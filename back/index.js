@@ -82,7 +82,9 @@ app.get("/", (req, res) => {
 // Return List Articles, with pagination
 app.get("/articles", async (req, res) => {
   const numberArticlesPerPage = 20;
-  const rawMaxPages = await bddQuery("SELECT COUNT(*) AS count FROM articles");
+  const rawMaxPages = await bddQuery(
+    "SELECT COUNT(*) AS count FROM articles WHERE online = true"
+  );
 
   if (rawMaxPages.err) {
     addLog(rawMaxPages.err, "error-bdd");
@@ -106,7 +108,7 @@ app.get("/articles", async (req, res) => {
 
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name FROM articles ORDER BY id LIMIT ${limit}`
+    `SELECT id, name FROM articles WHERE online = true ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -229,7 +231,15 @@ app.get("/article/:id", async (req, res) => {
   }, []);
 
   let responseApi = rawArticleDetails.results;
-  responseApi[0].pictures = pictures;
+  responseApi[0].pictures =
+    pictures.length > 0
+      ? pictures
+      : [
+          {
+            url_picture: "/data/pictures_articles/default.png",
+            main_picture: 1
+          }
+        ];
 
   sendResponse(res, 200, "success", responseApi);
 });
@@ -337,10 +347,10 @@ app.get("/user_articles/:iduser", (req, res) => {
 
 app.put("/main", async (req, res) => {
   const { idPicture, idArticle } = req.query;
-  const upadteMainPicture = await bddQuery(
+  const updateMainPicture = await bddQuery(
     `UPDATE pictures_articles sicles SET main_picture = (CASE WHEN id = ${idPicture} THEN TRUE ELSE FALSE END) WHERE article_id = ${idArticle}`
   );
-  if (upadteMainPicture.err) {
+  if (updateMainPicture.err) {
     return sendResponse(res, 500, "error", {
       flashMessage: {
         message:
@@ -372,6 +382,28 @@ app.delete("/picture/:id", async (req, res) => {
   sendResponse(res, 200, "success", {
     idPicture
   });
+});
+
+app.put("/article_:idArticle/online_:online", async (req, res) => {
+  const { idArticle } = req.params;
+  const online = JSON.parse(req.params.online);
+  const onlineArticle = await bddQuery(
+    `UPDATE articles SET online = ${online} WHERE id = ${idArticle}`
+  );
+  if (onlineArticle.err) {
+    return sendResponse(res, 200, "error", {
+      flashMessage: {
+        message:
+          "Un problème est survenu durant la mise à jour de l'état de l'article.",
+        type: "error"
+      }
+    });
+  }
+  const flashMessage = online
+    ? { type: "success", message: "Votre article est bien mis en ligne." }
+    : { type: "warning", message: "Votre article n'est plus en ligne." };
+
+  sendResponse(res, 200, "success", { flashMessage });
 });
 
 app.listen(port, err => {

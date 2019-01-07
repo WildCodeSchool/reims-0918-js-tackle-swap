@@ -1,6 +1,8 @@
 import React from "react";
 import { Paper, Grid } from "@material-ui/core";
 import { Field, reduxForm } from "redux-form";
+import { renderField } from "./Form/RenderField";
+import { validate } from "./Form/Validate";
 import axios from "axios";
 import ls from "local-storage";
 import { withRouter } from "react-router-dom";
@@ -11,9 +13,10 @@ const Login = props => {
   const submit = values =>
     axios
       .post("http://localhost:5000/auth/login", values)
-      .then(result => {
-        ls.set("jwt-tackle-swap", result.data.token);
-        setFlashMessage(result.data.flashMessage);
+      .then(results => {
+        console.log(results);
+        ls.set("jwt-tackle-swap", results.data.token);
+        setFlashMessage(results.data.flashMessage);
         props.history.push("/");
       })
       .catch(result => console.log("response ERROR:", result));
@@ -28,7 +31,7 @@ const Login = props => {
                 <Field
                   name="nickname"
                   id="nickname"
-                  component="input"
+                  component={renderField}
                   type="text"
                   placeholder="Votre pseudo"
                 />
@@ -40,7 +43,7 @@ const Login = props => {
                 <Field
                   name="password"
                   id="password"
-                  component="input"
+                  component={renderField}
                   type="password"
                   placeholder="Password"
                 />
@@ -67,6 +70,7 @@ const Login = props => {
 
 export default withRouter(
   reduxForm({
-    form: "login"
+    form: "login",
+    validate
   })(Login)
 );

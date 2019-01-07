@@ -26,8 +26,10 @@ class ListArticles extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchArticles();
-    this.callApiAllArticles(this.props.pagination.activePage);
+    if (!(this.props.articles.length > 0)) {
+      this.props.fetchArticles();
+      this.callApiAllArticles(this.props.pagination.activePage);
+    }
   }
   render() {
     const { pagination, articles } = this.props;
