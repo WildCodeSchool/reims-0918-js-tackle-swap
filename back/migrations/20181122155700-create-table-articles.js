@@ -27,6 +27,7 @@ exports.up = function(db, callback) {
       article_weight: { type: "int", length: 4 },
       article_color: { type: "string", length: 50 },
       article_state: { type: "int", length: 1 },
+      online: { type: "boolean", notNull: true, defaultValue: false },
       create_at: {
         type: "datetime",
         notNull: true,

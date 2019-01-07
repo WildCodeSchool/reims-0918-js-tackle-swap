@@ -25,7 +25,8 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
-      "owner_id"
+      "owner_id",
+      "online"
     ],
     [
       "leurre de 14",
@@ -35,6 +36,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -50,6 +52,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -60,6 +63,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -74,6 +78,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -84,6 +89,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "4",
+      true,
       "4"
     ],
     callback
@@ -98,6 +104,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -108,6 +115,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "2"
     ],
     callback
@@ -122,6 +130,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -132,6 +141,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "1",
+      true,
       "4"
     ],
     callback
@@ -146,6 +156,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -156,6 +167,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -170,6 +182,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -180,6 +193,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "5",
+      true,
       "4"
     ],
     callback
@@ -194,6 +208,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -204,6 +219,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -218,6 +234,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -228,6 +245,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "2",
+      true,
       "3"
     ],
     callback
@@ -242,6 +260,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -252,6 +271,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -267,6 +287,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -277,6 +298,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -291,6 +313,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -301,6 +324,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "4",
+      true,
       "4"
     ],
     callback
@@ -315,6 +339,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -325,6 +350,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "2"
     ],
     callback
@@ -339,6 +365,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -349,6 +376,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "1",
+      true,
       "4"
     ],
     callback
@@ -363,6 +391,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -373,6 +402,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -387,6 +417,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -397,6 +428,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "5",
+      true,
       "4"
     ],
     callback
@@ -411,6 +443,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -421,6 +454,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -435,6 +469,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -445,6 +480,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "2",
+      true,
       "3"
     ],
     callback
@@ -459,6 +495,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -469,6 +506,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -484,6 +522,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -494,6 +533,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -508,6 +548,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -518,6 +559,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "4",
+      true,
       "4"
     ],
     callback
@@ -532,6 +574,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -542,6 +585,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "2"
     ],
     callback
@@ -556,6 +600,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -566,6 +611,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "1",
+      true,
       "4"
     ],
     callback
@@ -580,6 +626,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -590,6 +637,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -604,6 +652,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -614,6 +663,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "5",
+      true,
       "4"
     ],
     callback
@@ -628,6 +678,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -638,6 +689,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "3",
+      true,
       "1"
     ],
     callback
@@ -652,6 +704,7 @@ exports.up = function(db, callback) {
       "article_weight",
       "article_color",
       "article_state",
+      "online",
       "owner_id"
     ],
     [
@@ -662,6 +715,7 @@ exports.up = function(db, callback) {
       "15",
       "rouge",
       "2",
+      true,
       "3"
     ],
     callback

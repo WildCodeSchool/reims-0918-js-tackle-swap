@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import PicturesArticleDetails from "./ArticleDetails/PicturesArticleDetails";
 import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetails";
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
+import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
 import axios from "axios";
 
 class ArticleDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.onlineArticle = this.onlineArticle.bind(this);
+  }
   callApiArticleDetails = id => {
     axios
       .get(`http://localhost:5000/article/${id}`)
@@ -15,11 +20,21 @@ class ArticleDetails extends Component {
       );
   };
 
+  onlineArticle(idArticle, online) {
+    axios
+      .put(`http://localhost:5000/article_${idArticle}/online_${online}`)
+      .then(results => {
+        console.log(results);
+        this.props.setFlashMessage(results.data.response.flashMessage);
+      });
+  }
+
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
   }
 
   render() {
+    console.log(this.props.articleDetails);
     return (
       <div>
         <div className="ArticleDetails">
@@ -31,8 +46,14 @@ class ArticleDetails extends Component {
           <PicturesArticleDetails {...this.props.articleDetails} />
 
           <DescriptionArticleDetails {...this.props.articleDetails} />
-
-          <InteractionsArticleDetails />
+          {this.props.match.url.includes("article") ? (
+            <InteractionsArticleDetails />
+          ) : (
+            <InteractionsArticleDetailsPreview
+              {...this.props.articleDetails}
+              onlineArticle={this.onlineArticle}
+            />
+          )}
         </div>
       </div>
     );

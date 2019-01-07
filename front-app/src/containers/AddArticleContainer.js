@@ -1,12 +1,15 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 import AddArticle from "../components/AddArticle/AddArticle";
-import axios from "axios";
-import ls from "local-storage";
+import { makeShowFlashMessageAction } from "../actions/actions";
 
-class AddArticleContainer extends Component {
-  render() {
-    return <AddArticle />;
-  }
-}
+const mapStateToProps = state => ({});
 
-export default AddArticleContainer;
+const mapDispatchToProps = dispatch => ({
+  setFlashMessage: responseApi =>
+    dispatch(makeShowFlashMessageAction(responseApi))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddArticle);
