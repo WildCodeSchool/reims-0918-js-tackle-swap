@@ -1,10 +1,16 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
+const http = require("http");
+const socketIO = require("socket.io");
+
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+
 const connection = require("./conf");
 const port = 5000;
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const auth = require("./routes/auth");
 const passport = require("passport");
 const fileUpload = require("express-fileupload");
@@ -36,6 +42,9 @@ require("./passport-strategy");
 app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", auth);
+
+const socketIo = require("./socket-io");
+socketIo(io, app);
 
 app.post("/user", (req, res) => {
   const formData = req.body;
@@ -73,10 +82,6 @@ app.put("/users/:id", (req, res) => {
       }
     }
   );
-});
-
-app.get("/", (req, res) => {
-  res.send("Bienvenue le Marketplace incontournable des pêcheurs");
 });
 
 // Return List Articles, with pagination
@@ -405,8 +410,7 @@ app.put("/article_:idArticle/online_:online", async (req, res) => {
 
   sendResponse(res, 200, "success", { flashMessage });
 });
-
-app.listen(port, err => {
+server.listen(port, err => {
   if (err) {
     throw new Error("Something bad happened...");
   }
