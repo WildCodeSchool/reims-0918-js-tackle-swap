@@ -121,8 +121,7 @@ class AddArticle extends Component {
       });
   }
 
-  nextPage(e) {
-    e.preventDefault();
+  nextPage() {
     this.setState({ page: this.state.page + 1 });
   }
 
@@ -142,7 +141,6 @@ class AddArticle extends Component {
             )}
             {page === 2 && (
               <AddArticleSecondPage
-                onSubmit={this.nextPage}
                 handleChangeAddPicture={this.handleChangeAddPicture}
                 submitPicture={this.submitPicture}
                 picturesUploaded={this.state.picturesUploaded}

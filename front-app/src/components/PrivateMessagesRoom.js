@@ -13,7 +13,8 @@ export class PrivateMessagesRoom extends Component {
       message: "",
       room: [],
       socket: null,
-      user: {}
+      user: {},
+      login: {}
     };
   }
 

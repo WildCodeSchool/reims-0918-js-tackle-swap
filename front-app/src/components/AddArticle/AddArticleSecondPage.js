@@ -1,22 +1,30 @@
 import React, { Fragment } from "react";
 import { Grid, Button } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 const AddArticleSecondPage = props => {
   const {
     handleChangeAddPicture,
     picturesUploaded,
     defineMainPicture,
-    deletePicture
+    deletePicture,
+    idArticle
   } = props;
+
+  const goToPreview = idArticle => {
+    props.history.push(`/previsualisation/${idArticle}`);
+  };
   return (
     <Fragment>
       <div>
-        <input
-          type="file"
-          name="picture"
-          id="picture"
-          onChange={event => handleChangeAddPicture(event)}
-        />
+        <form>
+          <input
+            type="file"
+            name="picture"
+            id="picture"
+            onChange={event => handleChangeAddPicture(event)}
+          />
+        </form>
         {picturesUploaded.length > 0 && (
           <Grid container>
             {picturesUploaded.map((pictureUploaded, index) => (
@@ -69,9 +77,11 @@ const AddArticleSecondPage = props => {
         )}
       </div>
       <div>
-        <button>Prévisualiser mon annonce</button>
+        <button onClick={() => goToPreview(idArticle)}>
+          Prévisualiser mon annonce
+        </button>
       </div>
     </Fragment>
   );
 };
-export default AddArticleSecondPage;
+export default withRouter(AddArticleSecondPage);

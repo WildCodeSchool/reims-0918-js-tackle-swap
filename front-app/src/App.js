@@ -6,12 +6,12 @@ import background from "./images/background-white.jpg";
 import ListArticlesContainer from "./containers/ListArticlesContainer";
 import NavBar from "./components/Navbar/NavBar";
 import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
-import AddArticle from "./components/AddArticle/AddArticle";
 import LoginContainer from "./containers/LoginContainer";
 import RegisterContainer from "./containers/RegisterContainer";
 import FlashMessageContainer from "./containers/FlashMessageContainer";
 import PrivateMessagesDashboardContainer from "./containers/PrivateMessagesDashboardContainer";
 import PrivateMessagesRoomContainer from "./containers/PrivateMessagesRoomContainer";
+import AddArticleContainer from "./containers/AddArticleContainer";
 
 class App extends Component {
   render() {
@@ -32,7 +32,12 @@ class App extends Component {
               path="/article/:id"
               component={ArticleDetailsContainer}
             />
-            <Route path="/ajouter-un-article" component={AddArticle} />
+            <Route
+              exact
+              path="/previsualisation/:id"
+              component={ArticleDetailsContainer}
+            />
+            <Route path="/ajouter-un-article" component={AddArticleContainer} />
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />
             <Route

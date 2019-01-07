@@ -100,12 +100,16 @@ describe("makeShowArticleDetailsAction", () => {
 
 describe("makeShowFlashMessageAction", () => {
   it("should display the correct flash message in the snackbar", () => {
-    const message = "Connection réussie";
+    const flashMessage = {
+      message: "Connection réussie",
+      open: true,
+      type: "success"
+    };
     const expected = {
       type: SHOW_FLASH_MESSAGE,
-      message
+      flashMessage
     };
-    expect(makeShowFlashMessageAction(message)).toEqual(expected);
+    expect(makeShowFlashMessageAction(flashMessage)).toEqual(expected);
   });
 });
 
