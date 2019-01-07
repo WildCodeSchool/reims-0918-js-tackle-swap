@@ -79,4 +79,5 @@ typings/
 .fusebox/
 
 # Folder Data Upload 
-/data/
+/data/pictures_articles/*
+!/data/pictures_articles/default.png
