@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 const AddArticleSecondPage = props => {
   const {
-    handleChangeAddPicture,
+    submitPicture,
     picturesUploaded,
     defineMainPicture,
     deletePicture,
@@ -18,13 +18,16 @@ const AddArticleSecondPage = props => {
     <Fragment>
       <div>
         <form>
-          <input
-            type="file"
-            name="picture"
-            id="picture"
-            onChange={event => handleChangeAddPicture(event)}
-          />
+          {picturesUploaded.length < 3 && (
+            <input
+              type="file"
+              name="picture"
+              id="picture"
+              onChange={event => submitPicture(event)}
+            />
+          )}
         </form>
+
         {picturesUploaded.length > 0 && (
           <Grid container>
             {picturesUploaded.map((pictureUploaded, index) => (
