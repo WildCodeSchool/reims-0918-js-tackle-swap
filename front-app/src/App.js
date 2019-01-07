@@ -10,6 +10,8 @@ import AddArticle from "./components/AddArticle/AddArticle";
 import LoginContainer from "./containers/LoginContainer";
 import RegisterContainer from "./containers/RegisterContainer";
 import FlashMessageContainer from "./containers/FlashMessageContainer";
+import PrivateMessagesDashboardContainer from "./containers/PrivateMessagesDashboardContainer";
+import PrivateMessagesRoomContainer from "./containers/PrivateMessagesRoomContainer";
 
 class App extends Component {
   render() {
@@ -33,6 +35,14 @@ class App extends Component {
             <Route path="/ajouter-un-article" component={AddArticle} />
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />
+            <Route
+              path="/messagerie"
+              component={PrivateMessagesDashboardContainer}
+            />
+            <Route
+              path="/conversation-:participant-:id"
+              component={PrivateMessagesRoomContainer}
+            />
           </Switch>
           <FlashMessageContainer />
         </div>
