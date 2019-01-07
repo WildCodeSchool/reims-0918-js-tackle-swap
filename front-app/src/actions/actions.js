@@ -4,7 +4,8 @@ import {
   CHANGE_PAGE,
   SHOW_ARTICLE_DETAILS,
   SHOW_FLASH_MESSAGE,
-  CLOSE_FLASH_MESSAGE
+  CLOSE_FLASH_MESSAGE,
+  USER_PROFIL_RECEIVED
 } from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
@@ -33,4 +34,9 @@ export const makeShowFlashMessageAction = responseApi => ({
 
 export const makeCloseFlashMessageAction = () => ({
   type: CLOSE_FLASH_MESSAGE
+});
+
+export const makeUserProfileInformationReceivedAction = responseApi => ({
+  type: USER_PROFIL_RECEIVED,
+  user: responseApi
 });

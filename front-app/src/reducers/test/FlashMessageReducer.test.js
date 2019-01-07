@@ -22,7 +22,7 @@ describe("FlashMessageReducer", () => {
     const responseApi = "";
 
     const action = makeCloseFlashMessageAction(responseApi);
-    const expected = { message: "", open: false, type: "success" };
+    const expected = { message: "", open: false, type: "default" };
 
     expect(FlashMessageReducer(prevState, action)).toEqual(expected);
   });
