@@ -7,6 +7,7 @@ import paginationReducer from "./paginationReducer";
 import loadingReducer from "./loadingReducer";
 import showArticleDetailsReducer from "./showArticleDetailsReducer";
 import FlashMessageReducer from "./FlashMessageReducer";
+import userProfileReducer from "./userProfileReducer";
 
 const rootReducers = history =>
   combineReducers({
@@ -16,7 +17,8 @@ const rootReducers = history =>
     pagination: paginationReducer,
     loading: loadingReducer,
     articleDetails: showArticleDetailsReducer,
-    flashMessage: FlashMessageReducer
+    flashMessage: FlashMessageReducer,
+    user: userProfileReducer
   });
 
 export default rootReducers;
