@@ -34,7 +34,6 @@ class ArticleDetails extends Component {
   }
 
   render() {
-    console.log(this.props.articleDetails);
     return (
       <div>
         <div className="ArticleDetails">
@@ -47,7 +46,9 @@ class ArticleDetails extends Component {
 
           <DescriptionArticleDetails {...this.props.articleDetails} />
           {this.props.match.url.includes("article") ? (
-            <InteractionsArticleDetails />
+            <InteractionsArticleDetails
+              articleDetails={this.props.articleDetails}
+            />
           ) : (
             <InteractionsArticleDetailsPreview
               {...this.props.articleDetails}

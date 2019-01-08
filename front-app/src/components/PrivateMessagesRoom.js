@@ -46,14 +46,19 @@ export class PrivateMessagesRoom extends Component {
       })
       .then(results => {
         const login = {
-          room: [this.props.participant, results.data.response.nickname]
+          room: [
+            this.props.participant,
+            results.data.response.nickname,
+            this.props.id_article
+          ]
             .sort()
             .join("_"),
           sender: results.data.response.id,
           recipient: parseInt(this.props.id_participant)
         };
+        console.log("login", login);
         this.setState({ login }, () => {
-          this.connectedToChat(this.state.login);
+          // this.connectedToChat(this.state.login);
         });
       });
   }

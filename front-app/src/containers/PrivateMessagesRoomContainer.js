@@ -4,10 +4,7 @@ import PrivateMessagesRoom from "../components/PrivateMessagesRoom";
 class PrivateMessagesRoomContainer extends Component {
   render() {
     return (
-      <PrivateMessagesRoom
-        participant={this.props.match.params.participant}
-        id_participant={this.props.match.params.id}
-      />
+      <PrivateMessagesRoom id_article={this.props.match.params.id_article} />
     );
   }
 }

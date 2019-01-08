@@ -45,7 +45,7 @@ class App extends Component {
               component={PrivateMessagesDashboardContainer}
             />
             <Route
-              path="/conversation-:participant-:id"
+              path="/conversation-article-:id_article"
               component={PrivateMessagesRoomContainer}
             />
           </Switch>
