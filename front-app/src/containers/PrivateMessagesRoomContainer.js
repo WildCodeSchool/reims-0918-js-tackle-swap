@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 import PrivateMessagesRoom from "../components/PrivateMessagesRoom";
 
-class PrivateMessagesRoomContainer extends Component {
-  render() {
-    return (
-      <PrivateMessagesRoom id_article={this.props.match.params.id_article} />
-    );
-  }
-}
+const mapStateToProps = state => ({
+  user: state.user
+});
 
-export default PrivateMessagesRoomContainer;
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrivateMessagesRoom);

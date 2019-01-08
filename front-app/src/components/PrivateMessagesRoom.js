@@ -37,6 +37,7 @@ export class PrivateMessagesRoom extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     axios
       .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
         headers: {
