@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { Grid, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
 import axios from "axios";
 import ls from "local-storage";
+
+import isConnected from "../functions/isConnected";
+import isArticle from "../functions/isArticle";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -36,39 +39,56 @@ export class PrivateMessagesRoom extends Component {
     this.setState({ room: [...this.state.room, ...message] });
   };
 
-  componentDidMount() {
-    console.log(this.props);
-    axios
-      .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-        headers: {
-          Accept: "application/json",
-          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-        }
-      })
-      .then(results => {
-        const login = {
-          room: [
-            this.props.participant,
-            results.data.response.nickname,
-            this.props.id_article
-          ]
-            .sort()
-            .join("_"),
-          sender: results.data.response.id,
-          recipient: parseInt(this.props.id_participant)
-        };
-        console.log("login", login);
-        this.setState({ login }, () => {
-          // this.connectedToChat(this.state.login);
-        });
+  async componentDidMount() {
+    if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
+      this.props.setFlashMessage({
+        type: "error",
+        message:
+          "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
       });
+      return this.props.history.push("/");
+    }
+
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+          this.connectedToChat();
+        });
+    } else if (!isConnected()) {
+      this.props.setFlashMessage({
+        type: "error",
+        message: "Vous devez être connecté pour contacter un vendeur."
+      });
+      return this.props.history.push("/se-connecter");
+    } else {
+      this.connectedToChat();
+    }
   }
 
-  connectedToChat(login) {
+  connectedToChat() {
+    const isArticle = id_article => {
+      axios
+        .get(`http://localhost:5000/article/${id_article}`)
+        .then(results => console.log(results));
+    };
+    isArticle(parseInt(this.props.match.params.id_article));
+    console.log(this.props.user);
+    const connectedToRoom = {
+      id_article: parseInt(this.props.match.params.id_article),
+      id_user: this.props.user.id
+    };
+    console.log("room", connectedToRoom);
     this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
-      this.state.socket.emit("room", login);
+      this.state.socket.emit("room", connectedToRoom);
 
-      this.state.socket.emit("login", login);
+      // this.state.socket.emit("login", login);
       this.state.socket.on("receivedPrivateMessage", messageReceived => {
         if (messageReceived.type === "error") {
           console.log("STOP ERROR", messageReceived.message);
@@ -122,4 +142,4 @@ export class PrivateMessagesRoom extends Component {
   }
 }
 
-export default PrivateMessagesRoom;
+export default withRouter(PrivateMessagesRoom);

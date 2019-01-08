@@ -4,14 +4,6 @@ const passport = require("passport");
 
 const socketIo = (io, app) => {
   app.get(
-    "/personnal-informations",
-    passport.authenticate("jwt", { session: false }),
-    async (req, res) => {
-      return sendResponse(res, 200, "success", req.user);
-    }
-  );
-
-  app.get(
     "/all-conversations-privates",
     passport.authenticate("jwt", { session: false }),
     async (req, res) => {
@@ -63,10 +55,17 @@ const socketIo = (io, app) => {
 
     // Defined room to send and received message
     let currentRoom;
-    socket.on("room", login => {
-      console.log("in room", login.room);
-      socket.join(login.room);
-      currentRoom = login.room;
+    socket.on("room", async connectedToRoom => {
+      const currentRoom = connectedToRoom;
+      const rawOwner = await bddQuery(
+        `SELECT users.id, nickname FROM users JOIN articles ON users.id = articles.owner_id WHERE articles.id = '${
+          connectedToRoom.id_article
+        }'`
+      );
+
+      console.log(rawOwner);
+      console.log("in room", currentRoom);
+      //socket.join(login.room);
     });
 
     socket.on("sendPrivateMessage", async message => {

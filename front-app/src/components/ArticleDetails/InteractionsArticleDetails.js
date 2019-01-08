@@ -16,7 +16,7 @@ function InteractionsArticleDetails(props) {
   const goToChat = () => {
     props.history.push(`/conversation-article-${articleDetails.id}`);
   };
-  console.log(articleDetails);
+
   return (
     <div>
       <Button
