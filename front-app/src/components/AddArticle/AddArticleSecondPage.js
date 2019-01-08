@@ -18,13 +18,16 @@ const AddArticleSecondPage = props => {
     <Fragment>
       <div>
         <form>
-          <input
-            type="file"
-            name="picture"
-            id="picture"
-            onChange={event => submitPicture(event)}
-          />
+          {picturesUploaded.length < 3 && (
+            <input
+              type="file"
+              name="picture"
+              id="picture"
+              onChange={event => submitPicture(event)}
+            />
+          )}
         </form>
+
         {picturesUploaded.length > 0 && (
           <Grid container>
             {picturesUploaded.map((pictureUploaded, index) => (

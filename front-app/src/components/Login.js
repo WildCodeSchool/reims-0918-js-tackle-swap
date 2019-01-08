@@ -8,7 +8,14 @@ import ls from "local-storage";
 import { withRouter } from "react-router-dom";
 
 const Login = props => {
-  const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
+  const {
+    handleSubmit,
+    pristine,
+    reset,
+    submitting,
+    setFlashMessage,
+    setUserInformation
+  } = props;
 
   const submit = values =>
     axios
@@ -17,6 +24,7 @@ const Login = props => {
         console.log(results);
         ls.set("jwt-tackle-swap", results.data.token);
         setFlashMessage(results.data.flashMessage);
+        setUserInformation(results.data.user);
         props.history.push("/");
       })
       .catch(result => console.log("response ERROR:", result));

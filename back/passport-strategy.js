@@ -13,7 +13,7 @@ passport.use(
     },
     async (nickname, password, cb) => {
       const userQuery = await bddQuery(
-        `SELECT id, nickname from users where nickname = ?
+        `SELECT id, nickname, firstname, lastname, email, adress, city, postal_code, gender FROM users WHERE nickname = ?
          and password = ?`,
         [nickname, password]
       );
@@ -22,7 +22,7 @@ passport.use(
       if (!user) {
         return cb(null, false, "Pseudo ou mot de passe incorrect.");
       } else {
-        return cb(null, { id: user.id, nickname: user.nickname });
+        return cb(null, { ...user });
       }
     }
   )
