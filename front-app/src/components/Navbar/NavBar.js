@@ -36,7 +36,11 @@ const styles = {
     color: "inherit"
   },
   logo: {
-    padding: "5% 8%"
+    maxWidth: "35%",
+    paddingRight: "110px",
+    height: "auto",
+    padding: "2%",
+    margin: "0 auto"
   },
   list: {
     backgroundColor: "#e6f7ff",
@@ -150,9 +154,8 @@ class ButtonAppBar extends Component {
             </IconButton>
 
             <img
-              src="http://image.noelshack.com/fichiers/2018/50/3/1544610771-logof-white.png"
+              src="http://image.noelshack.com/fichiers/2018/50/3/1544610771-logof-white.png "
               alt="Logo"
-              width="40%"
               className={classes.logo}
             />
           </Toolbar>

@@ -59,6 +59,7 @@ class SwipeableTextMobileStepper extends React.Component {
   render() {
     let steps = [];
     if (this.props.pictures) {
+      console.log(this.props.pictures);
       steps = this.props.pictures.map(picture => ({
         imgPath: `${process.env.REACT_APP_URL_API}${picture.url_picture}`
       }));
