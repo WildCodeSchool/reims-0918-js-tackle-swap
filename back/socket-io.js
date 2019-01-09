@@ -54,18 +54,29 @@ const socketIo = (io, app) => {
     console.log("New user connected");
 
     // Defined room to send and received message
-    let currentRoom;
+    let currentRoom = {};
     socket.on("room", async connectedToRoom => {
-      const currentRoom = connectedToRoom;
-      const rawOwner = await bddQuery(
-        `SELECT users.id, nickname FROM users JOIN articles ON users.id = articles.owner_id WHERE articles.id = '${
-          connectedToRoom.id_article
-        }'`
+      roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
+        connectedToRoom.id_user
+      }`;
+      const rawNicknameParticipant = await bddQuery(
+        `SELECT id, nickname FROM users WHERE id = ${
+          connectedToRoom.id_owner
+        } OR id = ${connectedToRoom.id_user}`
       );
-
-      console.log(rawOwner);
-      console.log("in room", currentRoom);
-      //socket.join(login.room);
+      const users = rawNicknameParticipant.results.reduce((acc, obj) => {
+        const cle = obj.id;
+        if (!acc[cle]) {
+          acc[cle] = obj.nickname;
+        }
+        return acc;
+      }, {});
+      currentRoom = {
+        users,
+        roomName
+      };
+      socket.join(roomName);
+      socket.emit("roomConnected", currentRoom);
     });
 
     socket.on("sendPrivateMessage", async message => {
@@ -76,14 +87,22 @@ const socketIo = (io, app) => {
       console.log(message);
       response = {
         type: "success",
-        response: [{ ...message }]
+        response: [
+          {
+            ...message,
+            sender: currentRoom.users[message.sender],
+            recipient: currentRoom.users[message.recipient]
+          }
+        ]
       };
-      io.sockets.in(currentRoom).emit("receivedPrivateMessage", response);
+      io.sockets
+        .in(currentRoom.roomName)
+        .emit("receivedPrivateMessage", response);
     });
 
-    socket.on("login", async login => {
+    socket.on("login", async () => {
       const rawAllPrivateMessages = await bddQuery(
-        `SELECT * FROM private_messages WHERE room = '${login.room}'`
+        `SELECT * FROM private_messages WHERE room = '${currentRoom.roomName}'`
       );
       let responseSocket;
       if (rawAllPrivateMessages.err) {
@@ -95,7 +114,11 @@ const socketIo = (io, app) => {
       } else {
         responseSocket = {
           type: "success",
-          response: rawAllPrivateMessages.results
+          response: rawAllPrivateMessages.results.map(message => ({
+            ...message,
+            sender: currentRoom.users[message.sender],
+            recipient: currentRoom.users[message.recipient]
+          }))
         };
       }
 

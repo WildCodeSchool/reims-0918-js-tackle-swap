@@ -24,7 +24,12 @@ class App extends Component {
     return (
       <div style={styles}>
         <NavBar />
-        <div style={{ padding: "10px" }}>
+        <div
+          style={{
+            padding: "10px",
+            marginTop: "70px"
+          }}
+        >
           <Switch>
             <Route exact path="/" component={ListArticlesContainer} />
             <Route
@@ -45,7 +50,7 @@ class App extends Component {
               component={PrivateMessagesDashboardContainer}
             />
             <Route
-              path="/conversation-article-:id_article"
+              path="/conversation-:id_article-:id_owner-:id_user"
               component={PrivateMessagesRoomContainer}
             />
           </Switch>
