@@ -13,11 +13,17 @@ class ArticleDetails extends Component {
     this.onlineArticle = this.onlineArticle.bind(this);
   }
   callApiArticleDetails = id => {
-    axios
-      .get(`http://localhost:5000/article/${id}`)
-      .then(results =>
-        this.props.articleDetailsReceived(results.data.response[0])
-      );
+    this.props.match.url.includes("article")
+      ? axios
+          .get(`http://localhost:5000/article/${id}`)
+          .then(results =>
+            this.props.articleDetailsReceived(results.data.response[0])
+          )
+      : axios
+          .get(`http://localhost:5000/preview/${id}`)
+          .then(results =>
+            this.props.articleDetailsReceived(results.data.response[0])
+          );
   };
 
   onlineArticle(idArticle, online) {

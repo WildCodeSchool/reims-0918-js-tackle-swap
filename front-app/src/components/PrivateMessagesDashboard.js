@@ -21,8 +21,8 @@ export class PrivateMessagesDashboard extends Component {
       })
       .then(results => this.setState({ listRooms: results.data.response }));
   };
-  goToChat(participant, id_participant) {
-    this.props.history.push(`/conversation-${participant}-${id_participant}`);
+  goToChat(room) {
+    this.props.history.push(`/conversation-${room}`);
   }
   componentDidMount() {
     this.showAllConversationsPrivates();
@@ -32,6 +32,7 @@ export class PrivateMessagesDashboard extends Component {
     const classes = {
       main_private_messages: {}
     };
+    console.log(this.state.listRooms);
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -42,9 +43,7 @@ export class PrivateMessagesDashboard extends Component {
                 this.state.listRooms.map((room, index) => (
                   <p key={index}>
                     {room.participant}{" "}
-                    <Button
-                      onClick={() => this.goToChat(room.participant, room.id)}
-                    >
+                    <Button onClick={() => this.goToChat(room.room)}>
                       Aller à la conversation
                     </Button>
                   </p>
