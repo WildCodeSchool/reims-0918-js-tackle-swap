@@ -11,7 +11,6 @@ class AddArticle extends Component {
   constructor(props) {
     super(props);
     this.onSubmitInformations = this.onSubmitInformations.bind(this);
-    this.handleChangeAddPicture = this.handleChangeAddPicture.bind(this);
     this.submitPicture = this.submitPicture.bind(this);
     this.defineMainPicture = this.defineMainPicture.bind(this);
     this.deletePicture = this.deletePicture.bind(this);
@@ -42,15 +41,9 @@ class AddArticle extends Component {
         }
       });
 
-  handleChangeAddPicture = event => {
-    this.setState({ selectedFilesUpload: event.target.files[0] }, () =>
-      this.submitPicture()
-    );
-  };
-
-  submitPicture = () => {
+  submitPicture = event => {
     const data = new FormData();
-    data.append("picture", this.state.selectedFilesUpload);
+    data.append("picture", event.target.files[0]);
 
     axios
       .post(
@@ -141,7 +134,6 @@ class AddArticle extends Component {
             )}
             {page === 2 && (
               <AddArticleSecondPage
-                handleChangeAddPicture={this.handleChangeAddPicture}
                 submitPicture={this.submitPicture}
                 picturesUploaded={this.state.picturesUploaded}
                 idArticle={this.state.idArticle}

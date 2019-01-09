@@ -70,7 +70,6 @@ class ButtonAppBar extends Component {
     let list = [
       { id: 0, name: "Accueil", path: "/", icon: <HomeIcon /> },
       { id: 10, name: "Rechercher", path: "/", icon: <SearchIcon /> },
-      { id: 20, name: "Message", path: "/", icon: <MailIcon /> },
       { id: 40, name: "Paramètres", path: "/", icon: <SettingsIcon /> }
     ];
 
@@ -83,6 +82,7 @@ class ButtonAppBar extends Component {
           path: "/ajouter-un-article",
           icon: <AddCartIcon />
         },
+        { id: 20, name: "Message", path: "/messagerie", icon: <MailIcon /> },
         { id: 30, name: "Profil", path: "/profil", icon: <FaceIcon /> },
         { id: 99, name: "Se déconnecter", path: "/", icon: <PowerOffIcon /> }
       ];
