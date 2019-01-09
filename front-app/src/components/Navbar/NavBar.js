@@ -138,7 +138,14 @@ class ButtonAppBar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar style={{ backgroundColor: "#009682" }} position="static">
+        <AppBar
+          style={{
+            backgroundColor: "#009682",
+            minHeight: "70px",
+            maxHeight: "70px"
+          }}
+          position="fixed"
+        >
           <Toolbar>
             <IconButton
               className={classes.menuButton}

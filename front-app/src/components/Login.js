@@ -21,7 +21,6 @@ const Login = props => {
     axios
       .post("http://localhost:5000/auth/login", values)
       .then(results => {
-        console.log(results);
         ls.set("jwt-tackle-swap", results.data.token);
         setFlashMessage(results.data.flashMessage);
         setUserInformation(results.data.user);

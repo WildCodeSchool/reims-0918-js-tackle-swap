@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { Grid, Paper } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
 import axios from "axios";
 import ls from "local-storage";
+
+import isConnected from "../functions/isConnected";
+import isArticle from "../functions/isArticle";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -13,20 +16,30 @@ export class PrivateMessagesRoom extends Component {
       message: "",
       room: [],
       socket: null,
-      user: {},
-      login: {}
+      roomConnected: {}
     };
   }
 
   submitMessage = e => {
     e.preventDefault();
 
+    if (this.state.message.length <= 0) {
+      // bloque l'envoi si le message est vide
+      return;
+    }
+    const recipient =
+      parseInt(this.state.roomConnected.roomName.split("-")[1]) ===
+      this.props.user.id
+        ? parseInt(this.state.roomConnected.roomName.split("-")[2])
+        : parseInt(this.state.roomConnected.roomName.split("-")[1]);
+
     this.state.socket.emit("sendPrivateMessage", {
-      sender: this.state.login.sender,
-      recipient: this.state.login.recipient,
+      sender: this.props.user.id,
+      recipient: recipient,
       message: this.state.message,
-      room: this.state.login.room
+      room: this.state.roomConnected.roomName
     });
+    this.setState({ message: "" });
   };
 
   handleChangeMessage = e => {
@@ -35,34 +48,53 @@ export class PrivateMessagesRoom extends Component {
   addToRoom = message => {
     this.setState({ room: [...this.state.room, ...message] });
   };
-
-  componentDidMount() {
-    axios
-      .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-        headers: {
-          Accept: "application/json",
-          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-        }
-      })
-      .then(results => {
-        const login = {
-          room: [this.props.participant, results.data.response.nickname]
-            .sort()
-            .join("_"),
-          sender: results.data.response.id,
-          recipient: parseInt(this.props.id_participant)
-        };
-        this.setState({ login }, () => {
-          this.connectedToChat(this.state.login);
-        });
-      });
+  componentDidUpdate() {
+    const chatScroll = document.getElementById("chatBox");
+    chatScroll.scrollTop = chatScroll.scrollHeight;
   }
 
-  connectedToChat(login) {
-    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
-      this.state.socket.emit("room", login);
+  async componentDidMount() {
+    if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
+      this.props.setFlashMessage({
+        type: "error",
+        message:
+          "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
+      });
+      return this.props.history.push("/");
+    }
 
-      this.state.socket.emit("login", login);
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+          this.connectedToChat();
+        });
+    } else if (!isConnected()) {
+      this.props.setFlashMessage({
+        type: "error",
+        message: "Vous devez être connecté pour contacter un vendeur."
+      });
+      return this.props.history.push("/se-connecter");
+    } else {
+      this.connectedToChat();
+    }
+  }
+
+  connectedToChat() {
+    const connectedToRoom = { ...this.props.match.params };
+    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
+      this.state.socket.emit("room", connectedToRoom);
+      this.state.socket.on("roomConnected", roomConnected => {
+        console.log(roomConnected);
+        this.setState({ roomConnected });
+      });
+      this.state.socket.emit("login");
       this.state.socket.on("receivedPrivateMessage", messageReceived => {
         if (messageReceived.type === "error") {
           console.log("STOP ERROR", messageReceived.message);
@@ -86,28 +118,33 @@ export class PrivateMessagesRoom extends Component {
           <Paper>
             <div style={classes.main_private_messages}>
               <h2>PrivateMessagesRoom</h2>
-              <div>
+              <div
+                style={{ overflow: "scroll", height: "calc(100vh - 200px)" }}
+                id="chatBox"
+              >
                 {this.state.room.map((message, index) => (
                   <p key={index}>
-                    {message.sender === 1
-                      ? "Kawacke"
-                      : message.sender === 2
-                      ? "KoKo"
-                      : "Personne"}
-                    : {message.message}
+                    {message.sender} : {message.message}
                   </p>
                 ))}
               </div>
-              <form>
-                <input
-                  type="text"
-                  name="message"
-                  onChange={e => this.handleChangeMessage(e)}
-                />
-                <button type="submit" onClick={e => this.submitMessage(e)}>
-                  Envoyer le message
-                </button>
-              </form>
+              <div style={{ bottom: 0 }}>
+                <form>
+                  <input
+                    type="text"
+                    name="message"
+                    onChange={e => this.handleChangeMessage(e)}
+                    value={this.state.message}
+                  />
+                  <button
+                    type="submit"
+                    onClick={e => this.submitMessage(e)}
+                    disabled={!this.state.message.length}
+                  >
+                    Envoyer le message
+                  </button>
+                </form>
+              </div>
             </div>
           </Paper>
         </Grid>
@@ -116,4 +153,4 @@ export class PrivateMessagesRoom extends Component {
   }
 }
 
-export default PrivateMessagesRoom;
+export default withRouter(PrivateMessagesRoom);

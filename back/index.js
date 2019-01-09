@@ -46,6 +46,14 @@ app.use("/auth", auth);
 const socketIo = require("./socket-io");
 socketIo(io, app);
 
+app.get(
+  "/personnal-informations",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    return sendResponse(res, 200, "success", req.user);
+  }
+);
+
 app.post("/user", (req, res) => {
   const formData = req.body;
   connection.query("INSERT INTO users SET ?", formData, (err, results) => {
@@ -193,21 +201,26 @@ app.get("/article/:id", async (req, res) => {
   const idArticle = [req.params.id];
 
   const rawIsExist = await bddQuery(
-    `SELECT COUNT(*) AS count FROM articles WHERE id = ${idArticle}`
+    `SELECT COUNT(*) AS count FROM articles WHERE id = ${idArticle} AND online = true`
   );
 
   if (rawIsExist.err) {
     addLog(idExist.err, "error-bdd");
-    sendResponse(
-      res,
-      409,
-      "error",
-      "Erreur avec la base de donnée, veuillez contacter un administrateur"
-    );
+    return sendResponse(res, 200, "error", {
+      flashMessage: {
+        message: "Une erreur est survenu avec la base de donnée.",
+        type: "error"
+      }
+    });
   }
   const isExist = rawIsExist.results[0].count;
   if (!isExist) {
-    sendResponse(res, 404, "error", "L'article demandé n'existe pas");
+    return sendResponse(res, 200, "error", {
+      flashMessage: {
+        message: "L'article demandé n'existe pas",
+        type: "error"
+      }
+    });
   }
 
   const rawArticleDetails = await bddQuery(
@@ -216,7 +229,7 @@ app.get("/article/:id", async (req, res) => {
 
   if (rawArticleDetails.err) {
     addLog(rawArticleDetails.err, "error-bdd");
-    sendResponse(
+    return sendResponse(
       res,
       409,
       "error",
@@ -246,7 +259,7 @@ app.get("/article/:id", async (req, res) => {
           }
         ];
 
-  sendResponse(res, 200, "success", responseApi);
+  return sendResponse(res, 200, "success", responseApi);
 });
 
 // Received and insert Article on BDD

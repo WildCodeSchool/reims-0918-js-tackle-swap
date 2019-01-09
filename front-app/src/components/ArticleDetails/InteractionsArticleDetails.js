@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   button: {
@@ -10,9 +11,22 @@ const styles = theme => ({
 });
 
 function InteractionsArticleDetails(props) {
-  const { classes } = props;
+  const { classes, articleDetails } = props;
+
+  const goToChat = () => {
+    props.history.push(`/conversation-article-${articleDetails.id}`);
+  };
+
   return (
     <div>
+      <Button
+        variant="contained"
+        style={{ border: "2px solid #009682", display: "block" }}
+        className={classes.button}
+        onClick={() => goToChat()}
+      >
+        Contacter le vendeur
+      </Button>
       <Button
         variant="contained"
         style={{ border: "2px solid #009682" }}
@@ -31,4 +45,4 @@ function InteractionsArticleDetails(props) {
   );
 }
 
-export default withStyles(styles)(InteractionsArticleDetails);
+export default withRouter(withStyles(styles)(InteractionsArticleDetails));
