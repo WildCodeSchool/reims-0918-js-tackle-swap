@@ -10,7 +10,13 @@ const socketIo = (io, app) => {
       const nickname_user = req.user.nickname;
       const id_user = req.user.id;
       const rawAllRooms = await bddQuery(
-        `SELECT pm.room, pm.sender, pm.recipient, users.id FROM private_messages AS pm JOIN users ON (users.id = pm.sender AND pm.sender != ${id_user}) OR (users.id = pm.recipient AND pm.recipient != ${id_user}) WHERE room LIKE '%${nickname_user}%' GROUP BY pm.room, pm.sender, pm.recipient, users.id`
+        `SELECT pm.room, a.id AS article_id, a.name, u.nickname, pa.url_picture
+        FROM private_messages AS pm
+        JOIN articles AS a ON pm.article_id = a.id
+        JOIN users AS u ON a.owner_id = u.id
+        LEFT JOIN pictures_articles AS pa ON pa.article_id = a.id
+        WHERE pm.room LIKE '%-${id_user}%'
+        GROUP BY pm.room, a.id, a.name, u.nickname, pa.url_picture`
       );
       if (rawAllRooms.err) {
         return sendResponse(res, 200, "error", {
@@ -21,32 +27,8 @@ const socketIo = (io, app) => {
           }
         });
       }
-      // return juste nickname to other participant to PM
-      const conversations = rawAllRooms.results
-        // get nickname other participant from room's name
-        .map(room => ({
-          id: room.id,
-          room: room.room,
-          participant: room.room
-            .split("_")
-            .filter(nickname => nickname !== nickname_user)
-            .join("")
-        }))
-        // remove duplicate
-        .reduce((acc, conversation) => {
-          var cle = conversation["id"];
-          if (!acc["response"]) {
-            acc["response"] = [];
-          }
-          if (!acc[cle]) {
-            acc[cle] = "find";
-            acc["response"].push(conversation);
-          }
 
-          return acc;
-        }, {});
-
-      return sendResponse(res, 200, "success", conversations.response);
+      return sendResponse(res, 200, "success", rawAllRooms.results);
     }
   );
 
@@ -56,7 +38,7 @@ const socketIo = (io, app) => {
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
-      roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
+      roomName = `${connectedToRoom.article_id}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
       const rawNicknameParticipant = await bddQuery(
@@ -73,17 +55,18 @@ const socketIo = (io, app) => {
       }, {});
       currentRoom = {
         users,
-        roomName
+        roomName,
+        article_id: parseInt(connectedToRoom.article_id)
       };
       socket.join(roomName);
       socket.emit("roomConnected", currentRoom);
     });
 
     socket.on("sendPrivateMessage", async message => {
-      const insertMessage = await bddQuery(
-        "INSERT INTO private_messages SET ?",
-        [message]
-      );
+      // const insertMessage = await bddQuery(
+      //   "INSERT INTO private_messages SET ?",
+      //   [message]
+      // );
       console.log(message);
       response = {
         type: "success",
