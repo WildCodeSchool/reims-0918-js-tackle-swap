@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import ls from "local-storage";
 import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
@@ -10,8 +11,19 @@ const styles = theme => ({
   }
 });
 
-function InteractionsArticleDetails(props) {
-  const { classes, articleDetails } = props;
+const InteractionsArticleDetails = props => {
+  const { classes, setFlashMessage, articleDetails } = props;
+
+  const goToSwap = () => {
+    if (ls.get("jwt-tackle-swap")) {
+      props.history.push("/mes-echanges");
+    } else {
+      setFlashMessage({
+        type: "warning",
+        message: "Vous devez être connecté !"
+      });
+    }
+  };
 
   const goToChat = () => {
     props.history.push(`/conversation-article-${articleDetails.id}`);
@@ -31,6 +43,7 @@ function InteractionsArticleDetails(props) {
         variant="contained"
         style={{ border: "2px solid #009682" }}
         className={classes.button}
+        onClick={() => goToSwap()}
       >
         Proposer un échange
       </Button>
@@ -43,6 +56,6 @@ function InteractionsArticleDetails(props) {
       </Button>
     </div>
   );
-}
+};
 
 export default withRouter(withStyles(styles)(InteractionsArticleDetails));

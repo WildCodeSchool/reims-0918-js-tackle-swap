@@ -6,7 +6,8 @@ import {
 } from "../actions/actions";
 
 const mapStateToProps = state => ({
-  articleDetails: state.articleDetails
+  articleDetails: state.articleDetails,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
