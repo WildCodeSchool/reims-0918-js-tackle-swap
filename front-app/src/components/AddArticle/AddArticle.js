@@ -60,12 +60,19 @@ class AddArticle extends Component {
       .then(result => {
         console.log(result);
         document.getElementById("picture").value = "";
-        this.setState({
-          picturesUploaded: [
-            ...this.state.picturesUploaded,
-            result.data.response
-          ]
-        });
+        this.setState(
+          {
+            picturesUploaded: [
+              ...this.state.picturesUploaded,
+              result.data.response
+            ]
+          },
+          () => {
+            if (this.state.picturesUploaded.length === 1) {
+              this.defineMainPicture(this.state.picturesUploaded[0].idPicture);
+            }
+          }
+        );
       })
       .catch(error =>
         console.log(error.response.data.response.flashMessage.message)
@@ -110,7 +117,11 @@ class AddArticle extends Component {
         const newPicturesUplaoded = picturesUploaded.filter(
           picture => picture.idPicture !== parseInt(idPicture)
         );
-        this.setState({ picturesUploaded: newPicturesUplaoded });
+        this.setState({ picturesUploaded: newPicturesUplaoded }, () => {
+          if (this.state.picturesUploaded.length === 1) {
+            this.defineMainPicture(this.state.picturesUploaded[0].idPicture);
+          }
+        });
       });
   }
 

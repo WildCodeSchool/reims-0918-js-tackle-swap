@@ -6,6 +6,9 @@ import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArti
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
 import axios from "axios";
+import ls from "local-storage";
+
+import isConnected from "../functions/isConnected";
 
 class ArticleDetails extends Component {
   constructor(props) {
@@ -13,11 +16,17 @@ class ArticleDetails extends Component {
     this.onlineArticle = this.onlineArticle.bind(this);
   }
   callApiArticleDetails = id => {
-    axios
-      .get(`http://localhost:5000/article/${id}`)
-      .then(results =>
-        this.props.articleDetailsReceived(results.data.response[0])
-      );
+    this.props.match.url.includes("article")
+      ? axios
+          .get(`http://localhost:5000/article/${id}`)
+          .then(results =>
+            this.props.articleDetailsReceived(results.data.response[0])
+          )
+      : axios
+          .get(`http://localhost:5000/preview/${id}`)
+          .then(results =>
+            this.props.articleDetailsReceived(results.data.response[0])
+          );
   };
 
   onlineArticle(idArticle, online) {
@@ -31,6 +40,18 @@ class ArticleDetails extends Component {
 
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+        });
+    }
   }
 
   render() {
@@ -49,6 +70,7 @@ class ArticleDetails extends Component {
             <InteractionsArticleDetails
               setFlashMessage={this.props.setFlashMessage}
               articleDetails={this.props.articleDetails}
+              user={this.props.user}
             />
           ) : (
             <InteractionsArticleDetailsPreview

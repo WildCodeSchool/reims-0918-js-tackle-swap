@@ -17,26 +17,32 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   db.insert(
     "private_messages",
-    ["message", "room", "sender", "recipient"],
-    ["Salut, comment vas tu ?", "Kawacke_KoKo", 1, 2],
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Salut, comment vas tu ?", "4-2-1", 1, 2, 4],
     callback
   );
   db.insert(
     "private_messages",
-    ["message", "room", "sender", "recipient"],
-    ["Très bien et toi ?", "Kawacke_KoKo", 2, 1],
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "4-2-1", 2, 1, 4],
     callback
   );
   db.insert(
     "private_messages",
-    ["message", "room", "sender", "recipient"],
-    ["Très bien et toi ?", "Atsou_Kawacke", 3, 1],
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "3-4-1", 4, 1, 3],
     callback
   );
   db.insert(
     "private_messages",
-    ["message", "room", "sender", "recipient"],
-    ["Très bien et toi ?", "Atsou_KoKo", 2, 3],
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "3-4-2", 4, 2, 3],
+    callback
+  );
+  db.insert(
+    "private_messages",
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "3-4-2", 2, 4, 3],
     callback
   );
 };

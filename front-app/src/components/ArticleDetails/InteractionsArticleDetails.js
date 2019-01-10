@@ -12,7 +12,7 @@ const styles = theme => ({
 });
 
 const InteractionsArticleDetails = props => {
-  const { classes, setFlashMessage, articleDetails } = props;
+  const { classes, setFlashMessage, articleDetails, user } = props;
 
   const goToSwap = () => {
     if (ls.get("jwt-tackle-swap")) {
@@ -26,7 +26,9 @@ const InteractionsArticleDetails = props => {
   };
 
   const goToChat = () => {
-    props.history.push(`/conversation-article-${articleDetails.id}`);
+    props.history.push(
+      `/conversation-${articleDetails.id}-${articleDetails.owner_id}-${user.id}`
+    );
   };
 
   return (

@@ -27,6 +27,16 @@ exports.up = function(db, callback) {
         type: "datetime",
         notNull: true,
         defaultValue: new String("NOW()")
+      },
+      article_id: {
+        type: "int",
+        notNull: true,
+        foreignKey: {
+          name: "articles_private_messages_id_fk",
+          table: "articles",
+          mapping: "id",
+          rules: { onDelete: "CASCADE" }
+        }
       }
     },
     callback

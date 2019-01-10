@@ -37,7 +37,8 @@ export class PrivateMessagesRoom extends Component {
       sender: this.props.user.id,
       recipient: recipient,
       message: this.state.message,
-      room: this.state.roomConnected.roomName
+      room: this.state.roomConnected.roomName,
+      article_id: this.state.roomConnected.article_id
     });
     this.setState({ message: "" });
   };
@@ -54,35 +55,37 @@ export class PrivateMessagesRoom extends Component {
   }
 
   async componentDidMount() {
-    if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
-      this.props.setFlashMessage({
-        type: "error",
-        message:
-          "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
-      });
-      return this.props.history.push("/");
-    }
-
-    if (isConnected() && !this.props.user.id) {
-      axios
-        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
-        })
-        .then(results => {
-          this.props.setUserInformation(results.data.response);
-          this.connectedToChat();
+    if (!this.state.socket) {
+      if (!(await isArticle(parseInt(this.props.match.params.article_id)))) {
+        this.props.setFlashMessage({
+          type: "error",
+          message:
+            "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
         });
-    } else if (!isConnected()) {
-      this.props.setFlashMessage({
-        type: "error",
-        message: "Vous devez être connecté pour contacter un vendeur."
-      });
-      return this.props.history.push("/se-connecter");
-    } else {
-      this.connectedToChat();
+        return this.props.history.push("/");
+      }
+
+      if (isConnected() && !this.props.user.id) {
+        axios
+          .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+            headers: {
+              Accept: "application/json",
+              authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+            }
+          })
+          .then(results => {
+            this.props.setUserInformation(results.data.response);
+            this.connectedToChat();
+          });
+      } else if (!isConnected()) {
+        this.props.setFlashMessage({
+          type: "error",
+          message: "Vous devez être connecté pour contacter un vendeur."
+        });
+        return this.props.history.push("/se-connecter");
+      } else {
+        this.connectedToChat();
+      }
     }
   }
 

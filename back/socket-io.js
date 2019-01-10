@@ -9,8 +9,15 @@ const socketIo = (io, app) => {
     async (req, res) => {
       const nickname_user = req.user.nickname;
       const id_user = req.user.id;
+
       const rawAllRooms = await bddQuery(
-        `SELECT pm.room, pm.sender, pm.recipient, users.id FROM private_messages AS pm JOIN users ON (users.id = pm.sender AND pm.sender != ${id_user}) OR (users.id = pm.recipient AND pm.recipient != ${id_user}) WHERE room LIKE '%${nickname_user}%' GROUP BY pm.room, pm.sender, pm.recipient, users.id`
+        `SELECT pm.room, a.id AS article_id, a.name, u.nickname, pa.url_picture
+        FROM private_messages AS pm
+        JOIN articles AS a ON pm.article_id = a.id
+        JOIN users AS u ON a.owner_id = u.id
+        LEFT JOIN pictures_articles AS pa ON pa.article_id = a.id AND pa.main_picture = true
+        WHERE pm.room LIKE '%-${id_user}%'
+        GROUP BY pm.room, a.id, a.name, u.nickname, pa.url_picture`
       );
       if (rawAllRooms.err) {
         return sendResponse(res, 200, "error", {
@@ -21,32 +28,58 @@ const socketIo = (io, app) => {
           }
         });
       }
-      // return juste nickname to other participant to PM
-      const conversations = rawAllRooms.results
-        // get nickname other participant from room's name
-        .map(room => ({
-          id: room.id,
-          room: room.room,
-          participant: room.room
-            .split("_")
-            .filter(nickname => nickname !== nickname_user)
-            .join("")
-        }))
-        // remove duplicate
-        .reduce((acc, conversation) => {
-          var cle = conversation["id"];
-          if (!acc["response"]) {
-            acc["response"] = [];
-          }
+
+      const response = rawAllRooms.results.map(room =>
+        room.url_picture === null
+          ? {
+              ...room,
+              url_picture: "/data/pictures_articles/default.png"
+            }
+          : { ...room }
+      );
+      const addIdInterlocutor = response.map(room => {
+        let id_interlocutor;
+        const newRoom = {
+          ...room,
+          room: room.room
+            .split("-")
+            .map((id, index) => {
+              if (index !== 0 && parseInt(id) !== id_user) {
+                id_interlocutor = parseInt(id);
+              }
+              return id;
+            })
+            .join("-"),
+          id_interlocutor
+        };
+        return newRoom;
+      });
+      const id_interlocutors = addIdInterlocutor.map(room =>
+        parseInt(room.id_interlocutor)
+      );
+      const rawNickname_interlocutors = await bddQuery(
+        `SELECT id, nickname FROM users WHERE id IN (${id_interlocutors})`
+      );
+      console.log(rawNickname_interlocutors);
+
+      const interlocutorsById = rawNickname_interlocutors.results.reduce(
+        (acc, obj) => {
+          const cle = obj["id"];
           if (!acc[cle]) {
-            acc[cle] = "find";
-            acc["response"].push(conversation);
+            acc[cle] = "";
           }
+          acc[cle] = { nickname: obj.nickname };
 
           return acc;
-        }, {});
-
-      return sendResponse(res, 200, "success", conversations.response);
+        },
+        {}
+      );
+      console.log(interlocutorsById);
+      const responseFinal = addIdInterlocutor.map(room => ({
+        ...room,
+        nickname_interlocutor: interlocutorsById[room.id_interlocutor].nickname
+      }));
+      return sendResponse(res, 200, "success", responseFinal);
     }
   );
 
@@ -56,7 +89,7 @@ const socketIo = (io, app) => {
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
-      roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
+      roomName = `${connectedToRoom.article_id}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
       const rawNicknameParticipant = await bddQuery(
@@ -73,7 +106,8 @@ const socketIo = (io, app) => {
       }, {});
       currentRoom = {
         users,
-        roomName
+        roomName,
+        article_id: parseInt(connectedToRoom.article_id)
       };
       socket.join(roomName);
       socket.emit("roomConnected", currentRoom);
@@ -84,7 +118,6 @@ const socketIo = (io, app) => {
         "INSERT INTO private_messages SET ?",
         [message]
       );
-      console.log(message);
       response = {
         type: "success",
         response: [
