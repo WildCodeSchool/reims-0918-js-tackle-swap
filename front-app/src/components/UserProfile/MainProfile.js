@@ -4,7 +4,7 @@ import OrderHistory from "./OrdersHistory";
 import Favorites from "./Favorites";
 import Parameters from "./Parameters";
 
-const MainProfile = () => (
+const MainProfile = props => (
   <div>
     <h1>Mon profil</h1>
     <ul>
@@ -20,6 +20,7 @@ const MainProfile = () => (
       <li>
         <Parameters />
       </li>
+      <li>{props.user.nickname}</li>
     </ul>
   </div>
 );
