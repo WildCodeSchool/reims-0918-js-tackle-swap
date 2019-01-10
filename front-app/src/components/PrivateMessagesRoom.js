@@ -95,11 +95,12 @@ export class PrivateMessagesRoom extends Component {
       console.log("socket");
       this.state.socket.emit("room", connectedToRoom);
       this.state.socket.on("roomConnected", roomConnected => {
-        console.log(roomConnected);
+        console.log("room", roomConnected);
         this.setState({ roomConnected });
       });
       this.state.socket.emit("login");
       this.state.socket.on("receivedPrivateMessage", messageReceived => {
+        console.log("received");
         if (messageReceived.type === "error") {
           console.log("STOP ERROR", messageReceived.message);
         } else {
