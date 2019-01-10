@@ -33,6 +33,18 @@ exports.up = function(db, callback) {
     ["Très bien et toi ?", "3-4-1", 4, 1, 3],
     callback
   );
+  db.insert(
+    "private_messages",
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "3-4-2", 4, 2, 3],
+    callback
+  );
+  db.insert(
+    "private_messages",
+    ["message", "room", "sender", "recipient", "article_id"],
+    ["Très bien et toi ?", "3-4-2", 2, 4, 3],
+    callback
+  );
 };
 
 exports.down = function(db, callback) {

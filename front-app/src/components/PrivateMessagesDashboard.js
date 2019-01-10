@@ -58,6 +58,8 @@ export class PrivateMessagesDashboard extends Component {
                         Article : {room.name}
                         <br />
                         Propriétaire : {room.nickname}
+                        <br />
+                        Interlocuteur : {room.nickname_interlocutor}
                       </p>
                       <Button onClick={() => this.goToChat(room.room)}>
                         Aller à la conversation

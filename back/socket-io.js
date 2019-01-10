@@ -9,6 +9,7 @@ const socketIo = (io, app) => {
     async (req, res) => {
       const nickname_user = req.user.nickname;
       const id_user = req.user.id;
+
       const rawAllRooms = await bddQuery(
         `SELECT pm.room, a.id AS article_id, a.name, u.nickname, pa.url_picture
         FROM private_messages AS pm
@@ -28,16 +29,57 @@ const socketIo = (io, app) => {
         });
       }
 
-      const response = rawAllRooms.results.map(room => {
-        return room.url_picture === null
+      const response = rawAllRooms.results.map(room =>
+        room.url_picture === null
           ? {
               ...room,
               url_picture: "/data/pictures_articles/default.png"
             }
-          : { ...room };
+          : { ...room }
+      );
+      const addIdInterlocutor = response.map(room => {
+        let id_interlocutor;
+        const newRoom = {
+          ...room,
+          room: room.room
+            .split("-")
+            .map((id, index) => {
+              if (index !== 0 && parseInt(id) !== id_user) {
+                id_interlocutor = parseInt(id);
+              }
+              return id;
+            })
+            .join("-"),
+          id_interlocutor
+        };
+        return newRoom;
       });
-      console.log(response);
-      return sendResponse(res, 200, "success", response);
+      const id_interlocutors = addIdInterlocutor.map(room =>
+        parseInt(room.id_interlocutor)
+      );
+      const rawNickname_interlocutors = await bddQuery(
+        `SELECT id, nickname FROM users WHERE id IN (${id_interlocutors})`
+      );
+      console.log(rawNickname_interlocutors);
+
+      const interlocutorsById = rawNickname_interlocutors.results.reduce(
+        (acc, obj) => {
+          const cle = obj["id"];
+          if (!acc[cle]) {
+            acc[cle] = "";
+          }
+          acc[cle] = { nickname: obj.nickname };
+
+          return acc;
+        },
+        {}
+      );
+      console.log(interlocutorsById);
+      const responseFinal = addIdInterlocutor.map(room => ({
+        ...room,
+        nickname_interlocutor: interlocutorsById[room.id_interlocutor].nickname
+      }));
+      return sendResponse(res, 200, "success", responseFinal);
     }
   );
 

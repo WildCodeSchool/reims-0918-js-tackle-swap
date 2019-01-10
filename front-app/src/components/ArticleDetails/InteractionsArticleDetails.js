@@ -11,10 +11,13 @@ const styles = theme => ({
 });
 
 function InteractionsArticleDetails(props) {
-  const { classes, articleDetails } = props;
+  const { classes, articleDetails, user } = props;
+  console.log(user);
 
   const goToChat = () => {
-    props.history.push(`/conversation-article-${articleDetails.id}`);
+    props.history.push(
+      `/conversation-${articleDetails.id}-${articleDetails.owner_id}-${user.id}`
+    );
   };
 
   return (

@@ -6,6 +6,9 @@ import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArti
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 
 import axios from "axios";
+import ls from "local-storage";
+
+import isConnected from "../functions/isConnected";
 
 class ArticleDetails extends Component {
   constructor(props) {
@@ -37,6 +40,18 @@ class ArticleDetails extends Component {
 
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+        });
+    }
   }
 
   render() {
@@ -54,6 +69,7 @@ class ArticleDetails extends Component {
           {this.props.match.url.includes("article") ? (
             <InteractionsArticleDetails
               articleDetails={this.props.articleDetails}
+              user={this.props.user}
             />
           ) : (
             <InteractionsArticleDetailsPreview
