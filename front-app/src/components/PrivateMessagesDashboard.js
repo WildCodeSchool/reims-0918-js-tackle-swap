@@ -36,23 +36,40 @@ export class PrivateMessagesDashboard extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
-            <div style={classes.main_private_messages}>
-              <h2>PrivateMessagesDashboard</h2>
-              {this.state.listRooms.length > 0 ? (
-                this.state.listRooms.map((room, index) => (
-                  <p key={index}>
-                    {room.participant}{" "}
-                    <Button onClick={() => this.goToChat(room.room)}>
-                      Aller à la conversation
-                    </Button>
-                  </p>
-                ))
-              ) : (
-                <h3>Pas de conversation</h3>
-              )}
-            </div>
-          </Paper>
+          <div style={classes.main_private_messages}>
+            <h2>PrivateMessagesDashboard</h2>
+            {this.state.listRooms.length > 0 ? (
+              this.state.listRooms.map((room, index) => (
+                <Paper key={index} style={{ marginBottom: 10, padding: 5 }}>
+                  <Grid container>
+                    <Grid item xs={4}>
+                      <img
+                        src={`${process.env.REACT_APP_URL_API}${
+                          room.url_picture
+                        }`}
+                        alt={`${process.env.REACT_APP_URL_API}${
+                          room.url_picture
+                        }`}
+                        style={{ width: "100%" }}
+                      />
+                    </Grid>
+                    <Grid item xs={8} style={{ paddingLeft: 5 }}>
+                      <p>
+                        Article : {room.name}
+                        <br />
+                        Propriétaire : {room.nickname}
+                      </p>
+                      <Button onClick={() => this.goToChat(room.room)}>
+                        Aller à la conversation
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              ))
+            ) : (
+              <h3>Pas de conversation</h3>
+            )}
+          </div>
         </Grid>
       </Grid>
     );

@@ -14,7 +14,7 @@ const socketIo = (io, app) => {
         FROM private_messages AS pm
         JOIN articles AS a ON pm.article_id = a.id
         JOIN users AS u ON a.owner_id = u.id
-        LEFT JOIN pictures_articles AS pa ON pa.article_id = a.id
+        LEFT JOIN pictures_articles AS pa ON pa.article_id = a.id AND pa.main_picture = true
         WHERE pm.room LIKE '%-${id_user}%'
         GROUP BY pm.room, a.id, a.name, u.nickname, pa.url_picture`
       );
@@ -28,7 +28,16 @@ const socketIo = (io, app) => {
         });
       }
 
-      return sendResponse(res, 200, "success", rawAllRooms.results);
+      const response = rawAllRooms.results.map(room => {
+        return room.url_picture === null
+          ? {
+              ...room,
+              url_picture: "/data/pictures_articles/default.png"
+            }
+          : { ...room };
+      });
+      console.log(response);
+      return sendResponse(res, 200, "success", response);
     }
   );
 
@@ -63,11 +72,10 @@ const socketIo = (io, app) => {
     });
 
     socket.on("sendPrivateMessage", async message => {
-      // const insertMessage = await bddQuery(
-      //   "INSERT INTO private_messages SET ?",
-      //   [message]
-      // );
-      console.log(message);
+      const insertMessage = await bddQuery(
+        "INSERT INTO private_messages SET ?",
+        [message]
+      );
       response = {
         type: "success",
         response: [

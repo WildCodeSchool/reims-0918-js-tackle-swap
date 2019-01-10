@@ -30,7 +30,7 @@ exports.up = function(db, callback) {
   db.insert(
     "private_messages",
     ["message", "room", "sender", "recipient", "article_id"],
-    ["Très bien et toi ?", "3-3-1", 3, 1, 3],
+    ["Très bien et toi ?", "3-4-1", 4, 1, 3],
     callback
   );
 };
