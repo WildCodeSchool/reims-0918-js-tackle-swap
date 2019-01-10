@@ -44,7 +44,7 @@ const styles = {
     paddingRight: "120px",
     padding: "2%",
     margin: "0 auto",
-    maxWidth: "35%"
+    maxHeight: "80%"
   },
   list: {
     backgroundColor: "#e6f7ff",

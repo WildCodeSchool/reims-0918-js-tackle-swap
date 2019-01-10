@@ -80,4 +80,4 @@ typings/
 
 # Folder Data Upload 
 /data/pictures_articles/*
-!/data/pictures_articles/default.png
+!/data/pictures_articles/logo_poisson.svg
