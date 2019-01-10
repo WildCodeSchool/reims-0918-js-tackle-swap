@@ -173,7 +173,7 @@ app.get("/articles", async (req, res) => {
     } else {
       obj.pictures = [
         {
-          url_picture: "/data/pictures_articles/default.png",
+          url_picture: "/data/pictures_articles/logo_poisson.svg",
           main_picture: 1
         }
       ];
@@ -320,7 +320,7 @@ app.get("/preview/:id/", async (req, res) => {
       ? pictures
       : [
           {
-            url_picture: "/data/pictures_articles/default.png",
+            url_picture: "/data/pictures_articles/logo_poisson.svg",
             main_picture: 1
           }
         ];

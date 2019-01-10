@@ -10,6 +10,9 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+
 const history = createBrowserHistory();
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,9 +23,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

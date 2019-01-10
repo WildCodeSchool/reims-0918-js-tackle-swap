@@ -68,12 +68,14 @@ class ArticleDetails extends Component {
           <DescriptionArticleDetails {...this.props.articleDetails} />
           {this.props.match.url.includes("article") ? (
             <InteractionsArticleDetails
+              setFlashMessage={this.props.setFlashMessage}
               articleDetails={this.props.articleDetails}
               user={this.props.user}
             />
           ) : (
             <InteractionsArticleDetailsPreview
               {...this.props.articleDetails}
+              {...this.props.user}
               onlineArticle={this.onlineArticle}
             />
           )}
