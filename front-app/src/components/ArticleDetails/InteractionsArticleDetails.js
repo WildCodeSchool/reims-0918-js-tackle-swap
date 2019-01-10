@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import ls from "local-storage";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   button: {
@@ -15,7 +16,7 @@ const InteractionsArticleDetails = props => {
 
   const goToSwap = () => {
     if (ls.get("jwt-tackle-swap")) {
-      console.log("redirection composant échange");
+      props.history.push("/mes-echanges");
     } else {
       setFlashMessage({
         type: "warning",
@@ -44,4 +45,4 @@ const InteractionsArticleDetails = props => {
   );
 };
 
-export default withStyles(styles)(InteractionsArticleDetails);
+export default withRouter(withStyles(styles)(InteractionsArticleDetails));

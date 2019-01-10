@@ -10,6 +10,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import MailIcon from "@material-ui/icons/Mail";
 import FaceIcon from "@material-ui/icons/Face";
+import CompareArrows from "@material-ui/icons/CompareArrows";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PowerIcon from "@material-ui/icons/Power";
 import CreateIcon from "@material-ui/icons/Create";
@@ -83,7 +84,13 @@ class ButtonAppBar extends Component {
           path: "/ajouter-un-article",
           icon: <AddCartIcon />
         },
-        { id: 20, name: "Message", path: "/messagerie", icon: <MailIcon /> },
+        { id: 20, name: "Messages", path: "/messagerie", icon: <MailIcon /> },
+        {
+          id: 25,
+          name: "Mes Echanges",
+          path: "/mes-echanges",
+          icon: <CompareArrows />
+        },
         { id: 99, name: "Se déconnecter", path: "/", icon: <PowerOffIcon /> }
       ];
     } else {

@@ -53,6 +53,7 @@ class ArticleDetails extends Component {
           ) : (
             <InteractionsArticleDetailsPreview
               {...this.props.articleDetails}
+              {...this.props.user}
               onlineArticle={this.onlineArticle}
             />
           )}
