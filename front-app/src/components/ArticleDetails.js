@@ -34,7 +34,6 @@ class ArticleDetails extends Component {
   }
 
   render() {
-    console.log(this.props.articleDetails);
     return (
       <div>
         <div className="ArticleDetails">
@@ -49,6 +48,7 @@ class ArticleDetails extends Component {
           {this.props.match.url.includes("article") ? (
             <InteractionsArticleDetails
               setFlashMessage={this.props.setFlashMessage}
+              articleDetails={this.props.articleDetails}
             />
           ) : (
             <InteractionsArticleDetailsPreview

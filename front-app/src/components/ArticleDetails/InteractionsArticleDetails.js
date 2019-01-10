@@ -12,7 +12,7 @@ const styles = theme => ({
 });
 
 const InteractionsArticleDetails = props => {
-  const { classes, setFlashMessage } = props;
+  const { classes, setFlashMessage, articleDetails } = props;
 
   const goToSwap = () => {
     if (ls.get("jwt-tackle-swap")) {
@@ -24,8 +24,21 @@ const InteractionsArticleDetails = props => {
       });
     }
   };
+
+  const goToChat = () => {
+    props.history.push(`/conversation-article-${articleDetails.id}`);
+  };
+
   return (
     <div>
+      <Button
+        variant="contained"
+        style={{ border: "2px solid #009682", display: "block" }}
+        className={classes.button}
+        onClick={() => goToChat()}
+      >
+        Contacter le vendeur
+      </Button>
       <Button
         variant="contained"
         style={{ border: "2px solid #009682" }}

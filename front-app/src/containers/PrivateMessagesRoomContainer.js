@@ -1,15 +1,22 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 import PrivateMessagesRoom from "../components/PrivateMessagesRoom";
+import {
+  makeUserProfileInformationReceivedAction,
+  makeShowFlashMessageAction
+} from "../actions/actions";
 
-class PrivateMessagesRoomContainer extends Component {
-  render() {
-    return (
-      <PrivateMessagesRoom
-        participant={this.props.match.params.participant}
-        id_participant={this.props.match.params.id}
-      />
-    );
-  }
-}
+const mapStateToProps = state => ({
+  user: state.user
+});
 
-export default PrivateMessagesRoomContainer;
+const mapDispatchToProps = dispatch => ({
+  setFlashMessage: responseApi =>
+    dispatch(makeShowFlashMessageAction(responseApi)),
+  setUserInformation: responseApi =>
+    dispatch(makeUserProfileInformationReceivedAction(responseApi))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrivateMessagesRoom);

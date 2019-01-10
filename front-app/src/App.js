@@ -13,6 +13,7 @@ import PrivateMessagesDashboardContainer from "./containers/PrivateMessagesDashb
 import PrivateMessagesRoomContainer from "./containers/PrivateMessagesRoomContainer";
 import AddArticleContainer from "./containers/AddArticleContainer";
 import ListExchanges from "./components/Exchanges/ListExchanges";
+import UserProfileContainer from "./containers/UserProfileContainer";
 
 class App extends Component {
   render() {
@@ -25,7 +26,12 @@ class App extends Component {
     return (
       <div style={styles}>
         <NavBar />
-        <div style={{ padding: "10px" }}>
+        <div
+          style={{
+            padding: "10px",
+            marginTop: "70px"
+          }}
+        >
           <Switch>
             <Route exact path="/" component={ListArticlesContainer} />
             <Route
@@ -41,12 +47,13 @@ class App extends Component {
             <Route path="/ajouter-un-article" component={AddArticleContainer} />
             <Route path="/se-connecter" component={LoginContainer} />
             <Route path="/s-inscrire" component={RegisterContainer} />
+            <Route path="/profil" component={UserProfileContainer} />
             <Route
               path="/messagerie"
               component={PrivateMessagesDashboardContainer}
             />
             <Route
-              path="/conversation-:participant-:id"
+              path="/conversation-:id_article-:id_owner-:id_user"
               component={PrivateMessagesRoomContainer}
             />
             <Route path="/mes-echanges" component={ListExchanges} />

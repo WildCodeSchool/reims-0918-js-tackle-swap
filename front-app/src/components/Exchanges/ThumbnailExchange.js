@@ -18,7 +18,7 @@ function ThumbnailExchange(props) {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Paper>
+        <Paper classeName={classes.paper}>
           <Grid container>
             <Grid
               item
