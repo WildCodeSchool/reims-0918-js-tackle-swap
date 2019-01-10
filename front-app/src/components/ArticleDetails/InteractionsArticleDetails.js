@@ -16,7 +16,7 @@ const InteractionsArticleDetails = props => {
 
   const goToSwap = () => {
     if (ls.get("jwt-tackle-swap")) {
-      props.history.push("/mes-echanges");
+      props.history.push("/proposer-article");
     } else {
       setFlashMessage({
         type: "warning",
