@@ -13,7 +13,7 @@ const Register = props => {
 
   const submit = values =>
     axios
-      .post("http://localhost:5000/user", {
+      .post(`${process.env.REACT_APP_URL_API}/user`, {
         gender: values.gender,
         lastname: values.lastname,
         firstname: values.firstname,

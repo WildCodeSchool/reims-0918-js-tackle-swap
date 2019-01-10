@@ -92,6 +92,7 @@ export class PrivateMessagesRoom extends Component {
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
     this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
+      console.log("socket");
       this.state.socket.emit("room", connectedToRoom);
       this.state.socket.on("roomConnected", roomConnected => {
         console.log(roomConnected);
