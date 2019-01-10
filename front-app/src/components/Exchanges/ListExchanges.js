@@ -5,13 +5,7 @@ import Grid from "@material-ui/core/Grid";
 class ListExchanges extends Component {
   render() {
     return (
-      <Grid
-        container
-        spacing={8}
-        alignItems="center"
-        direction="row"
-        justify="space-around"
-      >
+      <Grid container alignItems="center" direction="column">
         <ThumbnailExchange />
       </Grid>
     );

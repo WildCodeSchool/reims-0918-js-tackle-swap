@@ -23,7 +23,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import MenuIcon from "@material-ui/icons/Menu";
 import ls from "local-storage";
-import autoPlay from "react-swipeable-views-utils/lib/autoPlay";
 
 import avatar from "./../../images/avatar.png";
 import logo from "./../../images/LogoF-white.png";
