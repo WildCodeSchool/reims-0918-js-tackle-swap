@@ -6,6 +6,15 @@ import { validate } from "./Form/Validate";
 import axios from "axios";
 import ls from "local-storage";
 import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: "#009682"
+  }
+});
 
 const Login = props => {
   const {
@@ -27,46 +36,51 @@ const Login = props => {
         props.history.push("/");
       })
       .catch(result => console.log("response ERROR:", result));
+
+  const { classes } = props;
   return (
     <Grid container>
       <Grid item xs={12}>
         <Paper>
-          <form onSubmit={handleSubmit(submit)}>
+          <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
             <div>
-              <label htmlFor="nickname">Pseudo :</label>
               <div>
                 <Field
                   name="nickname"
                   id="nickname"
                   component={renderField}
                   type="text"
-                  placeholder="Votre pseudo"
+                  label="Pseudo"
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="password">Mot de passe :</label>
               <div>
                 <Field
                   name="password"
                   id="password"
                   component={renderField}
                   type="password"
-                  placeholder="Password"
+                  label="Mot de passe"
                 />
               </div>
             </div>
-            <div>
-              <button type="submit" disabled={pristine || submitting}>
-                Submit
-              </button>
-              <button
-                type="button"
-                disabled={pristine || submitting}
+            <div style={{ paddingTop: "20px" }}>
+              <Button
+                variant="contained"
+                style={{ border: "2px solid #009682" }}
+                className={classes.button}
+              >
+                Se connecter
+              </Button>
+              <Button
+                variant="contained"
+                style={{ border: "2px solid #009682" }}
+                className={classes.button}
                 onClick={reset}
               >
-                Clear Values
-              </button>
+                Effacer valeurs
+              </Button>
             </div>
           </form>
         </Paper>
@@ -76,8 +90,10 @@ const Login = props => {
 };
 
 export default withRouter(
-  reduxForm({
-    form: "login",
-    validate
-  })(Login)
+  withStyles(styles)(
+    reduxForm({
+      form: "login",
+      validate
+    })(Login)
+  )
 );
