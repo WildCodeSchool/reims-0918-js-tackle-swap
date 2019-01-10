@@ -22,6 +22,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import MenuIcon from "@material-ui/icons/Menu";
 import ls from "local-storage";
+import autoPlay from "react-swipeable-views-utils/lib/autoPlay";
+
+import avatar from "./../../images/avatar.png";
+import logo from "./../../images/LogoF-white.png";
 
 const styles = {
   root: {
@@ -36,7 +40,10 @@ const styles = {
     color: "inherit"
   },
   logo: {
-    padding: "5% 8%"
+    paddingRight: "120px",
+    padding: "2%",
+    margin: "0 auto",
+    maxWidth: "35%"
   },
   list: {
     backgroundColor: "#e6f7ff",
@@ -105,11 +112,7 @@ class ButtonAppBar extends Component {
     }
     const sideList = (
       <div className={classes.list}>
-        <img
-          src="http://image.noelshack.com/fichiers/2018/51/2/1545143709-avatar.png"
-          alt="profil"
-          className={classes.photoProfil}
-        />
+        <img src={avatar} alt="profil" />
         <List>
           {list
             .sort((a, b) => a.id - b.id)
@@ -155,13 +158,7 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
-
-            <img
-              src="http://image.noelshack.com/fichiers/2018/50/3/1544610771-logof-white.png"
-              alt="Logo"
-              width="40%"
-              className={classes.logo}
-            />
+            <img src={logo} alt="Logo" className={classes.logo} />
           </Toolbar>
         </AppBar>
         <div>
