@@ -18,7 +18,7 @@ const styles = theme => ({
 });
 
 const Register = props => {
-  const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
+  const { handleSubmit, reset, setFlashMessage } = props;
 
   const submit = values =>
     axios

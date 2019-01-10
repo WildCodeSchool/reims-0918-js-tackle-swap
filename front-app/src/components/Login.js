@@ -17,14 +17,7 @@ const styles = theme => ({
 });
 
 const Login = props => {
-  const {
-    handleSubmit,
-    pristine,
-    reset,
-    submitting,
-    setFlashMessage,
-    setUserInformation
-  } = props;
+  const { handleSubmit, reset, setFlashMessage, setUserInformation } = props;
 
   const submit = values =>
     axios

@@ -28,8 +28,7 @@ class App extends Component {
         <div
           style={{
             padding: "10px",
-            marginTop: "70px",
-            opacity: 0.9
+            marginTop: "70px"
           }}
         >
           <Switch>

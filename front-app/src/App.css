@@ -24,7 +24,6 @@
 
 .ArticleDetails {
   background-color: white;
-  opacity: 0.9;
 }
 
 .TextDescription {
@@ -61,4 +60,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.logo {
+  width: 100%;
 }
