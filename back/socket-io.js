@@ -79,8 +79,8 @@ const socketIo = (io, app) => {
       return sendResponse(res, 200, "success", responseFinal);
     }
   );
-
-  io.on("connection", socket => {
+  const nsp = io.of("test");
+  nsp.on("connection", socket => {
     console.log("New user connected");
 
     // Defined room to send and received message
@@ -127,7 +127,7 @@ const socketIo = (io, app) => {
           }
         ]
       };
-      io.to(socket.id).emit("receivedPrivateMessage", response);
+      nsp.to(socket.id).emit("receivedPrivateMessage", response);
     });
 
     socket.on("login", async () => {
@@ -154,7 +154,7 @@ const socketIo = (io, app) => {
         };
       }
 
-      io.to(socket.id).emit("receivedPrivateMessage", responseSocket);
+      nsp.to(socket.id).emit("receivedPrivateMessage", responseSocket);
     });
 
     socket.on("disconnect", () => {
