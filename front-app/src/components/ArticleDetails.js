@@ -4,6 +4,7 @@ import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetail
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
+import { withRouter } from "react-router-dom";
 
 import axios from "axios";
 import ls from "local-storage";
@@ -35,8 +36,8 @@ class ArticleDetails extends Component {
         `${process.env.REACT_APP_URL_API}/article_${idArticle}/online_${online}`
       )
       .then(results => {
-        console.log(results);
         this.props.setFlashMessage(results.data.response.flashMessage);
+        this.props.history.push(`/article/${idArticle}`);
       });
   }
 
@@ -86,4 +87,4 @@ class ArticleDetails extends Component {
   }
 }
 
-export default ArticleDetails;
+export default withRouter(ArticleDetails);

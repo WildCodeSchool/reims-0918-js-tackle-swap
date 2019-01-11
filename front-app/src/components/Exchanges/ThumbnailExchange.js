@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Grid, Paper, Typography } from "@material-ui/core/";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -18,95 +19,81 @@ const styles = theme => ({
   }
 });
 
-const goToArticleDetails = () => {
-  console.log("Go to article details");
-};
-
-const goToChat = () => {
-  console.log("Go to the chat with the owner");
-};
-
 function ThumbnailExchange(props) {
   const { classes } = props;
 
-  return (
-    <Grid item xs={12}>
-      <Paper className={classes.paper}>
-        <Grid container>
-          <Grid
-            item
-            xs={4}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <img
-              src={`${
-                process.env.REACT_APP_URL_API
-              }/data/pictures_articles/default.png`}
-              alt={`${
-                process.env.REACT_APP_URL_API
-              }/data/pictures_articles/default.png`}
-              style={{
-                maxWidth: "95%",
-                maxHeight: "95%"
-              }}
-            />
-          </Grid>
-          <Grid item xs={8}>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Typography variant="h5">Nom article</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Typography variant="body1">Description article</Typography>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  justify: "space-around"
-                }}
-              >
-                <Button className={classes.button} onClick={() => goToChat()}>
-                  Conversation
-                </Button>
+  const goToArticleDetails = () => {
+    props.history.push("/article/2");
+  };
 
-                <Button
-                  className={classes.button}
-                  onClick={() => goToArticleDetails()}
-                >
-                  Détails
-                </Button>
-              </Grid>
+  const goToChat = () => {
+    props.history.push("/conversation-2-2-1");
+  };
+  return (
+    <Paper className={classes.paper}>
+      <Grid container>
+        <Grid
+          item
+          xs={4}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <img
+            src={`${
+              process.env.REACT_APP_URL_API
+            }/data/pictures_articles/2/leurre.jpg`}
+            alt={`${
+              process.env.REACT_APP_URL_API
+            }/data/pictures_articles/2/leurre.jpg`}
+            style={{
+              maxWidth: "95%",
+              maxHeight: "95%"
+            }}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Typography variant="h5">ILLEX Tiny Fry 38 SP</Typography>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                justify: "space-around"
+              }}
+            >
+              <Button className={classes.button} onClick={() => goToChat()}>
+                Conversation
+              </Button>
+
+              <Button
+                className={classes.button}
+                onClick={() => goToArticleDetails()}
+              >
+                Détails
+              </Button>
             </Grid>
           </Grid>
         </Grid>
-      </Paper>
-    </Grid>
+      </Grid>
+    </Paper>
   );
 }
 
@@ -114,4 +101,4 @@ ThumbnailExchange.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ThumbnailExchange);
+export default withRouter(withStyles(styles)(ThumbnailExchange));

@@ -24,70 +24,68 @@ function ThumbnailArticleToExchange(props) {
   const { classes } = props;
 
   return (
-    <Grid item xs={12} style={{ marginBottom: "10px" }}>
-      <Grid container>
-        <Grid item xs={2}>
-          <Radio
-            color="default"
-            name="radio-button"
-            icon={<RadioButtonUncheckedIcon fontSize="small" />}
-            checkedIcon={<RadioButtonCheckedIcon fontSize="small" />}
-          />
-        </Grid>
-        <Grid item xs={10}>
-          <Paper className={classes.paper}>
-            <Grid container>
-              <Grid
-                item
-                xs={4}
+    <Grid container>
+      <Grid item xs={2}>
+        <Radio
+          color="default"
+          name="radio-button"
+          icon={<RadioButtonUncheckedIcon fontSize="small" />}
+          checkedIcon={<RadioButtonCheckedIcon fontSize="small" />}
+        />
+      </Grid>
+      <Grid item xs={10}>
+        <Paper className={classes.paper}>
+          <Grid container>
+            <Grid
+              item
+              xs={4}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <img
+                src={`${
+                  process.env.REACT_APP_URL_API
+                }/data/pictures_articles/logo_poisson.svg`}
+                alt={`${
+                  process.env.REACT_APP_URL_API
+                }/data/pictures_articles/logo_poisson.svg`}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
+                  maxWidth: "95%",
+                  maxHeight: "95%"
                 }}
-              >
-                <img
-                  src={`${
-                    process.env.REACT_APP_URL_API
-                  }/data/pictures_articles/default.png`}
-                  alt={`${
-                    process.env.REACT_APP_URL_API
-                  }/data/pictures_articles/default.png`}
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
                   style={{
-                    maxWidth: "95%",
-                    maxHeight: "95%"
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
-                />
-              </Grid>
-              <Grid item xs={8}>
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Typography variant="h5">{props.name}</Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <Typography variant="body1">{props.description}</Typography>
-                  </Grid>
+                >
+                  <Typography variant="h5">{props.name}</Typography>
                 </Grid>
+                {/* <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Typography variant="body1">{props.description}</Typography>
+                </Grid> */}
               </Grid>
             </Grid>
-          </Paper>
-        </Grid>
+          </Grid>
+        </Paper>
       </Grid>
     </Grid>
   );

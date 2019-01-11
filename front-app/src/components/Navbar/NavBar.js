@@ -69,6 +69,7 @@ class ButtonAppBar extends Component {
     e.preventDefault();
     ls.clear();
   };
+
   render() {
     const { classes } = this.props;
 

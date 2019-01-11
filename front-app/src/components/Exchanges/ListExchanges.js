@@ -6,7 +6,9 @@ class ListExchanges extends Component {
   render() {
     return (
       <Grid container alignItems="center" direction="column">
-        <ThumbnailExchange />
+        <Grid item xs={12} style={{ width: "100%", marginBottom: "10px" }}>
+          <ThumbnailExchange />
+        </Grid>
       </Grid>
     );
   }

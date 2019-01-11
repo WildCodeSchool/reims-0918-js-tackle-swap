@@ -12,6 +12,7 @@ const styles = theme => ({
 function InteractionsArticleDetails(props) {
   const { classes, onlineArticle, online } = props;
   const idArticle = props.id;
+
   console.log(props);
   return (
     <div>

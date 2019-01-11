@@ -26,9 +26,21 @@ class ListArticleToExchange extends Component {
   }
   render() {
     return (
-      <Grid container alignItems="center" direction="column">
-        {this.state.myArticles.map(article => (
-          <ThumbnailArticleToExchange {...article} />
+      <Grid
+        container
+        alignItems="center"
+        direction="column"
+        style={{ width: "100%" }}
+      >
+        {this.state.myArticles.map((article, index) => (
+          <Grid
+            key={index}
+            item
+            xs={12}
+            style={{ width: "100%", marginBottom: "10px" }}
+          >
+            <ThumbnailArticleToExchange {...article} />
+          </Grid>
         ))}
         <Button style={{ backgroundColor: "#009682" }}>Valider</Button>
       </Grid>
