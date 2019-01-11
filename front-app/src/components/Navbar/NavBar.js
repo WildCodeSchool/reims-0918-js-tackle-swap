@@ -40,10 +40,8 @@ const styles = {
     color: "inherit"
   },
   logo: {
-    paddingRight: "120px",
-    padding: "2%",
-    margin: "0 auto",
-    maxHeight: "80%"
+    paddingRight: "100px",
+    padding: "3%"
   },
   list: {
     backgroundColor: "#e6f7ff",
@@ -154,8 +152,8 @@ class ButtonAppBar extends Component {
         <AppBar
           style={{
             backgroundColor: "#009682",
-            minHeight: "70px",
-            maxHeight: "70px"
+            minHeight: "80px",
+            maxHeight: "80px"
           }}
           position="fixed"
         >
@@ -168,12 +166,12 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
-            <div style={{ height: "80px" }}>
+            <div style={{ height: "60px", paddingTop: 5 }}>
               <img
                 src={logo}
                 alt="Logo"
                 className={classes.logo}
-                style={{ height: "100%" }}
+                style={{ maxHeight: "100%" }}
               />
             </div>
           </Toolbar>

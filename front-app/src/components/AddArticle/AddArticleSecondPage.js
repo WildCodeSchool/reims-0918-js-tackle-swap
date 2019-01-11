@@ -17,7 +17,7 @@ const AddArticleSecondPage = props => {
   return (
     <Fragment>
       <div>
-        <form>
+        <form style={{ padding: "20px" }}>
           {picturesUploaded.length < 3 && (
             <input
               type="file"
@@ -79,7 +79,7 @@ const AddArticleSecondPage = props => {
           </Grid>
         )}
       </div>
-      <div>
+      <div style={{ padding: "20px" }}>
         <button onClick={() => goToPreview(idArticle)}>
           Prévisualiser mon annonce
         </button>

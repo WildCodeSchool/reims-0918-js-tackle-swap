@@ -16,7 +16,7 @@ const InteractionsArticleDetails = props => {
 
   const goToSwap = () => {
     if (ls.get("jwt-tackle-swap")) {
-      props.history.push("/mes-echanges");
+      props.history.push("/proposer-article");
     } else {
       setFlashMessage({
         type: "warning",
@@ -35,7 +35,11 @@ const InteractionsArticleDetails = props => {
     <div>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682", display: "block" }}
+        style={{
+          border: "2px solid #009682",
+          display: "block",
+          color: "white"
+        }}
         className={classes.button}
         onClick={() => goToChat()}
       >
@@ -43,7 +47,7 @@ const InteractionsArticleDetails = props => {
       </Button>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682" }}
+        style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
         onClick={() => goToSwap()}
       >
@@ -51,7 +55,7 @@ const InteractionsArticleDetails = props => {
       </Button>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682" }}
+        style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
       >
         Partager

@@ -18,6 +18,14 @@ const styles = theme => ({
   }
 });
 
+const goToArticleDetails = () => {
+  console.log("Go to article details");
+};
+
+const goToChat = () => {
+  console.log("Go to the chat with the owner");
+};
+
 function ThumbnailExchange(props) {
   const { classes } = props;
 
@@ -83,9 +91,16 @@ function ThumbnailExchange(props) {
                   justify: "space-around"
                 }}
               >
-                <Button className={classes.button}>Conversations</Button>
+                <Button className={classes.button} onClick={() => goToChat()}>
+                  Conversation
+                </Button>
 
-                <Button className={classes.button}>Détails</Button>
+                <Button
+                  className={classes.button}
+                  onClick={() => goToArticleDetails()}
+                >
+                  Détails
+                </Button>
               </Grid>
             </Grid>
           </Grid>

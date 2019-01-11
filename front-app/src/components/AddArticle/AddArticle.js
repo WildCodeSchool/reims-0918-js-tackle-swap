@@ -141,7 +141,6 @@ class AddArticle extends Component {
       <Grid container>
         <Grid item xs={12}>
           <Paper>
-            <h4>Ajouter un article à votre vitrine :</h4>
             {page === 1 && (
               <AddArticleFirstPage onSubmit={this.onSubmitInformations} />
             )}
