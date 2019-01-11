@@ -17,6 +17,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import PowerOffIcon from "@material-ui/icons/PowerOff";
 import AddCartIcon from "@material-ui/icons/AddShoppingCart";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { withRouter } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -55,6 +56,9 @@ const styles = {
 };
 
 class ButtonAppBar extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     open: false
   };
@@ -68,6 +72,11 @@ class ButtonAppBar extends Component {
   disconnect = e => {
     e.preventDefault();
     ls.clear();
+    this.props.setFlashMessage({
+      message: "Vous êtes bien déconnecté",
+      type: "success"
+    });
+    this.props.history.push("/");
   };
 
   render() {
@@ -199,4 +208,4 @@ ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withRouter(withStyles(styles)(ButtonAppBar));

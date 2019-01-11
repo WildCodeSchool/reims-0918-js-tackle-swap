@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router";
 import background from "./images/background-white.jpg";
 
 import ListArticlesContainer from "./containers/ListArticlesContainer";
-import NavBar from "./components/Navbar/NavBar";
+import NavBarContainer from "./containers/NavBarContainer";
 import ArticleDetailsContainer from "./containers/ArticleDetailsContainer";
 import LoginContainer from "./containers/LoginContainer";
 import RegisterContainer from "./containers/RegisterContainer";
@@ -26,7 +26,7 @@ class App extends Component {
     };
     return (
       <div style={styles}>
-        <NavBar />
+        <NavBarContainer />
         <div
           style={{
             padding: "10px",
