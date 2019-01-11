@@ -91,28 +91,21 @@ export class PrivateMessagesRoom extends Component {
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.setState(
-      {
-        socket: io(`${process.env.REACT_APP_URL_API}/test`)
-      },
-      () => {
-        console.log("socket");
-        this.state.socket.emit("room", connectedToRoom);
-        this.state.socket.on("roomConnected", roomConnected => {
-          console.log("room", roomConnected);
-          this.setState({ roomConnected });
-        });
-        this.state.socket.emit("login");
-        this.state.socket.on("receivedPrivateMessage", messageReceived => {
-          console.log("received");
-          if (messageReceived.type === "error") {
-            console.log("STOP ERROR", messageReceived.message);
-          } else {
-            this.addToRoom(messageReceived.response);
-          }
-        });
-      }
-    );
+    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
+      this.state.socket.emit("room", connectedToRoom);
+      this.state.socket.on("roomConnected", roomConnected => {
+        console.log(roomConnected);
+        this.setState({ roomConnected });
+      });
+      this.state.socket.emit("login");
+      this.state.socket.on("receivedPrivateMessage", messageReceived => {
+        if (messageReceived.type === "error") {
+          console.log("STOP ERROR", messageReceived.message);
+        } else {
+          this.addToRoom(messageReceived.response);
+        }
+      });
+    });
   }
 
   render() {
@@ -127,7 +120,7 @@ export class PrivateMessagesRoom extends Component {
         <Grid item xs={12}>
           <Paper>
             <div style={classes.main_private_messages}>
-              <h2>PrivateMessagesRoom</h2>
+              <h2>Message :</h2>
               <div
                 style={{ overflow: "scroll", height: "calc(100vh - 200px)" }}
                 id="chatBox"

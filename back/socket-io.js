@@ -7,6 +7,7 @@ const socketIo = (io, app) => {
     "/all-conversations-privates",
     passport.authenticate("jwt", { session: false }),
     async (req, res) => {
+      const nickname_user = req.user.nickname;
       const id_user = req.user.id;
 
       const rawAllRooms = await bddQuery(
@@ -59,6 +60,7 @@ const socketIo = (io, app) => {
       const rawNickname_interlocutors = await bddQuery(
         `SELECT id, nickname FROM users WHERE id IN (${id_interlocutors})`
       );
+      console.log(rawNickname_interlocutors);
 
       const interlocutorsById = rawNickname_interlocutors.results.reduce(
         (acc, obj) => {
@@ -72,6 +74,7 @@ const socketIo = (io, app) => {
         },
         {}
       );
+      console.log(interlocutorsById);
       const responseFinal = addIdInterlocutor.map(room => ({
         ...room,
         nickname_interlocutor: interlocutorsById[room.id_interlocutor].nickname
@@ -79,14 +82,13 @@ const socketIo = (io, app) => {
       return sendResponse(res, 200, "success", responseFinal);
     }
   );
-  const nsp = io.of("test");
-  nsp.on("connection", socket => {
+
+  io.on("connection", socket => {
     console.log("New user connected");
 
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
-      console.log("room");
       roomName = `${connectedToRoom.article_id}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
@@ -112,7 +114,6 @@ const socketIo = (io, app) => {
     });
 
     socket.on("sendPrivateMessage", async message => {
-      console.log("send");
       const insertMessage = await bddQuery(
         "INSERT INTO private_messages SET ?",
         [message]
@@ -127,12 +128,12 @@ const socketIo = (io, app) => {
           }
         ]
       };
-      console.log(response);
-      nsp.to(socket.id).emit("receivedPrivateMessage", response);
+      io.sockets
+        .in(currentRoom.roomName)
+        .emit("receivedPrivateMessage", response);
     });
 
     socket.on("login", async () => {
-      console.log("login socket");
       const rawAllPrivateMessages = await bddQuery(
         `SELECT * FROM private_messages WHERE room = '${currentRoom.roomName}'`
       );
@@ -144,7 +145,6 @@ const socketIo = (io, app) => {
           message: "Problème lors de la récupération des messages."
         };
       } else {
-        console.log("login socket not errer");
         responseSocket = {
           type: "success",
           response: rawAllPrivateMessages.results.map(message => ({
@@ -155,8 +155,7 @@ const socketIo = (io, app) => {
         };
       }
 
-      console.log(responseSocket);
-      nsp.to(socket.id).emit("receivedPrivateMessage", responseSocket);
+      io.to(socket.id).emit("receivedPrivateMessage", responseSocket);
     });
 
     socket.on("disconnect", () => {

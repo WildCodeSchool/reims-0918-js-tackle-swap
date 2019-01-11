@@ -18,7 +18,11 @@ const styles = {
     height: 140
   },
   textTitle: {
-    color: "#00cccc"
+    color: "#00cccc",
+    whiteSpace: "nowrap",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   textDescription: {
     color: "#009682"
@@ -47,7 +51,7 @@ function ThumbnailArticle(props) {
                 className={classes.textTitle}
                 gutterBottom
                 variant="h6"
-                component="h2"
+                component="p"
               >
                 {name}
               </Typography>

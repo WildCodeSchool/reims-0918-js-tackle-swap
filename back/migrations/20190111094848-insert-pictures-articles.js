@@ -16,20 +16,20 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db, callback) {
   db.insert(
-    "private_messages",
-    ["message", "room", "sender", "recipient", "article_id"],
-    ["Salut, comment vas tu ?", "2-2-1", 1, 2, 2],
+    "pictures_articles",
+    ["url_picture", "main_picture", "article_id"],
+    ["/data/pictures_articles/1/leurre.jpg", 1, 1],
     callback
   );
   db.insert(
-    "private_messages",
-    ["message", "room", "sender", "recipient", "article_id"],
-    ["Très bien et toi ?", "2-2-1", 2, 1, 2],
+    "pictures_articles",
+    ["url_picture", "main_picture", "article_id"],
+    ["/data/pictures_articles/2/leurre.jpg", 1, 2],
     callback
   );
 };
 
-exports.down = function(db, callback) {
+exports.down = function(db) {
   return null;
 };
 
