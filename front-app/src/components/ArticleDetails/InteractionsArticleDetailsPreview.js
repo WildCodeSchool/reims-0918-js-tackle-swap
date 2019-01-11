@@ -16,7 +16,7 @@ function InteractionsArticleDetails(props) {
     <div>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682" }}
+        style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
       >
         Modifier mon annonce
@@ -24,7 +24,7 @@ function InteractionsArticleDetails(props) {
       {online ? (
         <Button
           variant="contained"
-          style={{ border: "2px solid #009682" }}
+          style={{ border: "2px solid #009682", color: "white" }}
           className={classes.button}
           onClick={() => onlineArticle(idArticle, false)}
         >
@@ -33,7 +33,7 @@ function InteractionsArticleDetails(props) {
       ) : (
         <Button
           variant="contained"
-          style={{ border: "2px solid #009682" }}
+          style={{ border: "2px solid #009682", color: "white" }}
           className={classes.button}
           onClick={() => onlineArticle(idArticle, true)}
         >

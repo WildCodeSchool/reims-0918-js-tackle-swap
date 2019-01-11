@@ -7,9 +7,18 @@ import axios from "axios";
 import { Field, reduxForm } from "redux-form";
 import { renderField, renderRadioGroup } from "./Form/RenderField";
 import { validate } from "./Form/Validate";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: "#009682"
+  }
+});
 
 const Register = props => {
-  const { handleSubmit, pristine, reset, submitting, setFlashMessage } = props;
+  const { handleSubmit, reset, setFlashMessage } = props;
 
   const submit = values =>
     axios
@@ -27,13 +36,19 @@ const Register = props => {
       })
       .catch(result => console.log("response ERROR:", result));
 
+  const { classes } = props;
   return (
     <Grid container>
       <Grid item xs={12}>
         <Paper>
-          <form onSubmit={handleSubmit(submit)}>
+          <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
             <Field name="gender" component={renderRadioGroup} label="Sexe">
-              <FormControlLabel value="F" control={<Radio />} label="Femme" />
+              <FormControlLabel
+                value="F"
+                control={<Radio />}
+                label="Femme"
+                style={{ paddingTop: "10px", paddingBottom: "10px" }}
+              />
               <FormControlLabel value="M" control={<Radio />} label="Homme" />
             </Field>
             <Field
@@ -73,16 +88,21 @@ const Register = props => {
               label="Confirmation Mot de passe"
             />
             <div>
-              <button type="submit" disabled={pristine || submitting}>
-                Submit
-              </button>
-              <button
-                type="button"
-                disabled={pristine || submitting}
+              <Button
+                variant="contained"
+                style={{ border: "2px solid #009682", color: "white" }}
+                className={classes.button}
+              >
+                Valider
+              </Button>
+              <Button
+                variant="contained"
+                style={{ border: "2px solid #009682", color: "white" }}
+                className={classes.button}
                 onClick={reset}
               >
-                Clear Values
-              </button>
+                Effacer Valeurs
+              </Button>
             </div>
           </form>
         </Paper>
@@ -91,7 +111,9 @@ const Register = props => {
   );
 };
 
-export default reduxForm({
-  form: "register",
-  validate
-})(Register);
+export default withStyles(styles)(
+  reduxForm({
+    form: "register",
+    validate
+  })(Register)
+);
