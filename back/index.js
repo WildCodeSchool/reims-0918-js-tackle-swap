@@ -474,6 +474,8 @@ app.put("/article_:idArticle/online_:online", async (req, res) => {
   const onlineArticle = await bddQuery(
     `UPDATE articles SET online = ${online} WHERE id = ${idArticle}`
   );
+  console.log(idArticle);
+  console.log(online);
   if (onlineArticle.err) {
     return sendResponse(res, 200, "error", {
       flashMessage: {
