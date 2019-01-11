@@ -91,23 +91,28 @@ export class PrivateMessagesRoom extends Component {
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
-      console.log("socket");
-      this.state.socket.emit("room", connectedToRoom);
-      this.state.socket.on("roomConnected", roomConnected => {
-        console.log("room", roomConnected);
-        this.setState({ roomConnected });
-      });
-      this.state.socket.emit("login");
-      this.state.socket.on("receivedPrivateMessage", messageReceived => {
-        console.log("received");
-        if (messageReceived.type === "error") {
-          console.log("STOP ERROR", messageReceived.message);
-        } else {
-          this.addToRoom(messageReceived.response);
-        }
-      });
-    });
+    this.setState(
+      {
+        socket: io(`${process.env.REACT_APP_URL_API}`)
+      },
+      () => {
+        console.log("socket");
+        this.state.socket.emit("room", connectedToRoom);
+        this.state.socket.on("roomConnected", roomConnected => {
+          console.log("room", roomConnected);
+          this.setState({ roomConnected });
+        });
+        this.state.socket.emit("login");
+        this.state.socket.on("receivedPrivateMessage", messageReceived => {
+          console.log("received");
+          if (messageReceived.type === "error") {
+            console.log("STOP ERROR", messageReceived.message);
+          } else {
+            this.addToRoom(messageReceived.response);
+          }
+        });
+      }
+    );
   }
 
   render() {
