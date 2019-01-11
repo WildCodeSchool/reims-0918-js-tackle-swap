@@ -430,3 +430,15 @@ server.listen(port, err => {
 
   console.log(`Server is listening on ${port}`);
 });
+
+app.get(
+  "/my-articles",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idUser = req.user.id;
+    const myArticles = await bddQuery(
+      `SELECT * FROM articles WHERE owner_id=${idUser}`
+    );
+    sendResponse(res, 200, "success", myArticles);
+  }
+);
