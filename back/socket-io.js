@@ -127,6 +127,7 @@ const socketIo = (io, app) => {
           }
         ]
       };
+      console.log(response);
       nsp.to(socket.id).emit("receivedPrivateMessage", response);
     });
 
@@ -154,6 +155,7 @@ const socketIo = (io, app) => {
         };
       }
 
+      console.log(responseSocket);
       nsp.to(socket.id).emit("receivedPrivateMessage", responseSocket);
     });
 
