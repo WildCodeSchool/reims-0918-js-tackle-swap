@@ -23,7 +23,7 @@ const goToArticleDetails = () => {
 };
 
 const goToChat = () => {
-  console.log("Go to the chat");
+  console.log("Go to the chat with the owner");
 };
 
 function ThumbnailExchange(props) {
@@ -92,7 +92,7 @@ function ThumbnailExchange(props) {
                 }}
               >
                 <Button className={classes.button} onClick={() => goToChat()}>
-                  Conversations
+                  Conversation
                 </Button>
 
                 <Button

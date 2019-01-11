@@ -24,7 +24,7 @@ function ThumbnailArticleToExchange(props) {
   const { classes } = props;
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} style={{ marginBottom: "10px" }}>
       <Grid container>
         <Grid item xs={2}>
           <Radio
@@ -70,7 +70,7 @@ function ThumbnailArticleToExchange(props) {
                       justifyContent: "center"
                     }}
                   >
-                    <Typography variant="h5">Nom article</Typography>
+                    <Typography variant="h5">{props.name}</Typography>
                   </Grid>
                   <Grid
                     item
@@ -81,7 +81,7 @@ function ThumbnailArticleToExchange(props) {
                       justifyContent: "center"
                     }}
                   >
-                    <Typography variant="body1">Description article</Typography>
+                    <Typography variant="body1">{props.description}</Typography>
                   </Grid>
                 </Grid>
               </Grid>
