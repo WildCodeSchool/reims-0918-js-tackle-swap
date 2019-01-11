@@ -164,7 +164,14 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
-            <img src={logo} alt="Logo" className={classes.logo} />
+            <div style={{ height: "80px" }}>
+              <img
+                src={logo}
+                alt="Logo"
+                className={classes.logo}
+                style={{ height: "100%" }}
+              />
+            </div>
           </Toolbar>
         </AppBar>
         <div>
