@@ -2,11 +2,21 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { renderField } from "../Form/RenderField";
 import { validate } from "../Form/Validate";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: "#009682"
+  }
+});
 
 const AddArticleFirstPage = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { handleSubmit, reset, classes } = props;
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
+      <h4>Ajouter un article à votre vitrine :</h4>
       <div>
         <Field
           name="name"
@@ -73,17 +83,30 @@ const AddArticleFirstPage = props => {
       </div>
       <p>Ajoutez une ou plusieurs photos à l'étape suivante</p>
       <div>
-        <button type="submit" disabled={pristine || submitting}>
+        <Button
+          type="submit"
+          variant="contained"
+          style={{ border: "2px solid #009682", color: "white" }}
+          className={classes.button}
+        >
           Passez à l'étape suivante
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
+        </Button>
+        <Button
+          type="button"
+          variant="contained"
+          style={{ border: "2px solid #009682", color: "white" }}
+          className={classes.button}
+          onClick={reset}
+        >
           Effacer le formulaire
-        </button>
+        </Button>
       </div>
     </form>
   );
 };
-export default reduxForm({
-  form: "addArticle",
-  validate
-})(AddArticleFirstPage);
+export default withStyles(styles)(
+  reduxForm({
+    form: "addArticle",
+    validate
+  })(AddArticleFirstPage)
+);

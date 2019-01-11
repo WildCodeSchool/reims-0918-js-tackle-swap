@@ -90,14 +90,14 @@ const Register = props => {
             <div>
               <Button
                 variant="contained"
-                style={{ border: "2px solid #009682" }}
+                style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
               >
                 Valider
               </Button>
               <Button
                 variant="contained"
-                style={{ border: "2px solid #009682" }}
+                style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
               >

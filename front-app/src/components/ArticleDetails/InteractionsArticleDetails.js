@@ -21,7 +21,11 @@ function InteractionsArticleDetails(props) {
     <div>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682", display: "block" }}
+        style={{
+          border: "2px solid #009682",
+          display: "block",
+          color: "white"
+        }}
         className={classes.button}
         onClick={() => goToChat()}
       >
@@ -29,14 +33,14 @@ function InteractionsArticleDetails(props) {
       </Button>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682" }}
+        style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
       >
         Proposer un échange
       </Button>
       <Button
         variant="contained"
-        style={{ border: "2px solid #009682" }}
+        style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
       >
         Partager

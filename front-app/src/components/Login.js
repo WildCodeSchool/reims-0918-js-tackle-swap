@@ -60,15 +60,17 @@ const Login = props => {
             </div>
             <div style={{ paddingTop: "20px" }}>
               <Button
+                type="submit"
                 variant="contained"
-                style={{ border: "2px solid #009682" }}
+                style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
               >
                 Se connecter
               </Button>
               <Button
+                type="button"
                 variant="contained"
-                style={{ border: "2px solid #009682" }}
+                style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
               >
