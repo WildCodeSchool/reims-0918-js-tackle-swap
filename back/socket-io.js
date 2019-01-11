@@ -1,6 +1,5 @@
 const bddQuery = require("./function/bddQuery");
 const sendResponse = require("./function/sendResponse");
-
 const passport = require("passport");
 
 const socketIo = (io, app) => {
