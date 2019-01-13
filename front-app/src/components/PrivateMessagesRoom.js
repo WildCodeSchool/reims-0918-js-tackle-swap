@@ -268,5 +268,4 @@ const styles = createStyles({
     margin: "5px 15px"
   }
 });
-
 export default withRouter(withStyles(styles)(PrivateMessagesRoom));
