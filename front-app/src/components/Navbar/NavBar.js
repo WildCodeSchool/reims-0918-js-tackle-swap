@@ -24,9 +24,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import MenuIcon from "@material-ui/icons/Menu";
 import ls from "local-storage";
+import axios from "axios";
 
 import avatar from "./../../images/avatar.png";
 import logo from "./../../images/LogoF-white.png";
+import isConnected from "../../functions/isConnected";
 
 const styles = {
   root: {
@@ -76,6 +78,20 @@ class ButtonAppBar extends Component {
     this.props.history.push("/");
   };
 
+  componentDidMount() {
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+        });
+    }
+  }
   render() {
     const { classes } = this.props;
 
@@ -124,6 +140,7 @@ class ButtonAppBar extends Component {
     const sideList = (
       <div className={classes.list}>
         <img src={avatar} alt="profil" />
+        <p>{this.props.user.nickname}</p>
         <List>
           {list
             .sort((a, b) => a.id - b.id)

@@ -5,12 +5,7 @@ import {
   createStyles,
   withStyles,
   InputBase,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Input,
-  InputAdornment,
-  TextField
+  InputAdornment
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link, withRouter } from "react-router-dom";
