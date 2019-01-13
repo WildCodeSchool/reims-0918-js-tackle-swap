@@ -1,5 +1,18 @@
 import React, { Component } from "react";
-import { Grid, Paper } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  createStyles,
+  withStyles,
+  InputBase,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Input,
+  InputAdornment,
+  TextField
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 import { Link, withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
@@ -8,6 +21,7 @@ import ls from "local-storage";
 
 import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
+import "./hyphens.css";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -124,9 +138,7 @@ export class PrivateMessagesRoom extends Component {
   }
 
   render() {
-    const classes = {
-      main_private_messages: {}
-    };
+    const { classes } = this.props;
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -137,31 +149,75 @@ export class PrivateMessagesRoom extends Component {
             <div style={classes.main_private_messages}>
               <h2>Message :</h2>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 200px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 220px)" }}
                 id="chatBox"
+                className={classes.chatBox}
               >
-                {this.state.room.map((message, index) => (
-                  <p key={index}>
-                    {message.sender} : {message.message}
-                  </p>
-                ))}
+                {this.state.room.map((message, index, array) =>
+                  message.id_sender === this.props.user.id ? (
+                    <div key={index} className={classes.containerMessage}>
+                      <p className={`${classes.myMessage} hyphens`}>
+                        {message.message}
+                      </p>
+                    </div>
+                  ) : (
+                    <div
+                      key={index}
+                      className={classes.containerMessageReceived}
+                    >
+                      {index > 0 ? (
+                        array[index - 1].id_sender !== message.id_sender && (
+                          <p className={classes.nicknameMessageReceived}>
+                            {message.sender} :
+                          </p>
+                        )
+                      ) : (
+                        <p className={classes.nicknameMessageReceived}>
+                          {message.sender} :
+                        </p>
+                      )}
+
+                      <p className={`${classes.messageReceived} hyphens`}>
+                        {message.message}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
-              <div style={{ bottom: 0 }}>
-                <form>
-                  <input
-                    type="text"
-                    name="message"
-                    onChange={e => this.handleChangeMessage(e)}
-                    value={this.state.message}
-                  />
-                  <button
-                    type="submit"
-                    onClick={e => this.submitMessage(e)}
-                    disabled={!this.state.message.length}
-                  >
-                    Envoyer le message
-                  </button>
-                </form>
+              <div
+                style={{
+                  bottom: 0
+                }}
+              >
+                <Grid container justify="center">
+                  <Grid item className={classes.containerInputSendMessage}>
+                    <form onSubmit={e => this.submitMessage(e)}>
+                      <InputBase
+                        multiline
+                        rowsMax="4"
+                        margin="dense"
+                        autoFocus={true}
+                        placeholder="Votre message ..."
+                        className={classes.inputSendMessage}
+                        onChange={e => this.handleChangeMessage(e)}
+                        value={this.state.message}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <SearchIcon
+                              onClick={e => this.submitMessage(e)}
+                              style={{
+                                color: !this.state.message.length
+                                  ? "#e0e0e0"
+                                  : "#009682",
+                                cursor: "pointer"
+                              }}
+                            />
+                          </InputAdornment>
+                        }
+                      />
+                    </form>
+                  </Grid>
+                </Grid>
               </div>
             </div>
           </Paper>
@@ -171,4 +227,46 @@ export class PrivateMessagesRoom extends Component {
   }
 }
 
-export default withRouter(PrivateMessagesRoom);
+const styles = createStyles({
+  containerMessage: {
+    display: "flex",
+    justifyContent: "flex-end",
+    margin: "5px 10px"
+  },
+  containerMessageReceived: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "5px 10px"
+  },
+  myMessage: {
+    color: "#e6f7ff",
+    borderRadius: "20px 20px 0 20px",
+    backgroundColor: "#009682",
+    maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  nicknameMessageReceived: {
+    margin: 0,
+    fontWeight: "bold",
+    color: "#009682"
+  },
+  messageReceived: {
+    color: "#009682",
+    borderRadius: "20px 20px 20px 0",
+    backgroundColor: "#e6f7ff",
+    maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  containerInputSendMessage: {
+    borderRadius: "30px",
+    backgroundColor: "#e6f7ff"
+  },
+  inputSendMessage: {
+    color: "#009682",
+    margin: "5px 15px"
+  }
+});
+
+export default withRouter(withStyles(styles)(PrivateMessagesRoom));

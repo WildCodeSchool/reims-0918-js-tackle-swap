@@ -14,7 +14,7 @@ class ListArticleToExchange extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:5000/my-articles", {
+      .get("http://localhost:5000/user_articles", {
         headers: {
           accept: "application/json",
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
