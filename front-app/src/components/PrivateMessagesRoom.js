@@ -15,11 +15,11 @@ export class PrivateMessagesRoom extends Component {
     this.state = {
       message: "",
       room: [],
-      socket: null,
       roomConnected: {}
     };
   }
-
+  _isMounted = false;
+  socket = null;
   submitMessage = e => {
     e.preventDefault();
 
@@ -33,14 +33,16 @@ export class PrivateMessagesRoom extends Component {
         ? parseInt(this.state.roomConnected.roomName.split("-")[2])
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
-    this.state.socket.emit("sendPrivateMessage", {
-      sender: this.props.user.id,
-      recipient: recipient,
-      message: this.state.message,
-      room: this.state.roomConnected.roomName,
-      article_id: this.state.roomConnected.article_id
-    });
-    this.setState({ message: "" });
+    if (this._isMounted) {
+      this.socket.emit("sendPrivateMessage", {
+        sender: this.props.user.id,
+        recipient: recipient,
+        message: this.state.message,
+        room: this.state.roomConnected.roomName,
+        article_id: this.state.roomConnected.article_id
+      });
+      this.setState({ message: "" });
+    }
   };
 
   handleChangeMessage = e => {
@@ -53,15 +55,22 @@ export class PrivateMessagesRoom extends Component {
     const chatScroll = document.getElementById("chatBox");
     chatScroll.scrollTop = chatScroll.scrollHeight;
   }
-
+  componentWillUnmount() {
+    this._isMounted = false;
+    this.socket = null;
+  }
   async componentDidMount() {
-    if (!this.state.socket) {
+    this._isMounted = true;
+
+    if (!this.socket) {
       if (!(await isArticle(parseInt(this.props.match.params.article_id)))) {
-        this.props.setFlashMessage({
-          type: "error",
-          message:
-            "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
-        });
+        if (this._isMounted) {
+          this.props.setFlashMessage({
+            type: "error",
+            message:
+              "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
+          });
+        }
         return this.props.history.push("/");
       }
 
@@ -74,8 +83,10 @@ export class PrivateMessagesRoom extends Component {
             }
           })
           .then(results => {
-            this.props.setUserInformation(results.data.response);
-            this.connectedToChat();
+            if (this._isMounted) {
+              this.props.setUserInformation(results.data.response);
+              this.connectedToChat();
+            }
           });
       } else if (!isConnected()) {
         this.props.setFlashMessage({
@@ -84,27 +95,31 @@ export class PrivateMessagesRoom extends Component {
         });
         return this.props.history.push("/se-connecter");
       } else {
-        this.connectedToChat();
+        if (this._isMounted) {
+          this.connectedToChat();
+        }
       }
     }
   }
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
-      this.state.socket.emit("room", connectedToRoom);
-      this.state.socket.on("roomConnected", roomConnected => {
-        console.log(roomConnected);
-        this.setState({ roomConnected });
-      });
-      this.state.socket.emit("login");
-      this.state.socket.on("receivedPrivateMessage", messageReceived => {
+    this.socket = io.connect(`${process.env.REACT_APP_URL_API}`);
+
+    this.socket.emit("room", connectedToRoom);
+    this.socket.on("roomConnected", roomConnected => {
+      console.log(roomConnected);
+      this.setState({ roomConnected });
+    });
+    this.socket.emit("login");
+    this.socket.on("receivedPrivateMessage", messageReceived => {
+      if (this._isMounted) {
         if (messageReceived.type === "error") {
           console.log("STOP ERROR", messageReceived.message);
         } else {
           this.addToRoom(messageReceived.response);
         }
-      });
+      }
     });
   }
 

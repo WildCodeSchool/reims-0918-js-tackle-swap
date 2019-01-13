@@ -56,9 +56,6 @@ const styles = {
 };
 
 class ButtonAppBar extends Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     open: false
   };

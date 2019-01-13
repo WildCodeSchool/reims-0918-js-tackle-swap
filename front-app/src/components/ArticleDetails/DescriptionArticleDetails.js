@@ -11,7 +11,6 @@ const DescriptionArticleDetails = ({
   <div>
     <h2 className="TextDescription"> Description</h2>
     <p className="FontSize">{description}</p>
-    <h2 className="TextDescription">Catégorie : </h2>
     <h2 className="TextDescription">Caractéristiques</h2>
     <ul>
       <div className="FontSize">
