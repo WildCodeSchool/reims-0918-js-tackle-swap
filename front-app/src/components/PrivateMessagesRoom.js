@@ -7,7 +7,7 @@ import {
   InputBase,
   InputAdornment
 } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import SendIcon from "@material-ui/icons/Send";
 import { Link, withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
@@ -144,7 +144,7 @@ export class PrivateMessagesRoom extends Component {
             <div style={classes.main_private_messages}>
               <h2>Message :</h2>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 220px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >
@@ -185,11 +185,13 @@ export class PrivateMessagesRoom extends Component {
                 }}
               >
                 <Grid container justify="center">
-                  <Grid item className={classes.containerInputSendMessage}>
+                  <Grid
+                    item
+                    xs={12}
+                    className={classes.containerInputSendMessage}
+                  >
                     <form onSubmit={e => this.submitMessage(e)}>
                       <InputBase
-                        multiline
-                        rowsMax="4"
                         margin="dense"
                         autoFocus={true}
                         placeholder="Votre message ..."
@@ -198,7 +200,7 @@ export class PrivateMessagesRoom extends Component {
                         value={this.state.message}
                         endAdornment={
                           <InputAdornment position="end">
-                            <SearchIcon
+                            <SendIcon
                               onClick={e => this.submitMessage(e)}
                               style={{
                                 color: !this.state.message.length
@@ -255,10 +257,13 @@ const styles = createStyles({
     margin: 0
   },
   containerInputSendMessage: {
+    width: "100%",
     borderRadius: "30px",
-    backgroundColor: "#e6f7ff"
+    backgroundColor: "#e6f7ff",
+    margin: 5
   },
   inputSendMessage: {
+    width: "90%",
     color: "#009682",
     margin: "5px 15px"
   }
