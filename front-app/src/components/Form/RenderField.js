@@ -35,6 +35,7 @@ export const renderRadioGroup = ({
     <RadioButtonGroup
       {...input}
       {...rest}
+      floatingLabelText={label}
       valueselected={input.value}
       onChange={(event, value) => input.onChange(value)}
     />
