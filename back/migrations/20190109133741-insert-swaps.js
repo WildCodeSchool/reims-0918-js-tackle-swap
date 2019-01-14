@@ -18,7 +18,7 @@ exports.up = function(db, callback) {
   db.insert(
     "swaps",
     ["id_article_annonce", "id_article_offer"],
-    ["1", "2"],
+    [1, 2],
     callback
   );
 };

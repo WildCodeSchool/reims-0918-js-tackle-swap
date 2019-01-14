@@ -10,6 +10,7 @@ import axios from "axios";
 import ls from "local-storage";
 
 import isConnected from "../functions/isConnected";
+import { Button } from "@material-ui/core";
 
 class ArticleDetails extends Component {
   constructor(props) {
@@ -40,7 +41,9 @@ class ArticleDetails extends Component {
         this.props.history.push(`/article/${idArticle}`);
       });
   }
-
+  goBack() {
+    this.props.history.goBack();
+  }
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
     if (isConnected() && !this.props.user.id) {
@@ -60,6 +63,16 @@ class ArticleDetails extends Component {
   render() {
     return (
       <div>
+        <Button
+          style={{
+            backgroundColor: "#009682",
+            border: "0.5px solid #009682",
+            marginBottom: 10
+          }}
+          onClick={() => this.goBack()}
+        >
+          Retour
+        </Button>
         <div className="ArticleDetails">
           <h2 style={{ maxWidth: "380px" }} className="TitleDescription">
             {this.props.articleDetails.name}
