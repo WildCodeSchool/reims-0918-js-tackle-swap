@@ -123,6 +123,7 @@ const socketIo = (io, app) => {
         response: [
           {
             ...message,
+            id_sender: message.sender,
             sender: currentRoom.users[message.sender],
             recipient: currentRoom.users[message.recipient]
           }
@@ -149,6 +150,7 @@ const socketIo = (io, app) => {
           type: "success",
           response: rawAllPrivateMessages.results.map(message => ({
             ...message,
+            id_sender: message.sender,
             sender: currentRoom.users[message.sender],
             recipient: currentRoom.users[message.recipient]
           }))

@@ -25,7 +25,7 @@ class AddArticle extends Component {
   }
   onSubmitInformations = values =>
     axios
-      .post("http://localhost:5000/article", values, {
+      .post(`${process.env.REACT_APP_URL_API}/article`, values, {
         headers: {
           accept: "application/json",
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
@@ -47,7 +47,9 @@ class AddArticle extends Component {
 
     axios
       .post(
-        `http://localhost:5000/picture/article/${this.state.idArticle}`,
+        `${process.env.REACT_APP_URL_API}/picture/article/${
+          this.state.idArticle
+        }`,
         data,
         {
           headers: {
@@ -82,9 +84,9 @@ class AddArticle extends Component {
   defineMainPicture(idPicture) {
     axios
       .put(
-        `http://localhost:5000/main?idPicture=${idPicture}&idArticle=${
-          this.state.idArticle
-        }`,
+        `${
+          process.env.REACT_APP_URL_API
+        }/main?idPicture=${idPicture}&idArticle=${this.state.idArticle}`,
         {
           headers: {
             Accept: "application/json",
@@ -105,7 +107,7 @@ class AddArticle extends Component {
   }
   deletePicture(idPicture) {
     axios
-      .delete(`http://localhost:5000/picture/${idPicture}`, {
+      .delete(`${process.env.REACT_APP_URL_API}/picture/${idPicture}`, {
         headers: {
           Accept: "application/json",
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`

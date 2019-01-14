@@ -22,7 +22,7 @@ const Register = props => {
 
   const submit = values =>
     axios
-      .post("http://localhost:5000/user", {
+      .post(`${process.env.REACT_APP_URL_API}/user`, {
         gender: values.gender,
         lastname: values.lastname,
         firstname: values.firstname,
@@ -89,6 +89,7 @@ const Register = props => {
             />
             <div>
               <Button
+                type="submit"
                 variant="contained"
                 style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
@@ -96,6 +97,7 @@ const Register = props => {
                 Valider
               </Button>
               <Button
+                type="button"
                 variant="contained"
                 style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}

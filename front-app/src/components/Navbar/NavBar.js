@@ -17,15 +17,18 @@ import CreateIcon from "@material-ui/icons/Create";
 import PowerOffIcon from "@material-ui/icons/PowerOff";
 import AddCartIcon from "@material-ui/icons/AddShoppingCart";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { withRouter } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import MenuIcon from "@material-ui/icons/Menu";
 import ls from "local-storage";
+import axios from "axios";
 
 import avatar from "./../../images/avatar.png";
 import logo from "./../../images/LogoF-white.png";
+import isConnected from "../../functions/isConnected";
 
 const styles = {
   root: {
@@ -68,7 +71,27 @@ class ButtonAppBar extends Component {
   disconnect = e => {
     e.preventDefault();
     ls.clear();
+    this.props.setFlashMessage({
+      message: "Vous êtes bien déconnecté",
+      type: "success"
+    });
+    this.props.history.push("/");
   };
+
+  componentDidMount() {
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserInformation(results.data.response);
+        });
+    }
+  }
   render() {
     const { classes } = this.props;
 
@@ -117,27 +140,32 @@ class ButtonAppBar extends Component {
     const sideList = (
       <div className={classes.list}>
         <img src={avatar} alt="profil" />
+        <p>{this.props.user.nickname}</p>
         <List>
           {list
             .sort((a, b) => a.id - b.id)
             .map((link, index) => (
-              <ListItem button key={index}>
-                <ListItemIcon>{link.icon}</ListItemIcon>
-
+              <div key={index}>
                 {link.name === "Se déconnecter" ? (
                   <Link
                     to={link.path}
                     onClick={e => this.disconnect(e)}
                     className={classes.Title}
                   >
-                    {link.name}
+                    <ListItem button>
+                      <ListItemIcon>{link.icon}</ListItemIcon>
+                      {link.name}
+                    </ListItem>
                   </Link>
                 ) : (
                   <Link to={link.path} className={classes.Title}>
-                    {link.name}
+                    <ListItem button>
+                      <ListItemIcon>{link.icon}</ListItemIcon>
+                      {link.name}
+                    </ListItem>
                   </Link>
                 )}
-              </ListItem>
+              </div>
             ))}
         </List>
       </div>
@@ -148,8 +176,8 @@ class ButtonAppBar extends Component {
         <AppBar
           style={{
             backgroundColor: "#009682",
-            minHeight: "70px",
-            maxHeight: "70px"
+            minHeight: "80px",
+            maxHeight: "80px"
           }}
           position="fixed"
         >
@@ -162,7 +190,7 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
-            <div style={{ height: 50, margin: "0 auto" }}>
+            <div style={{ height: "60px", paddingTop: 5 }}>
               <img
                 src={logo}
                 alt="Logo"
@@ -194,4 +222,4 @@ ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withRouter(withStyles(styles)(ButtonAppBar));

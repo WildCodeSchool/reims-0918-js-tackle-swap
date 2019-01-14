@@ -4,6 +4,7 @@ import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetail
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
+import { withRouter } from "react-router-dom";
 
 import axios from "axios";
 import ls from "local-storage";
@@ -18,12 +19,12 @@ class ArticleDetails extends Component {
   callApiArticleDetails = id => {
     this.props.match.url.includes("article")
       ? axios
-          .get(`http://localhost:5000/article/${id}`)
+          .get(`${process.env.REACT_APP_URL_API}/article/${id}`)
           .then(results =>
             this.props.articleDetailsReceived(results.data.response[0])
           )
       : axios
-          .get(`http://localhost:5000/preview/${id}`)
+          .get(`${process.env.REACT_APP_URL_API}/preview/${id}`)
           .then(results =>
             this.props.articleDetailsReceived(results.data.response[0])
           );
@@ -31,10 +32,12 @@ class ArticleDetails extends Component {
 
   onlineArticle(idArticle, online) {
     axios
-      .put(`http://localhost:5000/article_${idArticle}/online_${online}`)
+      .put(
+        `${process.env.REACT_APP_URL_API}/article_${idArticle}/online_${online}`
+      )
       .then(results => {
-        console.log(results);
         this.props.setFlashMessage(results.data.response.flashMessage);
+        this.props.history.push(`/article/${idArticle}`);
       });
   }
 
@@ -75,7 +78,6 @@ class ArticleDetails extends Component {
           ) : (
             <InteractionsArticleDetailsPreview
               {...this.props.articleDetails}
-              {...this.props.user}
               onlineArticle={this.onlineArticle}
             />
           )}
@@ -85,4 +87,4 @@ class ArticleDetails extends Component {
   }
 }
 
-export default ArticleDetails;
+export default withRouter(ArticleDetails);

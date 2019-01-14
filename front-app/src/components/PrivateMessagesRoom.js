@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Grid, Paper } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  createStyles,
+  withStyles,
+  InputBase,
+  InputAdornment
+} from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
 import { Link, withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
@@ -8,6 +16,7 @@ import ls from "local-storage";
 
 import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
+import "./hyphens.css";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -15,11 +24,11 @@ export class PrivateMessagesRoom extends Component {
     this.state = {
       message: "",
       room: [],
-      socket: null,
       roomConnected: {}
     };
   }
-
+  _isMounted = false;
+  socket = null;
   submitMessage = e => {
     e.preventDefault();
 
@@ -33,14 +42,16 @@ export class PrivateMessagesRoom extends Component {
         ? parseInt(this.state.roomConnected.roomName.split("-")[2])
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
-    this.state.socket.emit("sendPrivateMessage", {
-      sender: this.props.user.id,
-      recipient: recipient,
-      message: this.state.message,
-      room: this.state.roomConnected.roomName,
-      article_id: this.state.roomConnected.article_id
-    });
-    this.setState({ message: "" });
+    if (this._isMounted) {
+      this.socket.emit("sendPrivateMessage", {
+        sender: this.props.user.id,
+        recipient: recipient,
+        message: this.state.message,
+        room: this.state.roomConnected.roomName,
+        article_id: this.state.roomConnected.article_id
+      });
+      this.setState({ message: "" });
+    }
   };
 
   handleChangeMessage = e => {
@@ -53,15 +64,22 @@ export class PrivateMessagesRoom extends Component {
     const chatScroll = document.getElementById("chatBox");
     chatScroll.scrollTop = chatScroll.scrollHeight;
   }
-
+  componentWillUnmount() {
+    this._isMounted = false;
+    this.socket = null;
+  }
   async componentDidMount() {
-    if (!this.state.socket) {
+    this._isMounted = true;
+
+    if (!this.socket) {
       if (!(await isArticle(parseInt(this.props.match.params.article_id)))) {
-        this.props.setFlashMessage({
-          type: "error",
-          message:
-            "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
-        });
+        if (this._isMounted) {
+          this.props.setFlashMessage({
+            type: "error",
+            message:
+              "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
+          });
+        }
         return this.props.history.push("/");
       }
 
@@ -74,8 +92,10 @@ export class PrivateMessagesRoom extends Component {
             }
           })
           .then(results => {
-            this.props.setUserInformation(results.data.response);
-            this.connectedToChat();
+            if (this._isMounted) {
+              this.props.setUserInformation(results.data.response);
+              this.connectedToChat();
+            }
           });
       } else if (!isConnected()) {
         this.props.setFlashMessage({
@@ -84,34 +104,36 @@ export class PrivateMessagesRoom extends Component {
         });
         return this.props.history.push("/se-connecter");
       } else {
-        this.connectedToChat();
+        if (this._isMounted) {
+          this.connectedToChat();
+        }
       }
     }
   }
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.setState({ socket: io(`${process.env.REACT_APP_URL_API}`) }, () => {
-      this.state.socket.emit("room", connectedToRoom);
-      this.state.socket.on("roomConnected", roomConnected => {
-        console.log(roomConnected);
-        this.setState({ roomConnected });
-      });
-      this.state.socket.emit("login");
-      this.state.socket.on("receivedPrivateMessage", messageReceived => {
+    this.socket = io.connect(`${process.env.REACT_APP_URL_API}`);
+
+    this.socket.emit("room", connectedToRoom);
+    this.socket.on("roomConnected", roomConnected => {
+      console.log(roomConnected);
+      this.setState({ roomConnected });
+    });
+    this.socket.emit("login");
+    this.socket.on("receivedPrivateMessage", messageReceived => {
+      if (this._isMounted) {
         if (messageReceived.type === "error") {
           console.log("STOP ERROR", messageReceived.message);
         } else {
           this.addToRoom(messageReceived.response);
         }
-      });
+      }
     });
   }
 
   render() {
-    const classes = {
-      main_private_messages: {}
-    };
+    const { classes } = this.props;
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -120,33 +142,79 @@ export class PrivateMessagesRoom extends Component {
         <Grid item xs={12}>
           <Paper>
             <div style={classes.main_private_messages}>
-              <h2>PrivateMessagesRoom</h2>
+              <h2>Message :</h2>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 200px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
                 id="chatBox"
+                className={classes.chatBox}
               >
-                {this.state.room.map((message, index) => (
-                  <p key={index}>
-                    {message.sender} : {message.message}
-                  </p>
-                ))}
+                {this.state.room.map((message, index, array) =>
+                  message.id_sender === this.props.user.id ? (
+                    <div key={index} className={classes.containerMessage}>
+                      <p className={`${classes.myMessage} hyphens`}>
+                        {message.message}
+                      </p>
+                    </div>
+                  ) : (
+                    <div
+                      key={index}
+                      className={classes.containerMessageReceived}
+                    >
+                      {index > 0 ? (
+                        array[index - 1].id_sender !== message.id_sender && (
+                          <p className={classes.nicknameMessageReceived}>
+                            {message.sender} :
+                          </p>
+                        )
+                      ) : (
+                        <p className={classes.nicknameMessageReceived}>
+                          {message.sender} :
+                        </p>
+                      )}
+
+                      <p className={`${classes.messageReceived} hyphens`}>
+                        {message.message}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
-              <div style={{ bottom: 0 }}>
-                <form>
-                  <input
-                    type="text"
-                    name="message"
-                    onChange={e => this.handleChangeMessage(e)}
-                    value={this.state.message}
-                  />
-                  <button
-                    type="submit"
-                    onClick={e => this.submitMessage(e)}
-                    disabled={!this.state.message.length}
+              <div
+                style={{
+                  bottom: 0
+                }}
+              >
+                <Grid container justify="center">
+                  <Grid
+                    item
+                    xs={12}
+                    className={classes.containerInputSendMessage}
                   >
-                    Envoyer le message
-                  </button>
-                </form>
+                    <form onSubmit={e => this.submitMessage(e)}>
+                      <InputBase
+                        margin="dense"
+                        autoFocus={true}
+                        placeholder="Votre message ..."
+                        className={classes.inputSendMessage}
+                        onChange={e => this.handleChangeMessage(e)}
+                        value={this.state.message}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <SendIcon
+                              onClick={e => this.submitMessage(e)}
+                              style={{
+                                color: !this.state.message.length
+                                  ? "#e0e0e0"
+                                  : "#009682",
+                                cursor: "pointer"
+                              }}
+                            />
+                          </InputAdornment>
+                        }
+                      />
+                    </form>
+                  </Grid>
+                </Grid>
               </div>
             </div>
           </Paper>
@@ -156,4 +224,48 @@ export class PrivateMessagesRoom extends Component {
   }
 }
 
-export default withRouter(PrivateMessagesRoom);
+const styles = createStyles({
+  containerMessage: {
+    display: "flex",
+    justifyContent: "flex-end",
+    margin: "5px 10px"
+  },
+  containerMessageReceived: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "5px 10px"
+  },
+  myMessage: {
+    color: "#e6f7ff",
+    borderRadius: "20px 20px 0 20px",
+    backgroundColor: "#009682",
+    maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  nicknameMessageReceived: {
+    margin: 0,
+    fontWeight: "bold",
+    color: "#009682"
+  },
+  messageReceived: {
+    color: "#009682",
+    borderRadius: "20px 20px 20px 0",
+    backgroundColor: "#e6f7ff",
+    maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  containerInputSendMessage: {
+    width: "100%",
+    borderRadius: "30px",
+    backgroundColor: "#e6f7ff",
+    margin: 5
+  },
+  inputSendMessage: {
+    width: "90%",
+    color: "#009682",
+    margin: "5px 15px"
+  }
+});
+export default withRouter(withStyles(styles)(PrivateMessagesRoom));

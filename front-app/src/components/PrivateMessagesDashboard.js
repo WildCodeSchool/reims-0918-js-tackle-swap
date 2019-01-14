@@ -37,7 +37,7 @@ export class PrivateMessagesDashboard extends Component {
       <Grid container>
         <Grid item xs={12}>
           <div style={classes.main_private_messages}>
-            <h2>PrivateMessagesDashboard</h2>
+            <h2>Mes conversations</h2>
             {this.state.listRooms.length > 0 ? (
               this.state.listRooms.map((room, index) => (
                 <Paper key={index} style={{ marginBottom: 10, padding: 5 }}>

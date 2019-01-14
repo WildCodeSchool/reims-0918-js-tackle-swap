@@ -1,14 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const http = require("http");
-const socketIO = require("socket.io");
 
+const socketIO = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
 const connection = require("./conf");
-const port = 5000;
+const port = 5050;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const auth = require("./routes/auth");
@@ -254,7 +254,7 @@ app.get("/article/:id/", async (req, res) => {
       ? pictures
       : [
           {
-            url_picture: "/data/pictures_articles/default.png",
+            url_picture: "/data/pictures_articles/logo_poisson.svg",
             main_picture: 1
           }
         ];
@@ -403,32 +403,6 @@ app.post(
   }
 );
 
-app.get("/user_articles/:iduser", (req, res) => {
-  const limit =
-    req.query.limit && req.query.limit >= 20
-      ? req.query.limit <= 100
-        ? req.query.limit
-        : 100
-      : 20;
-  const totalBDD = 150;
-  const offset = req.query.offset
-    ? req.query.offset > totalBDD
-      ? totalBDD - limit
-      : req.query.offset
-    : 0;
-  const isExist = req.params.iduser === "35";
-
-  isExist
-    ? res
-        .send(
-          `Affichage des produits de l'utilisateur ${
-            req.params.iduser
-          } par tranche(s) de ${limit} à partir de ${offset}`
-        )
-        .status(202)
-    : res.status(404).send("La vitrine recherchée n'existe pas");
-});
-
 app.put("/main", async (req, res) => {
   const { idPicture, idArticle } = req.query;
   const updateMainPicture = await bddQuery(
@@ -474,6 +448,8 @@ app.put("/article_:idArticle/online_:online", async (req, res) => {
   const onlineArticle = await bddQuery(
     `UPDATE articles SET online = ${online} WHERE id = ${idArticle}`
   );
+  console.log(idArticle);
+  console.log(online);
   if (onlineArticle.err) {
     return sendResponse(res, 200, "error", {
       flashMessage: {
@@ -498,12 +474,12 @@ server.listen(port, err => {
 });
 
 app.get(
-  "/my-articles",
+  "/user_articles",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const idUser = req.user.id;
     const myArticles = await bddQuery(
-      `SELECT * FROM articles WHERE owner_id=${idUser}`
+      `SELECT a.name, a.id, pa.url_picture FROM articles AS a JOIN pictures_articles AS pa ON pa.article_id = a.id WHERE a.owner_id=${idUser} AND a.swap = 0 AND pa.main_picture = 1`
     );
     sendResponse(res, 200, "success", myArticles);
   }
