@@ -4,7 +4,6 @@ import { renderField } from "../Form/RenderField";
 import { validate } from "../Form/Validate";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
@@ -69,6 +68,7 @@ class AddArticleFirstPage extends React.Component {
             component={renderField}
             type="text"
             label="Nom du leurre"
+            style={{ width: "310px" }}
           />
         </div>
         <div>
@@ -77,6 +77,7 @@ class AddArticleFirstPage extends React.Component {
             component={renderField}
             type="textarea"
             label="Description"
+            style={{ width: "310px" }}
           />
         </div>
         <div>
@@ -85,6 +86,7 @@ class AddArticleFirstPage extends React.Component {
             component={renderField}
             type="text"
             label="Marque"
+            style={{ width: "310px" }}
           />
         </div>
 
@@ -105,6 +107,7 @@ class AddArticleFirstPage extends React.Component {
               component={renderField}
               type="number"
               label="Longueur (en cemtimètre)"
+              style={{ width: "310px" }}
             />
           </div>
           <div>
@@ -113,6 +116,7 @@ class AddArticleFirstPage extends React.Component {
               component={renderField}
               type="number"
               label="Poid (en grammes)"
+              style={{ width: "310px" }}
             />
           </div>
           <div>
@@ -121,6 +125,7 @@ class AddArticleFirstPage extends React.Component {
               component={renderField}
               label="Couleur principale"
               type="text"
+              style={{ width: "310px" }}
             />
           </div>
           <TextField

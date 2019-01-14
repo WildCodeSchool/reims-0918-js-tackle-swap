@@ -17,7 +17,7 @@ const styles = theme => ({
 });
 
 const Login = props => {
-  const { handleSubmit, reset, setFlashMessage, setUserInformation } = props;
+  const { handleSubmit, setFlashMessage, setUserInformation } = props;
 
   const submit = values =>
     axios
@@ -34,8 +34,17 @@ const Login = props => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Paper>
+        <Paper style={{ opacity: "0.9" }}>
           <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
+            <h4
+              style={{
+                color: "#00cccc",
+                fontSize: "1.5em",
+                margin: "0"
+              }}
+            >
+              Se connecter
+            </h4>
             <div>
               <div>
                 <Field
@@ -44,6 +53,7 @@ const Login = props => {
                   component={renderField}
                   type="text"
                   label="Pseudo"
+                  style={{ width: "310px" }}
                 />
               </div>
             </div>
@@ -55,6 +65,7 @@ const Login = props => {
                   component={renderField}
                   type="password"
                   label="Mot de passe"
+                  style={{ width: "310px" }}
                 />
               </div>
             </div>
@@ -67,15 +78,15 @@ const Login = props => {
               >
                 Se connecter
               </Button>
-              <Button
-                type="button"
-                variant="contained"
-                style={{ border: "2px solid #009682", color: "white" }}
-                className={classes.button}
-                onClick={reset}
-              >
-                Effacer valeurs
-              </Button>
+              <p style={{ color: "#009682" }}>
+                Vous n'êtes pas inscrit?{" "}
+                <a
+                  href="http://localhost:3000/s-inscrire"
+                  style={{ color: "#009682" }}
+                >
+                  Inscrivez-vous
+                </a>
+              </p>
             </div>
           </form>
         </Paper>
