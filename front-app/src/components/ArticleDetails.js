@@ -58,7 +58,7 @@ class ArticleDetails extends Component {
     return (
       <div>
         <div className="ArticleDetails">
-          <h2 className="TitleDescription">
+          <h2 style={{ maxWidth: "380px" }} className="TitleDescription">
             {this.props.articleDetails.name}
             <FavoriteArticleDetails />
           </h2>
