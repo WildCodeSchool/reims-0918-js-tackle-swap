@@ -28,11 +28,12 @@
 
 .TextDescription {
   padding-left: 10px;
-  color: #009682;
+  color: rgb(0, 204, 204);
+  font-size: 1.3em;
 }
 .TitleDescription {
   padding-left: 10px;
-  color: #00cccc;
+  color: rgb(0, 204, 204);
   margin-top: 0px;
   display: flex;
   justify-content: space-between;
@@ -42,6 +43,7 @@
   font-size: 20px;
   padding-left: 10px;
   color: #293d3d;
+  padding-right: 10px;
 }
 
 .ColorButton {

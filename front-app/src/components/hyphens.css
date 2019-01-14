@@ -5,4 +5,7 @@
   -o-hyphens: auto;
   hyphens: auto;
   overflow: hidden;
+  -webkit-box-shadow: 10px 13px 33px -16px rgba(0, 0, 0, 0.63);
+  -moz-box-shadow: 10px 13px 33px -16px rgba(0, 0, 0, 0.63);
+  box-shadow: 10px 13px 33px -16px rgba(0, 0, 0, 0.63);
 }
