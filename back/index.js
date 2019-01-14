@@ -465,13 +465,6 @@ app.put("/article_:idArticle/online_:online", async (req, res) => {
 
   sendResponse(res, 200, "success", { flashMessage });
 });
-server.listen(port, err => {
-  if (err) {
-    throw new Error("Something bad happened...");
-  }
-
-  console.log(`Server is listening on ${port}`);
-});
 
 app.get(
   "/user_articles",
@@ -484,3 +477,82 @@ app.get(
     sendResponse(res, 200, "success", myArticles);
   }
 );
+
+app.post(
+  "/send_proposition/:id_article",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id_article = parseInt(req.params.id_article);
+    const id_offer = req.body.id_offer;
+    const isArticle = await bddQuery(
+      `SELECT count(*) AS count FROM articles WHERE id = ${id_article}`
+    );
+    const numberArticle = isArticle.results[0].count;
+    if (numberArticle !== 1) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          type: "error",
+          message:
+            "L'article pour lequel vous désirez proposer un échange n'éxiste pas."
+        }
+      });
+    }
+
+    const rawCreateSwap = await bddQuery(
+      `INSERT INTO swaps (id_article_annonce, id_article_offer) VALUES (${id_article}, ${id_offer})`
+    );
+
+    if (rawCreateSwap.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant l'insertion de l'échange dans la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      flashMessage: {
+        message:
+          "Votre demande d'échange a été transmise au propriétaire de l'objet.",
+        type: "success"
+      }
+    });
+  }
+);
+
+app.get(
+  "/swap_in_progress/:id_article",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id_article = parseInt(req.params.id_article);
+    const id_user = req.user.id;
+    const swapInProgress = await bddQuery(
+      `SELECT count(*) AS count FROM swaps AS s
+      JOIN articles AS a ON a.id = s.id_article_offer
+      WHERE s.id_article_annonce = ${id_article} AND a.owner_id = ${id_user}`
+    );
+    if (swapInProgress.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      numberSwapInProgress: swapInProgress.results[0].count
+    });
+  }
+);
+
+server.listen(port, err => {
+  if (err) {
+    throw new Error("Something bad happened...");
+  }
+
+  console.log(`Server is listening on ${port}`);
+});
