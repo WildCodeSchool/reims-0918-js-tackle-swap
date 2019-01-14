@@ -14,9 +14,9 @@ const styles = theme => ({
 const InteractionsArticleDetails = props => {
   const { classes, setFlashMessage, articleDetails, user } = props;
 
-  const goToSwap = () => {
+  const goToSwap = id_article => {
     if (ls.get("jwt-tackle-swap")) {
-      props.history.push("/proposer-article");
+      props.history.push(`/proposer-article/${id_article}`);
     } else {
       setFlashMessage({
         type: "warning",
@@ -49,7 +49,7 @@ const InteractionsArticleDetails = props => {
         variant="contained"
         style={{ border: "2px solid #009682", color: "white" }}
         className={classes.button}
-        onClick={() => goToSwap()}
+        onClick={() => goToSwap(articleDetails.id)}
       >
         Proposer un échange
       </Button>

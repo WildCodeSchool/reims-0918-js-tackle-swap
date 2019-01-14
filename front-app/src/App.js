@@ -59,7 +59,7 @@ class App extends Component {
             />
             <Route path="/mes-echanges" component={ListExchanges} />
             <Route
-              path="/proposer-article"
+              path="/proposer-article/:id_article"
               component={ListArticlesToExchange}
             />
           </Switch>
