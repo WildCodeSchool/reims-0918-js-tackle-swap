@@ -484,9 +484,9 @@ app.get(
   async (req, res) => {
     const idUser = req.user.id;
     const swapsId = await bddQuery(
-      `SELECT s.id FROM swaps as s JOIN articles as a ON a.id = s.id_article_offer WHERE a.id = ${idUser}`
+      `SELECT s.id FROM swaps as s JOIN articles as a ON a.id = s.id_article_offer WHERE a.owner_id = ${idUser}`
     );
-    // const result = results.RowDataPacket;
+
     if (swapsId.err) {
       return sendResponse(res, 200, "error", {
         flashMessage: {
@@ -496,9 +496,23 @@ app.get(
         }
       });
     }
-    console.log(swapsId);
-    const exchangesProposed = await bddQuery();
-    sendResponse(res, 200, swapsId);
+    const swapsIdArray = swapsId.results.map(ids => {
+      return ids.id;
+    });
+
+    const articlesId = await bddQuery(
+      `SELECT s.id_article_annonce FROM swaps as s WHERE s.id IN (${swapsIdArray})`
+    );
+
+    const swapsIdArticle = articlesId.results.map(articleId => {
+      return articleId.id_article_annonce;
+    });
+
+    const swapArticleDetails = await bddQuery(
+      `SELECT * from articles where id IN (${swapsIdArticle})`
+    );
+
+    sendResponse(res, 200, swapArticleDetails);
   }
 );
 
