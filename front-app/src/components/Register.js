@@ -40,8 +40,11 @@ const Register = props => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Paper style={{ opacity: "0.9", textAlign: "center" }}>
-          <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
+        <Paper style={{ opacity: "0.9" }}>
+          <form
+            onSubmit={handleSubmit(submit)}
+            style={{ padding: "20px", textAlign: "center" }}
+          >
             <h4
               style={{
                 color: "#00cccc",
@@ -52,15 +55,20 @@ const Register = props => {
             >
               S'inscrire
             </h4>
-            <Field name="gender" component={renderRadioGroup} label="Sexe">
-              <FormControlLabel
-                value="F"
-                control={<Radio />}
-                label="Femme"
-                style={{ paddingTop: "10px", paddingBottom: "10px" }}
-              />
-              <FormControlLabel value="M" control={<Radio />} label="Homme" />
-            </Field>
+            <div style={{ textAlign: "initial", color: "grey" }}>
+              <Field name="gender" component={renderRadioGroup} label="Sexe">
+                <FormControlLabel
+                  value="F"
+                  control={<Radio />}
+                  label="Femme"
+                  style={{
+                    paddingTop: "10px",
+                    paddingBottom: "10px"
+                  }}
+                />
+                <FormControlLabel value="M" control={<Radio />} label="Homme" />
+              </Field>
+            </div>
             <Field
               name="lastname"
               type="text"
