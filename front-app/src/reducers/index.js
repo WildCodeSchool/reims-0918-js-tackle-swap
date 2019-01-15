@@ -8,6 +8,7 @@ import loadingReducer from "./loadingReducer";
 import showArticleDetailsReducer from "./showArticleDetailsReducer";
 import FlashMessageReducer from "./FlashMessageReducer";
 import userProfileReducer from "./userProfileReducer";
+import searchReducer from "./searchReducer";
 
 const rootReducers = history =>
   combineReducers({
@@ -18,7 +19,8 @@ const rootReducers = history =>
     loading: loadingReducer,
     articleDetails: showArticleDetailsReducer,
     flashMessage: FlashMessageReducer,
-    user: userProfileReducer
+    user: userProfileReducer,
+    search: searchReducer
   });
 
 export default rootReducers;

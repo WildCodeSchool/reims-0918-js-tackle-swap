@@ -118,10 +118,14 @@ app.get("/articles", async (req, res) => {
         ? requestPage
         : maxPages
       : 1;
-
+  const search = req.query.s;
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name FROM articles WHERE online = true ORDER BY id LIMIT ${limit}`
+    `SELECT id, name FROM articles WHERE online = true ${
+      search
+        ? `AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`
+        : ""
+    }ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -134,7 +138,9 @@ app.get("/articles", async (req, res) => {
     );
   }
   const articles = rawResponseApi.results;
-
+  if (articles.length === 0) {
+    return sendResponse(res, 200, "success", { articles: [] });
+  }
   const rawArticlesPictures = await bddQuery(
     `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id BETWEEN ${
       articles[0].id

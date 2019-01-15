@@ -6,7 +6,8 @@ import {
   SHOW_FLASH_MESSAGE,
   CLOSE_FLASH_MESSAGE,
   USER_PROFIL_RECEIVED,
-  SEARCH_ARTICLES
+  SEARCH_ARTICLES,
+  RECEIVED_SEARCH_ARTICLES
 } from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
@@ -45,4 +46,9 @@ export const makeUserProfileInformationReceivedAction = responseApi => ({
 export const makeSearchArticlesAction = search => ({
   type: SEARCH_ARTICLES,
   search
+});
+
+export const makeSearchReceivedAction = responseApi => ({
+  type: RECEIVED_SEARCH_ARTICLES,
+  responseApi
 });
