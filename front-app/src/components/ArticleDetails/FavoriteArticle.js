@@ -9,7 +9,9 @@ const FavoriteArticleDetails = () => (
       fontSize: "22px"
     }}
   >
-    <i className="far fa-heart" />
+    <i class="material-icons" onClick={() => this.goBack()}>
+      subdirectory_arrow_left
+    </i>
   </div>
 );
 

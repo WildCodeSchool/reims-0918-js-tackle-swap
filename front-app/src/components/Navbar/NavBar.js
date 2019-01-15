@@ -44,7 +44,8 @@ const styles = {
   },
   logo: {
     paddingRight: "100px",
-    padding: "3%"
+    padding: "3%",
+    maxHeight: "100%"
   },
   list: {
     backgroundColor: "#e6f7ff",
@@ -190,13 +191,8 @@ class ButtonAppBar extends Component {
             >
               <MenuIcon style={{ fontSize: "40px" }} />
             </IconButton>
-            <div style={{ height: "60px", paddingTop: 5 }}>
-              <img
-                src={logo}
-                alt="Logo"
-                className={classes.logo}
-                style={{ maxHeight: "100%" }}
-              />
+            <div style={{ height: "60px", paddingTop: 5, margin: "0 auto" }}>
+              <img src={logo} alt="Logo" className={classes.logo} />
             </div>
           </Toolbar>
         </AppBar>
