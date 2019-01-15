@@ -42,7 +42,7 @@ class ListExchanges extends Component {
         }
       })
       .then(results =>
-        this.setState({ exchangesProposed: results.data.type.results })
+        this.setState({ exchangesProposed: results.data.response })
       );
   }
 
@@ -55,7 +55,7 @@ class ListExchanges extends Component {
         }
       })
       .then(results =>
-        this.setState({ exchangesReceived: results.data.type.results })
+        this.setState({ exchangesReceived: results.data.response })
       );
   }
 
@@ -93,11 +93,13 @@ class ListExchanges extends Component {
           <Grid container alignItems="center" direction="column">
             {this.state.exchangesProposed.length > 0 ? (
               this.state.exchangesProposed.map(exchangeProposed => (
-                <Paper style={{ marginBottom: "10px" }}>
-                  <Grid item xs={12} style={{ width: "100%" }}>
-                    <ThumbnailExchange {...exchangeProposed} />
-                  </Grid>
-                </Paper>
+                <Grid
+                  item
+                  xs={12}
+                  style={{ width: "100%", backgroundColor: "transparent" }}
+                >
+                  <ThumbnailExchange {...exchangeProposed} />
+                </Grid>
               ))
             ) : (
               <p>Vous n'avez proposé aucun échange</p>
@@ -107,11 +109,9 @@ class ListExchanges extends Component {
           <Grid container alignItems="center" direction="column">
             {this.state.exchangesReceived.length > 0 ? (
               this.state.exchangesReceived.map(exchangeReceived => (
-                <Paper style={{ marginBottom: "10px" }}>
-                  <Grid item xs={12} style={{ width: "100%" }}>
-                    <ThumbnailExchange {...exchangeReceived} />{" "}
-                  </Grid>
-                </Paper>
+                <Grid item xs={12} style={{ width: "100%" }}>
+                  <ThumbnailExchange {...exchangeReceived} />{" "}
+                </Grid>
               ))
             ) : (
               <p>Vous n'avez reçu aucuns échanges</p>

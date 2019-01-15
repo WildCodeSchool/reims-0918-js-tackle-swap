@@ -20,13 +20,12 @@ const styles = theme => ({
 function ThumbnailExchange(props) {
   const { classes } = props;
 
-  const goToArticleDetails = () => {
-    props.history.push("/article/2");
+  const goToExchangeDetails = () => {
+    props.history.push(`/details-echange-${props.id_swap}`);
   };
 
-  const goToChat = () => {
-    props.history.push("/conversation-2-2-1");
-  };
+  const mainPicture = props.pictures.filter(picture => picture.main_picture);
+  const picture = mainPicture[0].url_picture;
   return (
     <Grid container>
       <Grid
@@ -39,12 +38,8 @@ function ThumbnailExchange(props) {
         }}
       >
         <img
-          src={`${
-            process.env.REACT_APP_URL_API
-          }/data/pictures_articles/2/leurre.jpg`}
-          alt={`${
-            process.env.REACT_APP_URL_API
-          }/data/pictures_articles/2/leurre.jpg`}
+          src={`${process.env.REACT_APP_URL_API}${picture}`}
+          alt={`${process.env.REACT_APP_URL_API}${picture}`}
           style={{
             maxWidth: "95%",
             maxHeight: "95%"
@@ -76,15 +71,11 @@ function ThumbnailExchange(props) {
               justify: "space-around"
             }}
           >
-            <Button className={classes.button} onClick={() => goToChat()}>
-              Conversation
-            </Button>
-
             <Button
               className={classes.button}
-              onClick={() => goToArticleDetails()}
+              onClick={() => goToExchangeDetails(props.id_swap)}
             >
-              Détails
+              Détails de l'échange
             </Button>
           </Grid>
         </Grid>

@@ -14,6 +14,7 @@ import PrivateMessagesRoomContainer from "./containers/PrivateMessagesRoomContai
 import AddArticleContainer from "./containers/AddArticleContainer";
 import ListExchanges from "./components/Exchanges/ListExchanges";
 import ListArticlesToExchangesContainer from "./containers/ListArticlesToExchangesContainer";
+import ExchangeDetails from "./components/Exchanges/ExchangeDetails";
 import UserProfileContainer from "./containers/UserProfileContainer";
 
 class App extends Component {
@@ -61,6 +62,10 @@ class App extends Component {
             <Route
               path="/proposer-article/:id_article"
               component={ListArticlesToExchangesContainer}
+            />
+            <Route
+              path="/details-echange-:id_swap"
+              component={ExchangeDetails}
             />
           </Switch>
           <FlashMessageContainer />
