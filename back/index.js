@@ -483,10 +483,22 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const idUser = req.user.id;
-    const exchangesProposed = await bddQuery(
+    const swapsId = await bddQuery(
       `SELECT s.id FROM swaps as s JOIN articles as a ON a.id = s.id_article_offer WHERE a.id = ${idUser}`
     );
-    sendResponse(res, 200, exchangesProposed);
+    const result = results.RowDataPacket;
+    if (swapsId.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un erreur s'est produite durant la vérification dans la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+    console.log(swapsId);
+    const exchangesProposed = await bddQuery();
+    sendResponse(res, 200, swapsId);
   }
 );
 

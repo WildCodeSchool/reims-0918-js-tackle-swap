@@ -28,6 +28,17 @@ class ListExchanges extends Component {
     this.setState({ value: index });
   };
 
+  // getExchangeProposed(){
+  //   axios
+  //   .get(`${process.env.REACT_APP_URL_API}/exchanges-proposed`, {
+  //     headers: {
+  //       Accept: "application/json",
+  //       authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+  //     }
+  //   })
+  //   .then()
+  // }
+
   render() {
     const { classes, theme } = this.props;
     return (
