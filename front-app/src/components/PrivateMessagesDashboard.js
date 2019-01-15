@@ -32,7 +32,6 @@ export class PrivateMessagesDashboard extends Component {
     const classes = {
       main_private_messages: {}
     };
-    console.log(this.state.listRooms);
     return (
       <Grid container>
         <Grid item xs={12}>

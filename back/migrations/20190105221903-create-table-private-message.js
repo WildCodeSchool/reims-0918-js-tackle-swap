@@ -28,7 +28,7 @@ exports.up = function(db, callback) {
         notNull: true,
         defaultValue: new String("NOW()")
       },
-      article_id: {
+      id_article: {
         type: "int",
         notNull: true,
         foreignKey: {
