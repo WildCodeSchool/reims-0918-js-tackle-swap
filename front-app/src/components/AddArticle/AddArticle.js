@@ -140,7 +140,7 @@ class AddArticle extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
+          <Paper style={{ opacity: "0.9" }}>
             {page === 1 && (
               <AddArticleFirstPage onSubmit={this.onSubmitInformations} />
             )}

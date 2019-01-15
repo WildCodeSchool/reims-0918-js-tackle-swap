@@ -7,12 +7,22 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  paper: {
-    color: theme.palette.text.secondary
+  articleUnSelected: {
+    backgroundColor: "#e6f7ff"
+  },
+  articleSelected: {
+    backgroundColor: "#BBDEEF"
   },
   button: {
     margin: theme.spacing.unit,
     backgroundColor: "#009682",
+    color: "#e6f7ff",
+    border: "0.5px solid #009682"
+  },
+  buttonSelected: {
+    margin: theme.spacing.unit,
+    backgroundColor: "#e6f7ff",
+    color: "#009682",
     border: "0.5px solid #009682"
   }
 });
@@ -22,10 +32,16 @@ class ThumbnailArticleToExchange extends Component {
     this.props.history.push(`/article/${id}`);
   }
   render() {
-    const { classes } = this.props;
+    const { classes, selectArticleToExchange, selectedArticle } = this.props;
 
     return (
-      <Paper className={classes.paper}>
+      <Paper
+        className={
+          selectedArticle === this.props.id
+            ? classes.articleSelected
+            : classes.articleUnSelected
+        }
+      >
         <Grid container>
           <Grid
             item
@@ -73,7 +89,18 @@ class ThumbnailArticleToExchange extends Component {
                 >
                   Détail
                 </Button>
-                <Button className={classes.button}>Sélectionner</Button>
+                {selectedArticle === this.props.id ? (
+                  <Button className={classes.buttonSelected}>
+                    Sélectionné
+                  </Button>
+                ) : (
+                  <Button
+                    className={classes.button}
+                    onClick={() => selectArticleToExchange(this.props.id)}
+                  >
+                    Sélectionner
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </Grid>

@@ -41,14 +41,19 @@ const Register = props => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Paper>
+        <Paper style={{ opacity: "0.9" }}>
           <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
-            <Field
-              name="gender"
-              component={renderRadioGroup}
-              label="Sexe"
-              style={{ color: props.muiTheme.palette.textColor }}
+            <h4
+              style={{
+                color: "#00cccc",
+                fontSize: "1.5em",
+                margin: "0",
+                marginBottom: "30px"
+              }}
             >
+              S'inscrire
+            </h4>
+            <Field name="gender" component={renderRadioGroup} label="Sexe">
               <FormControlLabel
                 value="F"
                 control={<Radio />}
@@ -66,38 +71,44 @@ const Register = props => {
               type="text"
               component={renderField}
               label="Nom"
+              style={{ width: "310px" }}
             />
             <Field
               name="firstname"
               type="text"
               component={renderField}
               label="Prénom"
+              style={{ width: "310px" }}
             />
             <Field
               name="email"
               type="email"
               component={renderField}
               label="Adresse Mail"
+              style={{ width: "310px" }}
             />
             <Field
               name="nickname"
               type="nickname"
               component={renderField}
               label="Pseudo"
+              style={{ width: "310px" }}
             />
             <Field
               name="password"
               type="password"
               component={renderField}
               label="Mot de passe"
+              style={{ width: "310px" }}
             />
             <Field
               name="passwordBis"
               type="password"
               component={renderField}
               label="Confirmation Mot de passe"
+              style={{ width: "310px" }}
             />
-            <div>
+            <div style={{ marginTop: "15px" }}>
               <Button
                 type="submit"
                 variant="contained"

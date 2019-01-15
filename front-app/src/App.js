@@ -13,7 +13,7 @@ import PrivateMessagesDashboardContainer from "./containers/PrivateMessagesDashb
 import PrivateMessagesRoomContainer from "./containers/PrivateMessagesRoomContainer";
 import AddArticleContainer from "./containers/AddArticleContainer";
 import ListExchanges from "./components/Exchanges/ListExchanges";
-import ListArticlesToExchange from "./components/Exchanges/SelectArticles/ListArticlesToExchange";
+import ListArticlesToExchangesContainer from "./containers/ListArticlesToExchangesContainer";
 import UserProfileContainer from "./containers/UserProfileContainer";
 
 class App extends Component {
@@ -54,13 +54,13 @@ class App extends Component {
               component={PrivateMessagesDashboardContainer}
             />
             <Route
-              path="/conversation-:article_id-:id_owner-:id_user"
+              path="/conversation-:id_article-:id_owner-:id_user"
               component={PrivateMessagesRoomContainer}
             />
             <Route path="/mes-echanges" component={ListExchanges} />
             <Route
               path="/proposer-article/:id_article"
-              component={ListArticlesToExchange}
+              component={ListArticlesToExchangesContainer}
             />
           </Switch>
           <FlashMessageContainer />
