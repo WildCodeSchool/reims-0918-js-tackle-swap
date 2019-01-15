@@ -75,6 +75,7 @@ class ButtonAppBar extends Component {
       message: "Vous êtes bien déconnecté",
       type: "success"
     });
+    this.props.setUserInformation({});
     this.props.history.push("/");
   };
 

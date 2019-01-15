@@ -8,12 +8,13 @@ import { Field, reduxForm } from "redux-form";
 import { renderField, renderRadioGroup } from "./Form/RenderField";
 import { validate } from "./Form/Validate";
 import { withStyles } from "@material-ui/core/styles";
+import { compose } from "recompose";
 import Button from "@material-ui/core/Button";
+import muiThemeable from "material-ui/styles/muiThemeable";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    backgroundColor: "#009682"
+    margin: theme.spacing.unit
   }
 });
 
@@ -42,12 +43,21 @@ const Register = props => {
       <Grid item xs={12}>
         <Paper>
           <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
-            <Field name="gender" component={renderRadioGroup} label="Sexe">
+            <Field
+              name="gender"
+              component={renderRadioGroup}
+              label="Sexe"
+              style={{ color: props.muiTheme.palette.textColor }}
+            >
               <FormControlLabel
                 value="F"
                 control={<Radio />}
                 label="Femme"
-                style={{ paddingTop: "10px", paddingBottom: "10px" }}
+                style={{
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  color: props.muiTheme.palette.textColor
+                }}
               />
               <FormControlLabel value="M" control={<Radio />} label="Homme" />
             </Field>
@@ -91,17 +101,19 @@ const Register = props => {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ border: "2px solid #009682", color: "white" }}
+                // style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
+                color="primary"
               >
                 Valider
               </Button>
               <Button
                 type="button"
                 variant="contained"
-                style={{ border: "2px solid #009682", color: "white" }}
+                // style={{ border: "2px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
+                color="primary"
               >
                 Effacer Valeurs
               </Button>
@@ -113,7 +125,10 @@ const Register = props => {
   );
 };
 
-export default withStyles(styles)(
+export default compose(
+  muiThemeable(),
+  withStyles(styles)
+)(
   reduxForm({
     form: "register",
     validate

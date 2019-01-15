@@ -465,13 +465,6 @@ app.put("/article_:idArticle/online_:online", async (req, res) => {
 
   sendResponse(res, 200, "success", { flashMessage });
 });
-server.listen(port, err => {
-  if (err) {
-    throw new Error("Something bad happened...");
-  }
-
-  console.log(`Server is listening on ${port}`);
-});
 
 app.get(
   "/user_articles",
@@ -484,3 +477,35 @@ app.get(
     sendResponse(res, 200, "success", myArticles);
   }
 );
+
+app.get(
+  "/exchanges-proposed",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idUser = req.user.id;
+    const exchangesProposed = await bddQuery(
+      `SELECT s.id FROM swaps as s JOIN articles as a ON a.id = s.id_article_offer WHERE a.id = ${idUser}`
+    );
+    sendResponse(res, 200, exchangesProposed);
+  }
+);
+
+app.get(
+  "/exchanges-received",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idUser = req.user.id;
+    const exchangesReceived = await bddQuery(
+      `SELECT a.* FROM articles as a JOIN swaps as s ON s.id_article_annonce = a.id WHERE a.owner_id=${idUser}`
+    );
+    sendResponse(res, 200, exchangesReceived);
+  }
+);
+
+server.listen(port, err => {
+  if (err) {
+    throw new Error("Something bad happened...");
+  }
+
+  console.log(`Server is listening on ${port}`);
+});

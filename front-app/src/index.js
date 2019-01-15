@@ -10,8 +10,12 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"; // v1.x
+import { MuiThemeProvider as V0MuiThemeProvider } from "material-ui";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { teal500 } from "material-ui/styles/colors";
+// import { createMuiTheme } from "@material-ui/core/styles";
+// import { MuiThemeProvider } from "material-ui/styles";
 
 const history = createBrowserHistory();
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -21,12 +25,35 @@ const store = createStore(
   composeEnhancer(applyMiddleware(routerMiddleware(history)))
 );
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#009682"
+    }
+  },
+
+  typography: {
+    useNextVariants: true
+  }
+});
+
+const themeV0 = getMuiTheme({
+  palette: {
+    // primary: {
+    //   main: "#009682"
+    // }
+    color: "#009682"
+  }
+});
+
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
+    <MuiThemeProvider theme={theme}>
+      <V0MuiThemeProvider muiTheme={themeV0}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </V0MuiThemeProvider>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
