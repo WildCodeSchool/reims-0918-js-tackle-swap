@@ -48,7 +48,7 @@ export class PrivateMessagesRoom extends Component {
         recipient: recipient,
         message: this.state.message,
         room: this.state.roomConnected.roomName,
-        article_id: this.state.roomConnected.article_id
+        id_article: this.state.roomConnected.id_article
       });
       this.setState({ message: "" });
     }
@@ -72,7 +72,7 @@ export class PrivateMessagesRoom extends Component {
     this._isMounted = true;
 
     if (!this.socket) {
-      if (!(await isArticle(parseInt(this.props.match.params.article_id)))) {
+      if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
         if (this._isMounted) {
           this.props.setFlashMessage({
             type: "error",
@@ -117,7 +117,6 @@ export class PrivateMessagesRoom extends Component {
 
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
-      console.log(roomConnected);
       this.setState({ roomConnected });
     });
     this.socket.emit("login");

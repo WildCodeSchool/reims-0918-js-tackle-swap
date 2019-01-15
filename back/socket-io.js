@@ -7,13 +7,12 @@ const socketIo = (io, app) => {
     "/all-conversations-privates",
     passport.authenticate("jwt", { session: false }),
     async (req, res) => {
-      const nickname_user = req.user.nickname;
       const id_user = req.user.id;
 
       const rawAllRooms = await bddQuery(
         `SELECT pm.room, a.id AS article_id, a.name, u.nickname, pa.url_picture
         FROM private_messages AS pm
-        JOIN articles AS a ON pm.article_id = a.id
+        JOIN articles AS a ON pm.id_article = a.id
         JOIN users AS u ON a.owner_id = u.id
         LEFT JOIN pictures_articles AS pa ON pa.article_id = a.id AND pa.main_picture = true
         WHERE pm.room LIKE '%-${id_user}%'
@@ -28,6 +27,7 @@ const socketIo = (io, app) => {
           }
         });
       }
+      console.log(rawAllRooms);
 
       const response = rawAllRooms.results.map(room =>
         room.url_picture === null
@@ -57,6 +57,7 @@ const socketIo = (io, app) => {
       const id_interlocutors = addIdInterlocutor.map(room =>
         parseInt(room.id_interlocutor)
       );
+      console.log(id_interlocutors);
       const rawNickname_interlocutors = await bddQuery(
         `SELECT id, nickname FROM users WHERE id IN (${id_interlocutors})`
       );
@@ -89,7 +90,7 @@ const socketIo = (io, app) => {
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
-      roomName = `${connectedToRoom.article_id}-${connectedToRoom.id_owner}-${
+      roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
       const rawNicknameParticipant = await bddQuery(
@@ -107,13 +108,14 @@ const socketIo = (io, app) => {
       currentRoom = {
         users,
         roomName,
-        article_id: parseInt(connectedToRoom.article_id)
+        id_article: parseInt(connectedToRoom.id_article)
       };
       socket.join(roomName);
       socket.emit("roomConnected", currentRoom);
     });
 
     socket.on("sendPrivateMessage", async message => {
+      console.log("send", message);
       const insertMessage = await bddQuery(
         "INSERT INTO private_messages SET ?",
         [message]
