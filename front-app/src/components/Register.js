@@ -40,7 +40,7 @@ const Register = props => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Paper style={{ opacity: "0.9" }}>
+        <Paper style={{ opacity: "0.9", textAlign: "center" }}>
           <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
             <h4
               style={{
@@ -107,7 +107,7 @@ const Register = props => {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ border: "2px solid #009682", color: "white" }}
+                style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
               >
                 Valider
@@ -115,12 +115,21 @@ const Register = props => {
               <Button
                 type="button"
                 variant="contained"
-                style={{ border: "2px solid #009682", color: "white" }}
+                style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
               >
                 Effacer Valeurs
               </Button>
+              <p style={{ color: "#009682" }}>
+                Vous êtes déjà inscrit?{" "}
+                <a
+                  href="http://localhost:3000/se-connecter"
+                  style={{ color: "#009682" }}
+                >
+                  Connectez-vous
+                </a>
+              </p>
             </div>
           </form>
         </Paper>

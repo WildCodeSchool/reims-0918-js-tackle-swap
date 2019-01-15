@@ -141,7 +141,17 @@ class ButtonAppBar extends Component {
     const sideList = (
       <div className={classes.list}>
         <img src={avatar} alt="profil" />
-        <p>{this.props.user.nickname}</p>
+        <p
+          style={{
+            color: "rgb(0,204,204)",
+            fontSize: "17px",
+            fontWeight: "bold",
+            margin: "0"
+          }}
+        >
+          {this.props.user.nickname}
+        </p>
+        <hr style={{ borderTop: "1px solid rgba(0,204,204, 0.5)" }} />
         <List>
           {list
             .sort((a, b) => a.id - b.id)

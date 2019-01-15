@@ -58,7 +58,10 @@ class AddArticleFirstPage extends React.Component {
   render() {
     const { handleSubmit, reset, classes } = this.props;
     return (
-      <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ padding: "20px", textAlign: "center" }}
+      >
         <h4 style={{ color: "#00cccc", fontSize: "1.2em", margin: "0" }}>
           Ajouter un article à votre vitrine :
         </h4>

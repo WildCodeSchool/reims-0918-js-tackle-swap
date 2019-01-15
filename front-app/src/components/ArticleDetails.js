@@ -62,7 +62,7 @@ class ArticleDetails extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ opacity: "0.9" }}>
         <Button
           style={{
             backgroundColor: "#009682",
