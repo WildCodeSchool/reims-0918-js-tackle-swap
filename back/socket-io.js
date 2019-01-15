@@ -27,8 +27,9 @@ const socketIo = (io, app) => {
           }
         });
       }
-      console.log(rawAllRooms);
-
+      if (rawAllRooms.results.length === 0) {
+        return sendResponse(res, 200, "success", "");
+      }
       const response = rawAllRooms.results.map(room =>
         room.url_picture === null
           ? {
@@ -57,11 +58,9 @@ const socketIo = (io, app) => {
       const id_interlocutors = addIdInterlocutor.map(room =>
         parseInt(room.id_interlocutor)
       );
-      console.log(id_interlocutors);
       const rawNickname_interlocutors = await bddQuery(
         `SELECT id, nickname FROM users WHERE id IN (${id_interlocutors})`
       );
-      console.log(rawNickname_interlocutors);
 
       const interlocutorsById = rawNickname_interlocutors.results.reduce(
         (acc, obj) => {
@@ -75,7 +74,6 @@ const socketIo = (io, app) => {
         },
         {}
       );
-      console.log(interlocutorsById);
       const responseFinal = addIdInterlocutor.map(room => ({
         ...room,
         nickname_interlocutor: interlocutorsById[room.id_interlocutor].nickname

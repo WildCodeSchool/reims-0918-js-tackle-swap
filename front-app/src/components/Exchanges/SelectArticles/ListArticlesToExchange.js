@@ -43,6 +43,7 @@ class ListArticleToExchange extends Component {
             this.props.setFlashMessage(results.data.response.flashMessage);
           } else if (results.data.type === "success") {
             this.props.setFlashMessage(results.data.response.flashMessage);
+            this.props.history.push("/mes-echanges");
           }
         });
     }
