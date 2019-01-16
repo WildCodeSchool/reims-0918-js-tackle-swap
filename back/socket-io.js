@@ -88,6 +88,7 @@ const socketIo = (io, app) => {
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
+      console.log("room", connectedToRoom);
       roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
@@ -118,6 +119,7 @@ const socketIo = (io, app) => {
         "INSERT INTO private_messages SET ?",
         [message]
       );
+      console.log(insertMessage);
       response = {
         type: "success",
         response: [
