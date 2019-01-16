@@ -43,6 +43,7 @@ export class PrivateMessagesRoom extends Component {
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
     if (this._isMounted) {
+      console.log(this.state.roomConnected);
       this.socket.emit("sendPrivateMessage", {
         sender: this.props.user.id,
         recipient: recipient,

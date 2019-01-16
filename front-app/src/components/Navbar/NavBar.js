@@ -17,6 +17,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import PowerOffIcon from "@material-ui/icons/PowerOff";
 import AddCartIcon from "@material-ui/icons/AddShoppingCart";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import { withRouter } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -116,6 +117,12 @@ class ButtonAppBar extends Component {
           name: "Mes Echanges",
           path: "/mes-echanges",
           icon: <CompareArrows />
+        },
+        {
+          id: 27,
+          name: "Mes Articles",
+          path: "/mes-articles",
+          icon: <AccountCircle />
         },
         { id: 30, name: "Profil", path: "/profil", icon: <FaceIcon /> },
         { id: 99, name: "Se déconnecter", path: "/", icon: <PowerOffIcon /> }
