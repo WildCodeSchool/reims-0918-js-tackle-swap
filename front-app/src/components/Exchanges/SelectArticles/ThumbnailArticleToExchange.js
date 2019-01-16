@@ -33,7 +33,10 @@ class ThumbnailArticleToExchange extends Component {
   }
   render() {
     const { classes, selectArticleToExchange, selectedArticle } = this.props;
-
+    const mainPicture = this.props.pictures.filter(
+      picture => picture.main_picture
+    );
+    const picture = mainPicture[0].url_picture;
     return (
       <Paper
         className={
@@ -53,8 +56,8 @@ class ThumbnailArticleToExchange extends Component {
             }}
           >
             <img
-              src={`${process.env.REACT_APP_URL_API}${this.props.url_picture}`}
-              alt={`${process.env.REACT_APP_URL_API}${this.props.url_picture}`}
+              src={`${process.env.REACT_APP_URL_API}${picture}`}
+              alt={`${process.env.REACT_APP_URL_API}${picture}`}
               style={{
                 maxWidth: "95%",
                 maxHeight: "95%"

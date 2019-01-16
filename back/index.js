@@ -482,10 +482,58 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const idUser = req.user.id;
-    const myArticles = await bddQuery(
-      `SELECT a.name, a.id, pa.url_picture FROM articles AS a JOIN pictures_articles AS pa ON pa.article_id = a.id WHERE a.owner_id=${idUser} AND a.swap = 0 AND pa.main_picture = 1`
+    const rawMyArticles = await bddQuery(
+      `SELECT a.name, a.id FROM articles AS a WHERE a.owner_id=${idUser} AND a.swap = 0`
     );
-    sendResponse(res, 200, "success", myArticles);
+
+    const articles = rawMyArticles.results;
+    const articles_id = articles.map(article => article.id);
+
+    const rawArticlesPictures = await bddQuery(
+      `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id IN (${articles_id}) `
+    );
+
+    const groupPicturesById = rawArticlesPictures.results.reduce((acc, obj) => {
+      const cle = obj["article_id"];
+      if (!acc[cle]) {
+        acc[cle] = [{ mainIsDefine: false }];
+      }
+      acc[cle] = [
+        ...acc[cle],
+        { url_picture: obj.url_picture, main_picture: obj.main_picture }
+      ];
+      if (obj.main_picture) {
+        acc[cle][0].mainIsDefine = true;
+      }
+      return acc;
+    }, {});
+
+    const keyPictures = Object.keys(groupPicturesById);
+
+    // create object array with object array for pictures
+    const articlesResult = articles.reduce((acc, obj) => {
+      const currentId = obj.id;
+
+      if (keyPictures.includes(currentId.toString())) {
+        const mainIsDefine = groupPicturesById[currentId][0].mainIsDefine;
+        groupPicturesById[currentId].shift();
+        if (!mainIsDefine) {
+          groupPicturesById[currentId][0].main_picture = 1;
+        }
+        obj.pictures = groupPicturesById[currentId];
+      } else {
+        obj.pictures = [
+          {
+            url_picture: "/data/pictures_articles/logo_poisson.svg",
+            main_picture: 1
+          }
+        ];
+      }
+      acc = [...acc, obj];
+      return acc;
+    }, []);
+
+    sendResponse(res, 200, "success", articlesResult);
   }
 );
 

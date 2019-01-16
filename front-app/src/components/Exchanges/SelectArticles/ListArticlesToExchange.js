@@ -43,6 +43,7 @@ class ListArticleToExchange extends Component {
             this.props.setFlashMessage(results.data.response.flashMessage);
           } else if (results.data.type === "success") {
             this.props.setFlashMessage(results.data.response.flashMessage);
+            this.props.history.push("/mes-echanges");
           }
         });
     }
@@ -83,23 +84,20 @@ class ListArticleToExchange extends Component {
             })
             .then(result => {
               if (this._isMounted) {
-                this.setState(
-                  { myArticles: result.data.response.results },
-                  () => {
-                    const isMyArticle = this.state.myArticles.filter(
-                      article =>
-                        article.id ===
-                        parseInt(this.props.match.params.id_article)
-                    );
-                    if (isMyArticle.length > 0) {
-                      this.props.setFlashMessage({
-                        type: "warning",
-                        message: "Vous propriétaire de cet article."
-                      });
-                      return this.props.history.goBack();
-                    }
+                this.setState({ myArticles: result.data.response }, () => {
+                  const isMyArticle = this.state.myArticles.filter(
+                    article =>
+                      article.id ===
+                      parseInt(this.props.match.params.id_article)
+                  );
+                  if (isMyArticle.length > 0) {
+                    this.props.setFlashMessage({
+                      type: "warning",
+                      message: "Vous propriétaire de cet article."
+                    });
+                    return this.props.history.goBack();
                   }
-                );
+                });
               }
             });
         });
