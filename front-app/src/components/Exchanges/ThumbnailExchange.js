@@ -10,12 +10,12 @@ const styles = theme => ({
     flexGrow: 1
   },
   paper: {
-    color: theme.palette.text.secondary
+    backgroundColor: "#e6f7ff"
   },
   button: {
     margin: theme.spacing.unit,
     backgroundColor: "#009682",
-    border: "0.5px solid #009682"
+    color: "#ffffff"
   }
 });
 
@@ -65,7 +65,9 @@ function ThumbnailExchange(props) {
                 justifyContent: "center"
               }}
             >
-              <Typography variant="h5">ILLEX Tiny Fry 38 SP</Typography>
+              <Typography variant="h5" style={{ color: "#009682" }}>
+                ILLEX Tiny Fry 38 SP
+              </Typography>
             </Grid>
           </Grid>
           <Grid container>
@@ -79,11 +81,16 @@ function ThumbnailExchange(props) {
                 justify: "space-around"
               }}
             >
-              <Button className={classes.button} onClick={() => goToChat()}>
+              <Button
+                style={{ border: "1px solid #009682" }}
+                className={classes.button}
+                onClick={() => goToChat()}
+              >
                 Conversation
               </Button>
 
               <Button
+                style={{ border: "1px solid #009682" }}
                 className={classes.button}
                 onClick={() => goToArticleDetails()}
               >
