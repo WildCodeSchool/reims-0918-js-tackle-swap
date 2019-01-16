@@ -757,7 +757,7 @@ app.get(
   async (req, res) => {
     const idSwap = req.params.id_swap;
     const swapDetails = await bddQuery(
-      `SELECT a1.id AS id_annonce,a1.name AS name_annonce, a2.id as id_offer, a2.name as name_offer
+      `SELECT a1.id AS id_annonce,a1.name AS name_annonce, a1.owner_id as annonce_owner, a2.id as id_offer, a2.name as name_offer, a2.owner_id as offer_owner
       FROM swaps as s 
       JOIN articles as a1 ON a1.id = s.id_article_annonce 
       JOIN articles as a2 ON a2.id = s.id_article_offer 
@@ -772,13 +772,27 @@ app.get(
         }
       });
     }
+    console.log(swapDetails);
     const picturesArticles = await bddQuery(
-      `SELECT pa1.url_picture as annonce_picture, pa2.url_picture as offer_picture FROM pictures_articles as pa1 JOIN pictures_articles as pa2 ON pa2.article_id=${
+      `SELECT pa1.url_picture as annonce_picture, pa2.url_picture as offer_picture FROM pictures_articles as pa1 LEFT JOIN pictures_articles as pa2 ON pa2.article_id=${
         swapDetails.results[0].id_offer
       } WHERE pa1.article_id = ${swapDetails.results[0].id_annonce}`
     );
-
-    return sendResponse(res, 200, "success", { swapDetails, picturesArticles });
+    console.log(swapDetails.results[0].annonce_owner);
+    return sendResponse(res, 200, "success", {
+      offer: {
+        id: swapDetails.results[0].id_offer,
+        name: swapDetails.results[0].name_offer,
+        picture: picturesArticles.results[0].offer_picture,
+        owner: swapDetails.results[0].offer_owner
+      },
+      annonce: {
+        id: swapDetails.results[0].id_annonce,
+        name: swapDetails.results[0].name_annonce,
+        picture: picturesArticles.results[0].annonce_picture,
+        owner: swapDetails.results[0].annonce_owner
+      }
+    });
   }
 );
 
