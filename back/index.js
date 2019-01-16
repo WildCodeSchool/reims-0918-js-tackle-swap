@@ -95,8 +95,14 @@ app.put("/users/:id", (req, res) => {
 // Return List Articles, with pagination
 app.get("/articles", async (req, res) => {
   const numberArticlesPerPage = 20;
+
+  const search = req.query.s;
   const rawMaxPages = await bddQuery(
-    "SELECT COUNT(*) AS count FROM articles WHERE online = true"
+    `SELECT COUNT(*) AS count FROM articles WHERE online = true ${
+      search
+        ? `AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`
+        : ""
+    }`
   );
 
   if (rawMaxPages.err) {
@@ -118,7 +124,6 @@ app.get("/articles", async (req, res) => {
         ? requestPage
         : maxPages
       : 1;
-  const search = req.query.s;
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
     `SELECT id, name FROM articles WHERE online = true ${

@@ -5,14 +5,16 @@ import {
   makeFetchArticlesAction,
   makeChangePageAction,
   makeSearchArticlesAction,
-  makeSearchReceivedAction
+  makeSearchReceivedAction,
+  makeNewSearchReceivedAction
 } from "../actions/actions";
 
 const mapStateToProps = state => ({
   articles: state.articles,
   pagination: state.pagination,
   loading: state.loading,
-  search: state.search
+  search: state.search,
+  searchResults: state.searchResults
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -21,7 +23,10 @@ const mapDispatchToProps = dispatch => ({
   fetchArticles: () => dispatch(makeFetchArticlesAction()),
   changePage: pageNumber => dispatch(makeChangePageAction(pageNumber)),
   setSearchArticles: search => dispatch(makeSearchArticlesAction(search)),
-  searchReceived: responseApi => dispatch(makeSearchReceivedAction(responseApi))
+  searchReceived: responseApi =>
+    dispatch(makeSearchReceivedAction(responseApi)),
+  newSearchReceived: responseApi =>
+    dispatch(makeNewSearchReceivedAction(responseApi))
 });
 
 export default connect(

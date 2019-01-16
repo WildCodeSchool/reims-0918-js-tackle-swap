@@ -9,6 +9,7 @@ import showArticleDetailsReducer from "./showArticleDetailsReducer";
 import FlashMessageReducer from "./FlashMessageReducer";
 import userProfileReducer from "./userProfileReducer";
 import searchReducer from "./searchReducer";
+import searchReceivedReducer from "./searchReceivedReducer";
 
 const rootReducers = history =>
   combineReducers({
@@ -20,7 +21,8 @@ const rootReducers = history =>
     articleDetails: showArticleDetailsReducer,
     flashMessage: FlashMessageReducer,
     user: userProfileReducer,
-    search: searchReducer
+    search: searchReducer,
+    searchResults: searchReceivedReducer
   });
 
 export default rootReducers;

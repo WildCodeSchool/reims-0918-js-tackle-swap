@@ -16,12 +16,28 @@ class ListArticles extends Component {
     };
   }
 
-  handlePageChange = pageNumber => {
-    this.props.changePage(pageNumber);
-    this.callApiAllArticles(pageNumber);
+  callApiAllArticles = currentPage => {
+    const search = this.props.search;
+    axios
+      .get(
+        `${
+          process.env.REACT_APP_URL_API
+        }/articles?page=${currentPage}&s=${search}`
+      )
+      .then(results => {
+        if (results.data.response !== "no-results") {
+          if (search.length > 0) {
+            this.props.newSearchReceived(results.data.response);
+          } else {
+            this.props.articlesReceived(results.data.response);
+          }
+        } else {
+          console.log("plus de résultats");
+        }
+      });
   };
-
-  callApiAllArticles = (currentPage, search = "") => {
+  callApiAllArticlesMorePage = currentPage => {
+    const search = this.props.search;
     axios
       .get(
         `${
@@ -51,12 +67,15 @@ class ListArticles extends Component {
     this.props.setSearchArticles(e.target.value);
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.search !== this.props.search) {
+    if (
+      prevProps.search !== this.props.search &&
+      (prevProps.search.length > 1 || prevProps.search.length === 0)
+    ) {
       this.callApiAllArticles(1, this.props.search);
     }
   }
   render() {
-    const { pagination, articles, search } = this.props;
+    const { pagination, articles, search, searchResults } = this.props;
     const loader = (
       <div className="loader" key={0}>
         Loading ...
@@ -68,24 +87,46 @@ class ListArticles extends Component {
           search={search}
           handleChangeSearch={this.handleChangeSearch.bind(this)}
         />
-        <InfiniteScroll
-          pageStart={1}
-          loadMore={this.callApiAllArticles}
-          hasMore={pagination.nextPage}
-          loader={loader}
-        >
-          <Grid
-            container
-            spacing={8}
-            alignItems="center"
-            direction="row"
-            justify="space-around"
+        {search.length > 0 ? (
+          <InfiniteScroll
+            pageStart={1}
+            loadMore={this.callApiAllArticlesMorePage}
+            hasMore={pagination.nextPage}
+            loader={loader}
           >
-            {articles.map((article, index) => (
-              <ThumbnailArticle {...article} key={index} />
-            ))}
-          </Grid>
-        </InfiniteScroll>
+            <Grid
+              container
+              spacing={8}
+              alignItems="center"
+              direction="row"
+              justify="space-around"
+            >
+              <h2>Search</h2>
+              {searchResults.map((article, index) => (
+                <ThumbnailArticle {...article} key={index} />
+              ))}
+            </Grid>
+          </InfiniteScroll>
+        ) : (
+          <InfiniteScroll
+            pageStart={1}
+            loadMore={this.callApiAllArticles}
+            hasMore={pagination.nextPage}
+            loader={loader}
+          >
+            <Grid
+              container
+              spacing={8}
+              alignItems="center"
+              direction="row"
+              justify="space-around"
+            >
+              {articles.map((article, index) => (
+                <ThumbnailArticle {...article} key={index} />
+              ))}
+            </Grid>
+          </InfiniteScroll>
+        )}
       </Fragment>
     );
   }
