@@ -10,11 +10,12 @@ export class SearchArticles extends Component {
         <InputBase
           margin="dense"
           autoFocus={true}
-          placeholder="Votre recherche ..."
+          placeholder=" Votre recherche ..."
           style={{
-            width: "90%",
-            color: "#009682",
-            margin: "5px 15px"
+            backgroundColor: "#f2f2f2",
+            border: "8px solid #e6f7ff",
+            width: "96%",
+            color: "#009682"
           }}
           onChange={e => handleChangeSearch(e)}
           value={search}

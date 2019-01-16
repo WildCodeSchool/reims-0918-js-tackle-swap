@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ThumbnailArticle from "./ThumbnailArticle";
 import InfiniteScroll from "react-infinite-scroller";
+import WelcomeBanner from "./WelcomeBanner";
 
 import axios from "axios";
 
@@ -83,50 +84,53 @@ class ListArticles extends Component {
     );
     return (
       <Fragment>
+        <WelcomeBanner />
         <SearchArticles
           search={search}
           handleChangeSearch={this.handleChangeSearch.bind(this)}
         />
-        {search.length > 0 ? (
-          <InfiniteScroll
-            pageStart={1}
-            loadMore={this.callApiAllArticlesMorePage}
-            hasMore={pagination.nextPage}
-            loader={loader}
-          >
-            <Grid
-              container
-              spacing={8}
-              alignItems="center"
-              direction="row"
-              justify="space-around"
+        <div style={{ padding: "10px" }}>
+          {search.length > 0 ? (
+            <InfiniteScroll
+              pageStart={1}
+              loadMore={this.callApiAllArticlesMorePage}
+              hasMore={pagination.nextPage}
+              loader={loader}
             >
-              <h2>Search</h2>
-              {searchResults.map((article, index) => (
-                <ThumbnailArticle {...article} key={index} />
-              ))}
-            </Grid>
-          </InfiniteScroll>
-        ) : (
-          <InfiniteScroll
-            pageStart={1}
-            loadMore={this.callApiAllArticles}
-            hasMore={pagination.nextPage}
-            loader={loader}
-          >
-            <Grid
-              container
-              spacing={8}
-              alignItems="center"
-              direction="row"
-              justify="space-around"
+              <Grid
+                container
+                spacing={8}
+                alignItems="center"
+                direction="row"
+                justify="space-around"
+              >
+                <h2>Search</h2>
+                {searchResults.map((article, index) => (
+                  <ThumbnailArticle {...article} key={index} />
+                ))}
+              </Grid>
+            </InfiniteScroll>
+          ) : (
+            <InfiniteScroll
+              pageStart={1}
+              loadMore={this.callApiAllArticles}
+              hasMore={pagination.nextPage}
+              loader={loader}
             >
-              {articles.map((article, index) => (
-                <ThumbnailArticle {...article} key={index} />
-              ))}
-            </Grid>
-          </InfiniteScroll>
-        )}
+              <Grid
+                container
+                spacing={8}
+                alignItems="center"
+                direction="row"
+                justify="space-around"
+              >
+                {articles.map((article, index) => (
+                  <ThumbnailArticle {...article} key={index} />
+                ))}
+              </Grid>
+            </InfiniteScroll>
+          )}
+        </div>
       </Fragment>
     );
   }
