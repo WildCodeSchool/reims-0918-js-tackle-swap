@@ -5,7 +5,8 @@ import {
   SHOW_ARTICLE_DETAILS,
   SHOW_FLASH_MESSAGE,
   CLOSE_FLASH_MESSAGE,
-  USER_PROFIL_RECEIVED
+  USER_PROFIL_RECEIVED,
+  SEARCH_ARTICLES
 } from "./actionTypes";
 import {
   makeArticlesReceivedAction,
@@ -14,7 +15,8 @@ import {
   makeShowArticleDetailsAction,
   makeShowFlashMessageAction,
   makeCloseFlashMessageAction,
-  makeUserProfileInformationReceivedAction
+  makeUserProfileInformationReceivedAction,
+  makeSearchArticlesAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -138,5 +140,17 @@ describe("makeUserProfileInformationReceivedAction", () => {
     expect(makeUserProfileInformationReceivedAction(responseApi)).toEqual(
       expected
     );
+  });
+});
+
+describe("makeSearchArticlesAction", () => {
+  it("should return content input search into store", () => {
+    const search = "my search";
+    const expected = {
+      type: SEARCH_ARTICLES,
+      search
+    };
+
+    expect(makeSearchArticlesAction(search)).toEqual(expected);
   });
 });
