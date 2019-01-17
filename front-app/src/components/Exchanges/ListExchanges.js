@@ -97,8 +97,9 @@ class ListExchanges extends Component {
                   item
                   xs={12}
                   style={{ width: "100%", backgroundColor: "transparent" }}
+                  key={index}
                 >
-                  <ThumbnailExchange {...exchangeProposed} key={index} />
+                  <ThumbnailExchange {...exchangeProposed} />
                 </Grid>
               ))
             ) : (
@@ -108,8 +109,8 @@ class ListExchanges extends Component {
 
           <Grid container alignItems="center" direction="column">
             {this.state.exchangesReceived.length > 0 ? (
-              this.state.exchangesReceived.map(exchangeReceived => (
-                <Grid item xs={12} style={{ width: "100%" }}>
+              this.state.exchangesReceived.map((exchangeReceived, index) => (
+                <Grid item xs={12} style={{ width: "100%" }} key={index}>
                   <ThumbnailExchange {...exchangeReceived} />{" "}
                 </Grid>
               ))
