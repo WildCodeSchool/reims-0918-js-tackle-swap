@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 const styles = {
   card: {
     maxWidth: 300,
-    backgroundColor: "#e6f7ff",
+    backgroundColor: "rgba(230, 247, 255, 0.8)",
     border: "2px solid white"
   },
   media: {

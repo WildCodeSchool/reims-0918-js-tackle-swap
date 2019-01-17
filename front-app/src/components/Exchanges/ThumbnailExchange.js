@@ -56,7 +56,11 @@ function ThumbnailExchange(props) {
               justifyContent: "center"
             }}
           >
-            <Typography variant="h5">{props.name}</Typography>
+            <Typography
+              style={{ color: "#00cccc", paddingTop: "8px", fontSize: "22px" }}
+            >
+              {props.name}
+            </Typography>
           </Grid>
         </Grid>
         <Grid container>
