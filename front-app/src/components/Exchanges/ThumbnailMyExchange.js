@@ -9,24 +9,31 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
+
   button: {
     margin: theme.spacing.unit,
     backgroundColor: "#009682",
-    color: "#ffffff"
+    border: "0.5px solid #009682"
   }
 });
 
-function ThumbnailExchange(props) {
+function ThumbnailMyExchange(props) {
   const { classes } = props;
 
   const goToExchangeDetails = () => {
     props.history.push(`/details-echange-${props.id_swap}`);
   };
 
-  const mainPicture = props.pictures.filter(picture => picture.main_picture);
-  const picture = mainPicture[0].url_picture;
   return (
-    <Grid container>
+    <Grid
+      container
+      style={{
+        backgroundColor: "rgba(190, 247, 255, 0.4)",
+        height: "100px",
+        border: "1px solid #009682",
+        borderRadius: "10px"
+      }}
+    >
       <Grid
         item
         xs={4}
@@ -37,8 +44,8 @@ function ThumbnailExchange(props) {
         }}
       >
         <img
-          src={`${process.env.REACT_APP_URL_API}${picture}`}
-          alt={`${process.env.REACT_APP_URL_API}${picture}`}
+          src={`${process.env.REACT_APP_URL_API}${props.picture}`}
+          alt={`${process.env.REACT_APP_URL_API}${props.picture}`}
           style={{
             maxWidth: "95%",
             maxHeight: "95%"
@@ -56,7 +63,9 @@ function ThumbnailExchange(props) {
               justifyContent: "center"
             }}
           >
-            <Typography variant="h5">{props.name}</Typography>
+            <Typography variant="h5" style={{ color: "#009682" }}>
+              {props.name}
+            </Typography>
           </Grid>
         </Grid>
         <Grid container>
@@ -73,8 +82,9 @@ function ThumbnailExchange(props) {
             <Button
               className={classes.button}
               onClick={() => goToExchangeDetails(props.id_swap)}
+              style={{ color: "white" }}
             >
-              Détails de l'échange
+              Détails de l'article
             </Button>
           </Grid>
         </Grid>
@@ -83,8 +93,8 @@ function ThumbnailExchange(props) {
   );
 }
 
-ThumbnailExchange.propTypes = {
+ThumbnailMyExchange.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter(withStyles(styles)(ThumbnailExchange));
+export default withRouter(withStyles(styles)(ThumbnailMyExchange));
