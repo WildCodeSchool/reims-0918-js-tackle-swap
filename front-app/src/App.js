@@ -30,7 +30,7 @@ class App extends Component {
         <NavBarContainer />
         <div
           style={{
-            padding: "10px",
+            padding: "0px",
             marginTop: "80px"
           }}
         >
