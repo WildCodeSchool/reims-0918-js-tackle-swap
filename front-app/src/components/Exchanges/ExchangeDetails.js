@@ -106,7 +106,7 @@ class ExchangeDetails extends Component {
                     />
                   </div>
                   <div
-                    style={{ position: "fixed", bottom: "15px", width: "92%" }}
+                    style={{ position: "fixed", bottom: "15px", width: "97%" }}
                   >
                     <Button
                       onClick={() => this.goToChat()}
@@ -198,7 +198,7 @@ class ExchangeDetails extends Component {
                       style={{
                         position: "fixed",
                         bottom: "10px",
-                        width: "92%"
+                        width: "97%"
                       }}
                     >
                       <Button
