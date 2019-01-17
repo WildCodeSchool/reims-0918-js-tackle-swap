@@ -67,8 +67,24 @@ class ListExchanges extends Component {
   render() {
     const { classes, theme } = this.props;
     return (
-      <div className={classes.root} style={{ width: "100%" }}>
-        <AppBar position="static" color="default">
+      <div
+        className={classes.root}
+        style={{
+          width: "97%",
+          margin: "90px 5px 0 5px",
+          borderRadius: "10px",
+          backgroundColor: "transparent"
+        }}
+      >
+        <AppBar
+          position="static"
+          color="default"
+          style={{
+            borderRadius: "10px 10px 0 0",
+            boxShadow: "none",
+            backgroundColor: "transparent"
+          }}
+        >
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -96,7 +112,13 @@ class ListExchanges extends Component {
                 <Grid
                   item
                   xs={12}
-                  style={{ width: "100%", backgroundColor: "transparent" }}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "rgba(255, 255, 255, 0.4)",
+                    borderRadius: "10px",
+                    border: "1px solid #009682",
+                    marginBottom: "5px"
+                  }}
                   key={index}
                 >
                   <ThumbnailExchange {...exchangeProposed} />
@@ -110,7 +132,18 @@ class ListExchanges extends Component {
           <Grid container alignItems="center" direction="column">
             {this.state.exchangesReceived.length > 0 ? (
               this.state.exchangesReceived.map((exchangeReceived, index) => (
-                <Grid item xs={12} style={{ width: "100%" }} key={index}>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    width: "100%",
+                    backgroundColor: "rgba(255, 255, 255, 0.4)",
+                    borderRadius: "10px",
+                    border: "1px solid #009682",
+                    marginBottom: "5px"
+                  }}
+                  key={index}
+                >
                   <ThumbnailExchange {...exchangeReceived} />{" "}
                 </Grid>
               ))
