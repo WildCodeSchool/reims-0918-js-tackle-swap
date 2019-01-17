@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ThumbnailExchange from "./ThumbnailExchange";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
@@ -92,13 +92,13 @@ class ListExchanges extends Component {
         >
           <Grid container alignItems="center" direction="column">
             {this.state.exchangesProposed.length > 0 ? (
-              this.state.exchangesProposed.map(exchangeProposed => (
+              this.state.exchangesProposed.map((exchangeProposed, index) => (
                 <Grid
                   item
                   xs={12}
                   style={{ width: "100%", backgroundColor: "transparent" }}
                 >
-                  <ThumbnailExchange {...exchangeProposed} />
+                  <ThumbnailExchange {...exchangeProposed} key={index} />
                 </Grid>
               ))
             ) : (

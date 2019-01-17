@@ -13,9 +13,6 @@ import * as serviceWorker from "./serviceWorker";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"; // v1.x
 import { MuiThemeProvider as V0MuiThemeProvider } from "material-ui";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
-import { teal500 } from "material-ui/styles/colors";
-// import { createMuiTheme } from "@material-ui/core/styles";
-// import { MuiThemeProvider } from "material-ui/styles";
 
 const history = createBrowserHistory();
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
