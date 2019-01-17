@@ -15,12 +15,18 @@ const styles = createStyles({
     justifyContent: "center",
     padding: "10px"
   },
-  buttonForm: {
-    backgroundColor: "#009682"
-  },
   paper: {
     backgroundColor: "transparent",
     boxShadow: "none"
+  },
+  button: {
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "320px",
+    boxShadow: "1px 1px 2px 1px rgba(28, 31, 35, .1)"
   }
 });
 
@@ -150,7 +156,7 @@ class ListArticleToExchange extends Component {
               </Paper>
             ))}
             <Button
-              className={classes.buttonForm}
+              className={classes.button}
               onClick={() => this.sendProposition()}
               disabled={this.state.articleToExchange === 0}
             >
