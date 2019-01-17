@@ -8,12 +8,13 @@ import { Field, reduxForm } from "redux-form";
 import { renderField, renderRadioGroup } from "./Form/RenderField";
 import { validate } from "./Form/Validate";
 import { withStyles } from "@material-ui/core/styles";
+import { compose } from "recompose";
 import Button from "@material-ui/core/Button";
+import muiThemeable from "material-ui/styles/muiThemeable";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    backgroundColor: "#009682"
+    margin: theme.spacing.unit
   }
 });
 
@@ -117,6 +118,7 @@ const Register = props => {
                 variant="contained"
                 style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
+                color="primary"
               >
                 Valider
               </Button>
@@ -126,6 +128,7 @@ const Register = props => {
                 style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
+                color="primary"
               >
                 Effacer Valeurs
               </Button>
@@ -146,7 +149,10 @@ const Register = props => {
   );
 };
 
-export default withStyles(styles)(
+export default compose(
+  muiThemeable(),
+  withStyles(styles)
+)(
   reduxForm({
     form: "register",
     validate
