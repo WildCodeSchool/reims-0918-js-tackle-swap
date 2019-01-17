@@ -42,7 +42,7 @@ class ThumbnailArticleToExchange extends Component {
     );
     const picture = mainPicture[0].url_picture;
     return (
-      <div
+      <Paper
         className={classes.root}
         style={{
           width: "97%",
@@ -131,7 +131,7 @@ class ThumbnailArticleToExchange extends Component {
             </Grid>
           </Grid>
         </Paper>
-      </div>
+      </Paper>
     );
   }
 }
