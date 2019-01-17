@@ -77,6 +77,7 @@ class ButtonAppBar extends Component {
       message: "Vous êtes bien déconnecté",
       type: "success"
     });
+    this.props.setUserArticles({});
     this.props.history.push("/");
   };
 
@@ -109,11 +110,7 @@ class ButtonAppBar extends Component {
   render() {
     const { classes } = this.props;
 
-    let list = [
-      { id: 0, name: "Accueil", path: "/", icon: <HomeIcon /> },
-      { id: 10, name: "Rechercher", path: "/", icon: <SearchIcon /> },
-      { id: 40, name: "Paramètres", path: "/", icon: <SettingsIcon /> }
-    ];
+    let list = [{ id: 0, name: "Accueil", path: "/", icon: <HomeIcon /> }];
 
     if (ls.get("jwt-tackle-swap")) {
       list = [

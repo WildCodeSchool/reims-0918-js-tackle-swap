@@ -14,7 +14,8 @@ const mapStateToProps = state => ({
   pagination: state.pagination,
   loading: state.loading,
   search: state.search,
-  searchResults: state.searchResults
+  searchResults: state.searchResults,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,7 +5,8 @@ import {
   createStyles,
   withStyles,
   InputBase,
-  InputAdornment
+  InputAdornment,
+  Button
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { Link, withRouter } from "react-router-dom";
@@ -137,14 +138,23 @@ export class PrivateMessagesRoom extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Link to="/messagerie">Retour à la messagerie</Link>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <div style={classes.main_private_messages}>
+          <Button
+            style={{
+              backgroundColor: "#009682",
+              border: "1px solid #009682",
+              color: "white",
+              marginTop: 5,
+              marginLeft: 5
+            }}
+            onClick={() => this.props.history.goBack()}
+          >
+            Retour
+          </Button>
+          <Paper style={{ margin: "0 10px" }}>
+            <div>
               <h2>Message :</h2>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >

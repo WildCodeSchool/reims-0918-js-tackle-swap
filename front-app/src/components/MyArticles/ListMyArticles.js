@@ -1,21 +1,92 @@
 import React, { Component } from "react";
 import { Grid, Paper, Button } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import CloseIcon from "@material-ui/icons/Close";
 
 class ListMyArticles extends Component {
-  goToDetail(id) {
-    this.props.history.push(`/article/${id}`);
+  state = {
+    display: "all"
+  };
+  goToPreview(id) {
+    this.props.history.push(`/previsualisation/${id}`);
+  }
+  handleChangeDisplay(display) {
+    this.setState({ display });
   }
   render() {
+    const showResults = this.props.userArticles.filter(article =>
+      this.state.display === "all"
+        ? true
+        : this.state.display === "online"
+        ? article.online
+        : !article.online
+    );
     return (
-      <div>
+      <div
+        style={{
+          padding: "0 5px"
+        }}
+      >
         <Grid container>
-          {this.props.userArticles.map((article, index) => (
-            <Grid item xs={12} key={index}>
+          <Grid item xs={12}>
+            <Button onClick={() => this.handleChangeDisplay("all")}>
+              Tous
+            </Button>
+            <Button onClick={() => this.handleChangeDisplay("online")}>
+              En ligne
+            </Button>
+            <Button onClick={() => this.handleChangeDisplay("offline")}>
+              Hors Ligne
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container>
+          {showResults.map((article, index) => (
+            <Grid
+              item
+              xs={12}
+              key={index}
+              style={{
+                margin: "5px 0"
+              }}
+            >
               <Paper>
-                <Grid container>
-                  <Grid item xs={4}>
+                <Grid
+                  container
+                  style={{
+                    padding: "0 5px"
+                  }}
+                >
+                  <Grid item xs={12}>
+                    <p>
+                      Status de l'article :{" "}
+                      {article.online ? (
+                        <span style={{ color: "green" }}>
+                          <DoneIcon />
+                          {"  "} En ligne
+                        </span>
+                      ) : (
+                        <span style={{ color: "red" }}>
+                          <CloseIcon />
+                          {"  "} Hors ligne
+                        </span>
+                      )}
+                    </p>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={4}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center"
+                    }}
+                  >
                     <img
                       src={`${process.env.REACT_APP_URL_API}${
+                        article.pictures[0].url_picture
+                      }`}
+                      alt={`${process.env.REACT_APP_URL_API}${
                         article.pictures[0].url_picture
                       }`}
                       style={{
@@ -27,15 +98,14 @@ class ListMyArticles extends Component {
                   <Grid item xs={8}>
                     <Grid container>
                       <Grid item xs={12}>
-                        <p>{article.name}</p>
+                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
+                          {article.name}
+                        </p>
                       </Grid>
-                      <Grid item xs={12}>
-                        <Button onClick={() => this.goToDetail(article.id)}>
-                          Détail
+                      <Grid item xs={12} style={{ textAlign: "center" }}>
+                        <Button onClick={() => this.goToPreview(article.id)}>
+                          Modifier mon article
                         </Button>
-                      </Grid>
-                      <Grid item xs={12}>
-                        {article.online ? "En ligne" : "Hors ligne"}
                       </Grid>
                     </Grid>
                   </Grid>

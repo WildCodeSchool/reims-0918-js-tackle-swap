@@ -8,6 +8,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import SearchArticles from "./SearchArticles";
+import isConnected from "../functions/isConnected";
 
 class ListArticles extends Component {
   constructor(props) {
@@ -84,7 +85,7 @@ class ListArticles extends Component {
     );
     return (
       <Fragment>
-        <WelcomeBanner />
+        {!isConnected() && <WelcomeBanner />}
         <SearchArticles
           search={search}
           handleChangeSearch={this.handleChangeSearch.bind(this)}

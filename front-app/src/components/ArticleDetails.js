@@ -55,9 +55,22 @@ class ArticleDetails extends Component {
   }
 
   render() {
+    if (
+      this.props.match.url.includes("previsualisation") &&
+      this.props.user.id !== this.props.articleDetails.owner_id
+    ) {
+      this.props.setFlashMessage({
+        type: "warning",
+        message: "Vous ne pouvez pas accéder à cette page."
+      });
+      this.props.history.goBack();
+    }
     return (
       <div style={{ opacity: "0.9" }}>
-        <div className="ArticleDetails">
+        <div
+          className="ArticleDetails"
+          style={{ margin: "90px 10px 10px 10px" }}
+        >
           <h2
             style={{
               maxWidth: "380px",
@@ -87,10 +100,7 @@ class ArticleDetails extends Component {
               user={this.props.user}
             />
           ) : (
-            <InteractionsArticleDetailsPreview
-              {...this.props.articleDetails}
-              onlineArticle={this.onlineArticle}
-            />
+            ""
           )}
         </div>
       </div>
