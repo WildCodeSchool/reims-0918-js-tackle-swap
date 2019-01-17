@@ -7,6 +7,23 @@ import ls from "local-storage";
 import { withStyles, createStyles, Paper } from "@material-ui/core";
 import isArticle from "../../../functions/isArticle";
 
+const styles = createStyles({
+  form: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "10px"
+  },
+  buttonForm: {
+    backgroundColor: "#009682"
+  },
+  paper: {
+    backgroundColor: "transparent",
+    boxShadow: "none"
+  }
+});
+
 class ListArticleToExchange extends Component {
   constructor(props) {
     super(props);
@@ -150,17 +167,5 @@ class ListArticleToExchange extends Component {
     );
   }
 }
-
-const styles = createStyles({
-  form: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  buttonForm: {
-    backgroundColor: "#009682"
-  }
-});
 
 export default withStyles(styles)(ListArticleToExchange);

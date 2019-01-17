@@ -13,7 +13,7 @@ const styles = theme => ({
     border: "1px solid #009682"
   },
   articleSelected: {
-    backgroundColor: "#d7e6ed",
+    backgroundColor: "#b3d2e0",
     borderRadius: "4px",
     border: "1px solid #009682"
   },
@@ -90,7 +90,7 @@ class ThumbnailArticleToExchange extends Component {
                 >
                   <Typography
                     style={{
-                      color: "#00cccc",
+                      color: "#009682",
                       paddingTop: "8px",
                       fontSize: "22px"
                     }}
