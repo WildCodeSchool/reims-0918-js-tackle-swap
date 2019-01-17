@@ -14,7 +14,12 @@ import muiThemeable from "material-ui/styles/muiThemeable";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "320px"
   }
 });
 
@@ -112,32 +117,29 @@ const Register = props => {
               label="Confirmation Mot de passe"
               style={{ width: "310px" }}
             />
-            <div style={{ marginTop: "15px" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ border: "1px solid #009682", color: "white" }}
-                className={classes.button}
-                color="primary"
-              >
-                Valider
-              </Button>
-              <Button
-                type="button"
-                variant="contained"
-                style={{ border: "1px solid #009682", color: "white" }}
-                className={classes.button}
-                onClick={reset}
-                color="primary"
-              >
-                Effacer Valeurs
-              </Button>
+            <div style={{ marginTop: "20px" }}>
+              <div style={{ padding: "5px" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className={classes.button}
+                >
+                  Valider
+                </Button>
+              </div>
+              <div style={{ padding: "5px" }}>
+                <Button
+                  type="button"
+                  variant="contained"
+                  className={classes.button}
+                  onClick={reset}
+                >
+                  Effacer Valeurs
+                </Button>
+              </div>
               <p style={{ color: "#009682" }}>
                 Vous êtes déjà inscrit?{" "}
-                <a
-                  href="http://localhost:3000/se-connecter"
-                  style={{ color: "#009682" }}
-                >
+                <a href="/se-connecter" style={{ color: "#009682" }}>
                   Connectez-vous
                 </a>
               </p>

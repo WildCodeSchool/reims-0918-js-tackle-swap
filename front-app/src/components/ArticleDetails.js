@@ -61,43 +61,50 @@ class ArticleDetails extends Component {
 
   render() {
     return (
-      <div style={{ opacity: "0.9" }}>
-        <div className="ArticleDetails">
-          <h2
-            style={{
-              maxWidth: "380px",
-              justifyContent: "space-between",
-              display: "flex"
-            }}
-            className="TitleDescription"
-          >
+      <div
+        style={{
+          opacity: "0.9",
+          backgroundColor: "white",
+          borderCollapse: "collapse"
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "380px",
+            justifyContent: "space-between",
+            display: "flex"
+          }}
+        >
+          <div className="TitleDescription">
             {this.props.articleDetails.name}
+          </div>
+          <div>
             <Button
               style={{
+                paddingLeft: "120px",
                 color: "grey"
               }}
               onClick={() => this.goBack()}
             >
               <i class="material-icons">close</i>
             </Button>
-          </h2>
-
-          <PicturesArticleDetails {...this.props.articleDetails} />
-
-          <DescriptionArticleDetails {...this.props.articleDetails} />
-          {this.props.match.url.includes("article") ? (
-            <InteractionsArticleDetails
-              setFlashMessage={this.props.setFlashMessage}
-              articleDetails={this.props.articleDetails}
-              user={this.props.user}
-            />
-          ) : (
-            <InteractionsArticleDetailsPreview
-              {...this.props.articleDetails}
-              onlineArticle={this.onlineArticle}
-            />
-          )}
+          </div>
         </div>
+        <PicturesArticleDetails {...this.props.articleDetails} />
+
+        <DescriptionArticleDetails {...this.props.articleDetails} />
+        {this.props.match.url.includes("article") ? (
+          <InteractionsArticleDetails
+            setFlashMessage={this.props.setFlashMessage}
+            articleDetails={this.props.articleDetails}
+            user={this.props.user}
+          />
+        ) : (
+          <InteractionsArticleDetailsPreview
+            {...this.props.articleDetails}
+            onlineArticle={this.onlineArticle}
+          />
+        )}
       </div>
     );
   }

@@ -8,8 +8,12 @@ import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    backgroundColor: "#009682"
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "320px"
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -158,23 +162,25 @@ class AddArticleFirstPage extends React.Component {
           Ajoutez une ou plusieurs photos à l'étape suivante
         </p>
         <div>
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ border: "2px solid #009682", color: "white" }}
-            className={classes.button}
-          >
-            Passez à l'étape suivante
-          </Button>
-          <Button
-            type="button"
-            variant="contained"
-            style={{ border: "2px solid #009682", color: "white" }}
-            className={classes.button}
-            onClick={reset}
-          >
-            Effacer le formulaire
-          </Button>
+          <div style={{ padding: "5px" }}>
+            <Button
+              type="submit"
+              variant="contained"
+              className={classes.button}
+            >
+              Passez à l'étape suivante
+            </Button>
+          </div>
+          <div style={{ padding: "5px" }}>
+            <Button
+              type="button"
+              variant="contained"
+              className={classes.button}
+              onClick={reset}
+            >
+              Effacer le formulaire
+            </Button>
+          </div>
         </div>
       </form>
     );
