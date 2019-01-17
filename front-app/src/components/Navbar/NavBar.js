@@ -93,6 +93,18 @@ class ButtonAppBar extends Component {
           this.props.setUserInformation(results.data.response);
         });
     }
+    if (isConnected() && !this.props.userArticles) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/user_articles`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          this.props.setUserArticles(results.data.response);
+        });
+    }
   }
   render() {
     const { classes } = this.props;

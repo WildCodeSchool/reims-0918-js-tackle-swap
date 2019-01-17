@@ -4,11 +4,9 @@ import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetail
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import { withRouter } from "react-router-dom";
-
+import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
-import ls from "local-storage";
 
-import isConnected from "../functions/isConnected";
 import { Button } from "@material-ui/core";
 
 class ArticleDetails extends Component {
@@ -20,9 +18,18 @@ class ArticleDetails extends Component {
     this.props.match.url.includes("article")
       ? axios
           .get(`${process.env.REACT_APP_URL_API}/article/${id}`)
-          .then(results =>
-            this.props.articleDetailsReceived(results.data.response[0])
-          )
+          .then(results => {
+            if (results.data.response[0]) {
+              this.props.articleDetailsReceived(results.data.response[0]);
+            } else {
+              this.props.setFlashMessage({
+                type: "warning",
+                message: "L'article n'existe pas."
+              });
+              this.props.history.push("/");
+              return;
+            }
+          })
       : axios
           .get(`${process.env.REACT_APP_URL_API}/preview/${id}`)
           .then(results =>
@@ -45,18 +52,6 @@ class ArticleDetails extends Component {
   }
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
-    if (isConnected() && !this.props.user.id) {
-      axios
-        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
-        })
-        .then(results => {
-          this.props.setUserInformation(results.data.response);
-        });
-    }
   }
 
   render() {
@@ -78,7 +73,7 @@ class ArticleDetails extends Component {
               }}
               onClick={() => this.goBack()}
             >
-              <i class="material-icons">close</i>
+              <CloseIcon />
             </Button>
           </h2>
 
