@@ -17,24 +17,18 @@ class SearchArticles extends Component {
             fontWeight: "bold"
           }}
         >
-          Le Market Place de la pêche
+          La Market Place de la pêche
         </h4>
         <h5
           style={{
             textAlign: "center"
           }}
         >
-          <a
-            style={{ color: "#009682" }}
-            href="http://localhost:3000/s-inscrire"
-          >
+          <a style={{ color: "#009682" }} href="/s-inscrire">
             S'inscrire /{" "}
           </a>
 
-          <a
-            style={{ color: "#009682" }}
-            href="http://localhost:3000/se-connecter"
-          >
+          <a style={{ color: "#009682" }} href="/se-connecter">
             Se connecter
           </a>
         </h5>
