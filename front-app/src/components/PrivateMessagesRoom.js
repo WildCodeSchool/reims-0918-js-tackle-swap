@@ -5,7 +5,8 @@ import {
   createStyles,
   withStyles,
   InputBase,
-  InputAdornment
+  InputAdornment,
+  Button
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import { Link, withRouter } from "react-router-dom";
@@ -131,12 +132,16 @@ export class PrivateMessagesRoom extends Component {
     });
   }
 
+  goBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Link to="/messagerie">Retour à la messagerie</Link>
+          <Button onClick={() => this.goBack()}>Retour</Button>
         </Grid>
         <Grid item xs={12}>
           <Paper>
