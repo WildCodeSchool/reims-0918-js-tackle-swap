@@ -772,13 +772,13 @@ app.get(
         }
       });
     }
-    console.log(swapDetails);
+
     const picturesArticles = await bddQuery(
       `SELECT pa1.url_picture as annonce_picture, pa2.url_picture as offer_picture FROM pictures_articles as pa1 LEFT JOIN pictures_articles as pa2 ON pa2.article_id=${
         swapDetails.results[0].id_offer
       } WHERE pa1.article_id = ${swapDetails.results[0].id_annonce}`
     );
-    console.log(swapDetails.results[0].annonce_owner);
+
     return sendResponse(res, 200, "success", {
       offer: {
         id: swapDetails.results[0].id_offer,
