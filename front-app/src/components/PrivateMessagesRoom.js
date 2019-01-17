@@ -9,7 +9,7 @@ import {
   Button
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import io from "socket.io-client";
 import axios from "axios";
