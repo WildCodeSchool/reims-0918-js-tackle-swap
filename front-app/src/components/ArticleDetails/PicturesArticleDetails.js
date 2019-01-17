@@ -31,7 +31,7 @@ const styles = theme => ({
     objectFit: "contain"
   },
   mobileStepper: {
-    backgroundColor: "#d1e0e0"
+    backgroundColor: "#f2f2f2f2"
   }
 });
 
@@ -94,7 +94,7 @@ class SwipeableTextMobileStepper extends React.Component {
           className={classes.mobileStepper}
           nextButton={
             <Button
-              style={{ color: "#293d3d" }}
+              style={{ color: "#737373" }}
               size="small"
               onClick={this.handleNext}
               disabled={activeStep === maxSteps - 1}
@@ -108,7 +108,7 @@ class SwipeableTextMobileStepper extends React.Component {
           }
           backButton={
             <Button
-              style={{ color: "#293d3d" }}
+              style={{ color: "#737373" }}
               size="small"
               onClick={this.handleBack}
               disabled={activeStep === 0}

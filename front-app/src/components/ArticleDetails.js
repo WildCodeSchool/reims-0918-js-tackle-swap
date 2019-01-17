@@ -3,7 +3,6 @@ import PicturesArticleDetails from "./ArticleDetails/PicturesArticleDetails";
 import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetails";
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
-import FavoriteArticleDetails from "./ArticleDetails/FavoriteArticle";
 import { withRouter } from "react-router-dom";
 
 import axios from "axios";
@@ -62,21 +61,25 @@ class ArticleDetails extends Component {
 
   render() {
     return (
-      <div>
-        <Button
-          style={{
-            backgroundColor: "#009682",
-            border: "0.5px solid #009682",
-            marginBottom: 10
-          }}
-          onClick={() => this.goBack()}
-        >
-          Retour
-        </Button>
+      <div style={{ opacity: "0.9" }}>
         <div className="ArticleDetails">
-          <h2 style={{ maxWidth: "380px" }} className="TitleDescription">
+          <h2
+            style={{
+              maxWidth: "380px",
+              justifyContent: "space-between",
+              display: "flex"
+            }}
+            className="TitleDescription"
+          >
             {this.props.articleDetails.name}
-            <FavoriteArticleDetails />
+            <Button
+              style={{
+                color: "grey"
+              }}
+              onClick={() => this.goBack()}
+            >
+              <i class="material-icons">close</i>
+            </Button>
           </h2>
 
           <PicturesArticleDetails {...this.props.articleDetails} />

@@ -42,7 +42,10 @@ const Register = props => {
     <Grid container>
       <Grid item xs={12}>
         <Paper style={{ opacity: "0.9" }}>
-          <form onSubmit={handleSubmit(submit)} style={{ padding: "20px" }}>
+          <form
+            onSubmit={handleSubmit(submit)}
+            style={{ padding: "20px", textAlign: "center" }}
+          >
             <h4
               style={{
                 color: "#00cccc",
@@ -53,19 +56,20 @@ const Register = props => {
             >
               S'inscrire
             </h4>
-            <Field name="gender" component={renderRadioGroup} label="Sexe">
-              <FormControlLabel
-                value="F"
-                control={<Radio />}
-                label="Femme"
-                style={{
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                  color: props.muiTheme.palette.textColor
-                }}
-              />
-              <FormControlLabel value="M" control={<Radio />} label="Homme" />
-            </Field>
+            <div style={{ textAlign: "initial", color: "grey" }}>
+              <Field name="gender" component={renderRadioGroup} label="Sexe">
+                <FormControlLabel
+                  value="F"
+                  control={<Radio />}
+                  label="Femme"
+                  style={{
+                    paddingTop: "10px",
+                    paddingBottom: "10px"
+                  }}
+                />
+                <FormControlLabel value="M" control={<Radio />} label="Homme" />
+              </Field>
+            </div>
             <Field
               name="lastname"
               type="text"
@@ -112,7 +116,7 @@ const Register = props => {
               <Button
                 type="submit"
                 variant="contained"
-                // style={{ border: "2px solid #009682", color: "white" }}
+                style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
                 color="primary"
               >
@@ -121,13 +125,22 @@ const Register = props => {
               <Button
                 type="button"
                 variant="contained"
-                // style={{ border: "2px solid #009682", color: "white" }}
+                style={{ border: "1px solid #009682", color: "white" }}
                 className={classes.button}
                 onClick={reset}
                 color="primary"
               >
                 Effacer Valeurs
               </Button>
+              <p style={{ color: "#009682" }}>
+                Vous êtes déjà inscrit?{" "}
+                <a
+                  href="http://localhost:3000/se-connecter"
+                  style={{ color: "#009682" }}
+                >
+                  Connectez-vous
+                </a>
+              </p>
             </div>
           </form>
         </Paper>

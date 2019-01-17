@@ -6,8 +6,12 @@ import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    backgroundColor: "#009682"
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "300px"
   }
 });
 
@@ -33,33 +37,29 @@ const InteractionsArticleDetails = props => {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        style={{
-          border: "2px solid #009682",
-          display: "block",
-          color: "white"
-        }}
-        className={classes.button}
-        onClick={() => goToChat()}
-      >
-        Contacter le vendeur
-      </Button>
-      <Button
-        variant="contained"
-        style={{ border: "2px solid #009682", color: "white" }}
-        className={classes.button}
-        onClick={() => goToSwap(articleDetails.id)}
-      >
-        Proposer un échange
-      </Button>
-      <Button
-        variant="contained"
-        style={{ border: "2px solid #009682", color: "white" }}
-        className={classes.button}
-      >
-        Partager
-      </Button>
+      <div style={{ padding: "5px" }}>
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={() => goToChat()}
+        >
+          Contacter le vendeur
+        </Button>
+      </div>
+      <div style={{ padding: "5px" }}>
+        <Button
+          variant="contained"
+          className={classes.button}
+          onClick={() => goToSwap(articleDetails.id)}
+        >
+          Proposer un échange
+        </Button>
+      </div>
+      <div style={{ padding: "5px" }}>
+        <Button variant="contained" className={classes.button}>
+          Partager
+        </Button>
+      </div>
     </div>
   );
 };

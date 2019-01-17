@@ -9,11 +9,10 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-
   button: {
     margin: theme.spacing.unit,
     backgroundColor: "#009682",
-    border: "0.5px solid #009682"
+    color: "#ffffff"
   }
 });
 
