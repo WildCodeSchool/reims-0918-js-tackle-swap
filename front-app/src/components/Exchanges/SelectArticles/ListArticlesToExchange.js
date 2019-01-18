@@ -7,6 +7,29 @@ import ls from "local-storage";
 import { withStyles, createStyles, Paper } from "@material-ui/core";
 import isArticle from "../../../functions/isArticle";
 
+const styles = createStyles({
+  form: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "10px"
+  },
+  paper: {
+    backgroundColor: "transparent",
+    boxShadow: "none"
+  },
+  button: {
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "320px",
+    boxShadow: "1px 1px 2px 1px rgba(28, 31, 35, .1)"
+  }
+});
+
 class ListArticleToExchange extends Component {
   constructor(props) {
     super(props);
@@ -133,7 +156,7 @@ class ListArticleToExchange extends Component {
               </Paper>
             ))}
             <Button
-              className={classes.buttonForm}
+              className={classes.button}
               onClick={() => this.sendProposition()}
               disabled={this.state.articleToExchange === 0}
             >
@@ -150,17 +173,5 @@ class ListArticleToExchange extends Component {
     );
   }
 }
-
-const styles = createStyles({
-  form: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  buttonForm: {
-    backgroundColor: "#009682"
-  }
-});
 
 export default withStyles(styles)(ListArticleToExchange);

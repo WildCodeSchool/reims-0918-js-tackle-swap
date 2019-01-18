@@ -39,6 +39,7 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+    marginTop: 8,
     color: "inherit"
   },
   logo: {
