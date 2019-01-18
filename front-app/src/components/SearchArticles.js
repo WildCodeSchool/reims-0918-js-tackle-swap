@@ -12,7 +12,7 @@ export class SearchArticles extends Component {
           autoFocus={true}
           placeholder=" Votre recherche ..."
           style={{
-            backgroundColor: "#f2f2f2",
+            backgroundColor: "#ffffff",
             border: "8px solid #e6f7ff",
             width: "96%",
             color: "#009682"

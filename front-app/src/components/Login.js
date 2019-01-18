@@ -11,8 +11,12 @@ import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
-    backgroundColor: "#009682"
+    backgroundColor: "#009682",
+    border: "1px solid #009682",
+    display: "block",
+    color: "white",
+    margin: "0 auto",
+    width: "320px"
   }
 });
 
@@ -71,20 +75,18 @@ const Login = props => {
               </div>
             </div>
             <div style={{ paddingTop: "20px" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ border: "1px solid #009682", color: "white" }}
-                className={classes.button}
-              >
-                Se connecter
-              </Button>
+              <div style={{ padding: "5px" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className={classes.button}
+                >
+                  Se connecter
+                </Button>
+              </div>
               <p style={{ color: "#009682" }}>
                 Vous n'êtes pas inscrit?{" "}
-                <a
-                  href="http://localhost:3000/s-inscrire"
-                  style={{ color: "#009682" }}
-                >
+                <a href="/s-inscrire" style={{ color: "#009682" }}>
                   Inscrivez-vous
                 </a>
               </p>
