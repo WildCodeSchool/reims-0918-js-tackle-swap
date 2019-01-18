@@ -44,6 +44,7 @@ export class PrivateMessagesRoom extends Component {
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
     if (this._isMounted) {
+      console.log(this.state.roomConnected);
       this.socket.emit("sendPrivateMessage", {
         sender: this.props.user.id,
         recipient: recipient,
@@ -141,14 +142,23 @@ export class PrivateMessagesRoom extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Button onClick={() => this.goBack()}>Retour</Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <div style={classes.main_private_messages}>
+          <Button
+            style={{
+              backgroundColor: "#009682",
+              border: "1px solid #009682",
+              color: "white",
+              marginTop: 5,
+              marginLeft: 5
+            }}
+            onClick={() => this.props.history.goBack()}
+          >
+            Retour
+          </Button>
+          <Paper style={{ margin: "0 10px" }}>
+            <div>
               <h2>Message :</h2>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >

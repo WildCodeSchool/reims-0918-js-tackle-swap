@@ -483,7 +483,7 @@ app.get(
   async (req, res) => {
     const idUser = req.user.id;
     const rawMyArticles = await bddQuery(
-      `SELECT a.name, a.id FROM articles AS a WHERE a.owner_id=${idUser} AND a.swap = 0`
+      `SELECT a.name, a.id, a.online FROM articles AS a WHERE a.owner_id=${idUser} AND a.swap = 0`
     );
 
     const articles = rawMyArticles.results;

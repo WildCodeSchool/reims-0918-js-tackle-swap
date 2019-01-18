@@ -16,6 +16,7 @@ import ListExchanges from "./components/Exchanges/ListExchanges";
 import ListArticlesToExchangesContainer from "./containers/ListArticlesToExchangesContainer";
 import ExchangeDetailsContainer from "./containers/ExchangeDetailsContainer";
 import UserProfileContainer from "./containers/UserProfileContainer";
+import ListMyArticlesContainer from "./containers/ListMyArticlesContainer";
 
 class App extends Component {
   render() {
@@ -31,7 +32,7 @@ class App extends Component {
         <div
           style={{
             padding: "0px",
-            marginTop: "80px"
+            marginTop: "90px"
           }}
         >
           <Switch>
@@ -59,6 +60,7 @@ class App extends Component {
               component={PrivateMessagesRoomContainer}
             />
             <Route path="/mes-echanges" component={ListExchanges} />
+            <Route path="/mes-articles" component={ListMyArticlesContainer} />
             <Route
               path="/proposer-article/:id_article"
               component={ListArticlesToExchangesContainer}

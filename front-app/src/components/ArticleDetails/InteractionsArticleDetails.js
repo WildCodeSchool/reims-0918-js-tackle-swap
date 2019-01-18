@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import ls from "local-storage";
 import { withRouter } from "react-router-dom";
+import isConnected from "../../functions/isConnected";
 
 const styles = theme => ({
   button: {
@@ -37,29 +38,52 @@ const InteractionsArticleDetails = props => {
 
   return (
     <div>
-      <div style={{ padding: "5px" }}>
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={() => goToChat()}
-        >
-          Contacter le vendeur
-        </Button>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={() => goToSwap(articleDetails.id)}
-        >
-          Proposer un échange
-        </Button>
-      </div>
-      <div style={{ padding: "5px" }}>
-        <Button variant="contained" className={classes.button}>
-          Partager
-        </Button>
-      </div>
+      {isConnected() ? (
+        user.id === articleDetails.owner_id ? (
+          ""
+        ) : (
+          <>
+            <div style={{ padding: "5px" }}>
+              <Button
+                variant="contained"
+                className={classes.button}
+                onClick={() => goToChat()}
+              >
+                Contacter le vendeur
+              </Button>
+            </div>
+            <div style={{ padding: "5px" }}>
+              <Button
+                variant="contained"
+                className={classes.button}
+                onClick={() => goToSwap(articleDetails.id)}
+              >
+                Proposer un échange
+              </Button>
+            </div>
+          </>
+        )
+      ) : (
+        <div style={{ padding: "5px" }}>
+          <p
+            style={{
+              textAlign: "center",
+              color: "#009682",
+              fontSize: "17px"
+            }}
+          >
+            Vous devez vous connecter si vous souhaitez contacter le
+            propriétaire de l'article.
+          </p>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={() => props.history.push("/se-connecter")}
+          >
+            Se Connecter
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

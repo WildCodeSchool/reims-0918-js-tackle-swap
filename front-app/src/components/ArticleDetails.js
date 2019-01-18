@@ -4,11 +4,9 @@ import DescriptionArticleDetails from "./ArticleDetails/DescriptionArticleDetail
 import InteractionsArticleDetails from "./ArticleDetails/InteractionsArticleDetails";
 import InteractionsArticleDetailsPreview from "./ArticleDetails/InteractionsArticleDetailsPreview";
 import { withRouter } from "react-router-dom";
-
+import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
-import ls from "local-storage";
 
-import isConnected from "../functions/isConnected";
 import { Button } from "@material-ui/core";
 
 class ArticleDetails extends Component {
@@ -20,9 +18,18 @@ class ArticleDetails extends Component {
     this.props.match.url.includes("article")
       ? axios
           .get(`${process.env.REACT_APP_URL_API}/article/${id}`)
-          .then(results =>
-            this.props.articleDetailsReceived(results.data.response[0])
-          )
+          .then(results => {
+            if (results.data.response[0]) {
+              this.props.articleDetailsReceived(results.data.response[0]);
+            } else {
+              this.props.setFlashMessage({
+                type: "warning",
+                message: "L'article n'existe pas."
+              });
+              this.props.history.push("/");
+              return;
+            }
+          })
       : axios
           .get(`${process.env.REACT_APP_URL_API}/preview/${id}`)
           .then(results =>
@@ -37,7 +44,7 @@ class ArticleDetails extends Component {
       )
       .then(results => {
         this.props.setFlashMessage(results.data.response.flashMessage);
-        this.props.history.push(`/article/${idArticle}`);
+        this.props.history.push(`/mes-articles/`);
       });
   }
   goBack() {
@@ -45,67 +52,74 @@ class ArticleDetails extends Component {
   }
   componentDidMount() {
     this.callApiArticleDetails(this.props.match.params.id);
-    if (isConnected() && !this.props.user.id) {
-      axios
-        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
-        })
-        .then(results => {
-          this.props.setUserInformation(results.data.response);
-        });
-    }
   }
 
   render() {
-    return (
-      <div
-        style={{
-          opacity: "0.9",
-          backgroundColor: "white",
-          borderCollapse: "collapse"
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "380px",
-            justifyContent: "space-between",
-            display: "flex"
-          }}
-        >
-          <div className="TitleDescription">
-            {this.props.articleDetails.name}
-          </div>
-          <div>
-            <Button
-              style={{
-                paddingLeft: "120px",
-                color: "grey"
-              }}
-              onClick={() => this.goBack()}
-            >
-              <i class="material-icons">close</i>
-            </Button>
-          </div>
-        </div>
-        <PicturesArticleDetails {...this.props.articleDetails} />
+    if (
+      this.props.match.url.includes("previsualisation") &&
+      this.props.user.id !== this.props.articleDetails.owner_id &&
+      this.props.user.id &&
+      this.props.articleDetails.owner_id
+    ) {
+      this.props.setFlashMessage({
+        type: "warning",
+        message: "Vous ne pouvez pas accéder à cette page."
+      });
+      this.props.history.goBack();
+      return;
+    }
 
-        <DescriptionArticleDetails {...this.props.articleDetails} />
-        {this.props.match.url.includes("article") ? (
-          <InteractionsArticleDetails
-            setFlashMessage={this.props.setFlashMessage}
-            articleDetails={this.props.articleDetails}
-            user={this.props.user}
-          />
-        ) : (
+    return (
+      <>
+        {this.props.match.url.includes("previsualisation") && (
           <InteractionsArticleDetailsPreview
             {...this.props.articleDetails}
             onlineArticle={this.onlineArticle}
           />
         )}
-      </div>
+        <div
+          style={{
+            opacity: "0.9",
+            backgroundColor: "white",
+            borderCollapse: "collapse"
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "380px",
+              justifyContent: "space-between",
+              display: "flex"
+            }}
+          >
+            <div className="TitleDescription">
+              {this.props.articleDetails.name}
+            </div>
+            <div>
+              <Button
+                style={{
+                  paddingLeft: "120px",
+                  color: "grey"
+                }}
+                onClick={() => this.goBack()}
+              >
+                <CloseIcon />
+              </Button>
+            </div>
+          </div>
+          <PicturesArticleDetails {...this.props.articleDetails} />
+
+          <DescriptionArticleDetails {...this.props.articleDetails} />
+          {this.props.match.url.includes("article") ? (
+            <InteractionsArticleDetails
+              setFlashMessage={this.props.setFlashMessage}
+              articleDetails={this.props.articleDetails}
+              user={this.props.user}
+            />
+          ) : (
+            ""
+          )}
+        </div>
+      </>
     );
   }
 }
