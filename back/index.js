@@ -577,10 +577,13 @@ app.get(
 
     const swaps_id = swapsId.results.map(swap => swap.id);
     const rawMyArticles = await bddQuery(
-      `SELECT s.id AS id_swap, a.name, a.id FROM articles AS a JOIN swaps AS s ON a.id = s.id_article_annonce WHERE s.id IN (${swaps_id}) AND a.swap = 0`
+      `SELECT s.id AS id_swap, a.name, a.id FROM articles AS a JOIN swaps AS s ON a.id = s.id_article_annonce WHERE s.id IN (${swaps_id}) AND a.swap = 0 AND s.refused = false AND s.accepted = false`
     );
 
     const articles = rawMyArticles.results;
+    if (articles.length === 0) {
+      return sendResponse(res, 200, "error", "no-data");
+    }
     const articles_id = articles.map(article => article.id);
 
     const rawArticlesPictures = await bddQuery(
@@ -637,10 +640,13 @@ app.get(
   async (req, res) => {
     const idUser = req.user.id;
     const rawMyArticles = await bddQuery(
-      `SELECT s.id AS id_swap, a.name, a.id FROM articles AS a JOIN swaps AS s ON a.id = s.id_article_annonce WHERE a.owner_id=${idUser} AND a.swap = 0`
+      `SELECT s.id AS id_swap, a.name, a.id FROM articles AS a JOIN swaps AS s ON a.id = s.id_article_annonce WHERE a.owner_id=${idUser} AND a.swap = 0 AND s.refused = false AND s.accepted = false`
     );
 
     const articles = rawMyArticles.results;
+    if (articles.length === 0) {
+      return sendResponse(res, 200, "error", "no-data");
+    }
     const articles_id = articles.map(article => article.id);
 
     const rawArticlesPictures = await bddQuery(
@@ -688,6 +694,65 @@ app.get(
     }, []);
 
     sendResponse(res, 200, "success", articlesResult);
+  }
+);
+
+app.get(
+  "/exchanges-finished",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idUser = req.user.id;
+    const rawMyArticles = await bddQuery(
+      `SELECT s.id as swap_id,s.refused as refused,s.accepted as accepted, offer.name as offer_name, offer.id as offer_id,offer.owner_id as offer_owner_id, annonce.name as annonce_name, annonce.id as annonce_id, annonce.owner_id as annonce_owner_id
+      FROM swaps as s 
+      JOIN articles as annonce 
+      ON annonce.id = s.id_article_annonce 
+      JOIN articles as offer 
+      ON offer.id = s.id_article_offer 
+      WHERE (s.refused = true OR s.accepted = true) AND (offer.owner_id = ${idUser} OR annonce.owner_id=${idUser})`
+    );
+    const swaps = rawMyArticles.results;
+    if (swaps.length === 0) {
+      return sendResponse(res, 200, "error", "no-data");
+    }
+    const annonces_id = swaps.map(swap => swap.annonce_id);
+    const offers_id = swaps.map(swap => swap.offer_id);
+
+    const mainPicture = await bddQuery(
+      `SELECT url_picture, article_id FROM pictures_articles WHERE main_picture = 1 AND article_id IN (${annonces_id}) OR article_id IN (${offers_id})`
+    );
+
+    const groupPicturesById = mainPicture.results.reduce((acc, obj) => {
+      const cle = obj["article_id"];
+      if (!acc[cle]) {
+        acc[cle] = [];
+      }
+      acc[cle] = [...acc[cle], { url_picture: obj.url_picture }];
+
+      return acc;
+    }, {});
+
+    const keyPictures = Object.keys(groupPicturesById);
+
+    // create object array with object array for pictures
+    const swapsResult = swaps.reduce((acc, obj) => {
+      if (keyPictures.includes(obj.offer_id.toString())) {
+        obj.offer_picture = groupPicturesById[obj.offer_id][0].url_picture;
+      } else {
+        obj.offer_picture = "/data/pictures_articles/logo_poisson.svg";
+      }
+      if (keyPictures.includes(obj.annonce_id.toString())) {
+        obj.annonce_picture = groupPicturesById[obj.annonce_id][0].url_picture;
+      } else {
+        obj.annonce_picture = "/data/pictures_articles/logo_poisson.svg";
+      }
+      acc = [...acc, obj];
+      return acc;
+    }, []);
+
+    sendResponse(res, 200, "success", {
+      swapsResult
+    });
   }
 );
 
@@ -802,6 +867,36 @@ app.get(
         name: swapDetails.results[0].name_annonce,
         picture: picturesArticles.results[0].annonce_picture,
         owner: swapDetails.results[0].annonce_owner
+      }
+    });
+  }
+);
+
+app.put(
+  "/confirmation-swap/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idAnnonce = parseInt(req.body.idAnnonce);
+    const idOffer = parseInt(req.body.idOffer);
+    const confirmationExchange = await bddQuery(
+      `UPDATE articles SET swap = 1 WHERE id = ${idAnnonce} OR id = ${idOffer}`
+    );
+    console.log(typeof parseInt(req.body.idAnnonce));
+    console.log(typeof req.body.idOffer);
+    if (confirmationExchange.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      flashMessage: {
+        message: "Vous avez accepté la proposition d'échange",
+        type: "success"
       }
     });
   }
