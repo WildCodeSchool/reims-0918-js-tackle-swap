@@ -86,7 +86,7 @@ class ArticleDetails extends Component {
               }}
               onClick={() => this.goBack()}
             >
-              <i class="material-icons">close</i>
+              <i className="material-icons">close</i>
             </Button>
           </div>
         </div>

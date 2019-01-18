@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Button from "@material-ui/core/Button";
+import { Button, Grid } from "@material-ui/core";
 import ThumbnailMyExchange from "./ThumbnailMyExchange";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
@@ -55,7 +55,18 @@ class ExchangeDetails extends Component {
           }
         }
       )
-      .then(results => console.log(results.data.response));
+      .then(results => {
+        this.props.setFlashMessage(results.data.response.flashMessage);
+        this.props.history.push("/");
+      });
+  }
+
+  refuseTheProposition() {
+    this.props.history.push("/");
+    this.props.setFlashMessage({
+      message: "Vous avez refusé l'offre d'échange",
+      type: "success"
+    });
   }
 
   render() {
@@ -101,6 +112,7 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.annonce.picture}
                       name={this.state.swapDetails.annonce.name}
+                      id={this.state.swapDetails.annonce.id}
                     />
                   </div>
                   <div>
@@ -117,6 +129,7 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.offer.picture}
                       name={this.state.swapDetails.offer.name}
+                      id={this.state.swapDetails.offer.id}
                     />
                   </div>
                   <div
@@ -190,6 +203,7 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.annonce.picture}
                         name={this.state.swapDetails.annonce.name}
+                        id={this.state.swapDetails.annonce.id}
                       />
                     </div>
                     <div>
@@ -206,27 +220,46 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.offer.picture}
                         name={this.state.swapDetails.offer.name}
+                        id={this.state.swapDetails.offer.id}
                       />
                     </div>
-                    <div
+                    <Grid
+                      container
+                      container
                       style={{
                         position: "fixed",
                         bottom: "10px",
                         width: "97%"
                       }}
                     >
-                      <Button
-                        onClick={() => this.acceptTheProposition()}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          height: "50px"
-                        }}
-                      >
-                        Accepter cette proposition
-                      </Button>
+                      <Grid container justify="space-around">
+                        <Button
+                          onClick={() => this.acceptTheProposition()}
+                          style={{
+                            backgroundColor: "#009682",
+                            border: "0.5px solid #009682",
+                            color: "white",
+                            width: "49%",
+                            height: "50px",
+                            paddingTop: "3px"
+                          }}
+                        >
+                          Accepter cette proposition
+                        </Button>
+                        <Button
+                          onClick={() => this.refuseTheProposition()}
+                          style={{
+                            backgroundColor: "#009682",
+                            border: "0.5px solid #009682",
+                            color: "white",
+                            width: "49%",
+                            height: "50px",
+                            paddingTop: "3px"
+                          }}
+                        >
+                          Refuser cette proposition
+                        </Button>
+                      </Grid>
                       <Button
                         onClick={() => this.goToChat()}
                         style={{
@@ -253,7 +286,7 @@ class ExchangeDetails extends Component {
                       >
                         Revenir aux échanges
                       </Button>
-                    </div>
+                    </Grid>
                   </Fragment>
                 )}
               </div>

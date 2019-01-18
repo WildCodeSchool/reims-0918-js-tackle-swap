@@ -20,8 +20,8 @@ const styles = theme => ({
 function ThumbnailMyExchange(props) {
   const { classes } = props;
 
-  const goToExchangeDetails = () => {
-    props.history.push(`/details-echange-${props.id_swap}`);
+  const goToArticleDetails = () => {
+    props.history.push(`/article/${props.id}`);
   };
 
   return (
@@ -81,7 +81,7 @@ function ThumbnailMyExchange(props) {
           >
             <Button
               className={classes.button}
-              onClick={() => goToExchangeDetails(props.id_swap)}
+              onClick={() => goToArticleDetails(props.id_swap)}
               style={{ color: "white" }}
             >
               Détails de l'article
