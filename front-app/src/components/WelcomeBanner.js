@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Picturebanner from "./../images/peche-coupe.jpg";
 
-class SearchArticles extends Component {
+class WelcomeBanner extends Component {
   render() {
     return (
       <div style={{ backgroundColor: "#e6f7ff", height: "250px" }}>
@@ -17,24 +17,18 @@ class SearchArticles extends Component {
             fontWeight: "bold"
           }}
         >
-          Le Market Place de la pêche
+          La Marketplace de la pêche
         </h4>
         <h5
           style={{
             textAlign: "center"
           }}
         >
-          <a
-            style={{ color: "#009682" }}
-            href="http://localhost:3000/s-inscrire"
-          >
+          <a style={{ color: "#009682" }} href="/s-inscrire">
             S'inscrire /{" "}
           </a>
 
-          <a
-            style={{ color: "#009682" }}
-            href="http://localhost:3000/se-connecter"
-          >
+          <a style={{ color: "#009682" }} href="/se-connecter">
             Se connecter
           </a>
         </h5>
@@ -43,4 +37,4 @@ class SearchArticles extends Component {
   }
 }
 
-export default SearchArticles;
+export default WelcomeBanner;

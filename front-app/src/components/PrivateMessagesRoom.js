@@ -133,6 +133,10 @@ export class PrivateMessagesRoom extends Component {
     });
   }
 
+  goBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     const { classes } = this.props;
     return (

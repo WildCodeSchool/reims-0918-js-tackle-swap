@@ -77,40 +77,47 @@ class ArticleDetails extends Component {
             onlineArticle={this.onlineArticle}
           />
         )}
-        <div style={{ opacity: "0.9" }}>
-          <div className="ArticleDetails" style={{ margin: 10 }}>
-            <h2
-              style={{
-                maxWidth: "380px",
-                justifyContent: "space-between",
-                display: "flex"
-              }}
-              className="TitleDescription"
-            >
+        <div
+          style={{
+            opacity: "0.9",
+            backgroundColor: "white",
+            borderCollapse: "collapse"
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "380px",
+              justifyContent: "space-between",
+              display: "flex"
+            }}
+          >
+            <div className="TitleDescription">
               {this.props.articleDetails.name}
+            </div>
+            <div>
               <Button
                 style={{
+                  paddingLeft: "120px",
                   color: "grey"
                 }}
                 onClick={() => this.goBack()}
               >
                 <CloseIcon />
               </Button>
-            </h2>
-
-            <PicturesArticleDetails {...this.props.articleDetails} />
-
-            <DescriptionArticleDetails {...this.props.articleDetails} />
-            {this.props.match.url.includes("article") ? (
-              <InteractionsArticleDetails
-                setFlashMessage={this.props.setFlashMessage}
-                articleDetails={this.props.articleDetails}
-                user={this.props.user}
-              />
-            ) : (
-              ""
-            )}
+            </div>
           </div>
+          <PicturesArticleDetails {...this.props.articleDetails} />
+
+          <DescriptionArticleDetails {...this.props.articleDetails} />
+          {this.props.match.url.includes("article") ? (
+            <InteractionsArticleDetails
+              setFlashMessage={this.props.setFlashMessage}
+              articleDetails={this.props.articleDetails}
+              user={this.props.user}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </>
     );

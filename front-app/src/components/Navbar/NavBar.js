@@ -76,6 +76,7 @@ class ButtonAppBar extends Component {
       type: "success"
     });
     this.props.setUserArticles({});
+    this.props.setUserInformation({});
     this.props.history.push("/");
   };
 

@@ -12,7 +12,7 @@ const styles = theme => ({
     display: "block",
     color: "white",
     margin: "0 auto",
-    width: "300px"
+    width: "320px"
   }
 });
 
