@@ -5,13 +5,17 @@ import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    width: 500
   },
   articleUnSelected: {
-    backgroundColor: "#e6f7ff"
+    backgroundColor: "rgba(230, 247, 255, 0.8)",
+    borderRadius: "4px",
+    border: "1px solid #009682"
   },
   articleSelected: {
-    backgroundColor: "#BBDEEF"
+    backgroundColor: "#b3d2e0",
+    borderRadius: "4px",
+    border: "1px solid #009682"
   },
   button: {
     margin: theme.spacing.unit,
@@ -39,75 +43,94 @@ class ThumbnailArticleToExchange extends Component {
     const picture = mainPicture[0].url_picture;
     return (
       <Paper
-        className={
-          selectedArticle === this.props.id
-            ? classes.articleSelected
-            : classes.articleUnSelected
-        }
+        className={classes.root}
+        style={{
+          width: "97%",
+          margin: "0px 5px 0 5px",
+          borderRadius: "10px",
+          backgroundColor: "transparent"
+        }}
       >
-        <Grid container>
-          <Grid
-            item
-            xs={4}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <img
-              src={`${process.env.REACT_APP_URL_API}${picture}`}
-              alt={`${process.env.REACT_APP_URL_API}${picture}`}
+        <Paper
+          className={
+            selectedArticle === this.props.id
+              ? classes.articleSelected
+              : classes.articleUnSelected
+          }
+        >
+          <Grid container>
+            <Grid
+              item
+              xs={4}
               style={{
-                maxWidth: "95%",
-                maxHeight: "95%"
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
-            />
-          </Grid>
-          <Grid item xs={8}>
-            <Grid container>
-              <Grid
-                item
-                xs={12}
+            >
+              <img
+                src={`${process.env.REACT_APP_URL_API}${picture}`}
+                alt={`${process.env.REACT_APP_URL_API}${picture}`}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
+                  maxWidth: "95%",
+                  maxHeight: "95%"
                 }}
-              >
-                <Typography variant="h5">{this.props.name}</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  alignItems: "end",
-                  justifyContent: "center"
-                }}
-              >
-                <Button
-                  className={classes.button}
-                  onClick={() => this.goToDetail(this.props.id)}
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
                 >
-                  Détail
-                </Button>
-                {selectedArticle === this.props.id ? (
-                  <Button className={classes.buttonSelected}>
-                    Sélectionné
-                  </Button>
-                ) : (
+                  <Typography
+                    style={{
+                      color: "#009682",
+                      paddingTop: "8px",
+                      fontSize: "22px"
+                    }}
+                    variant="h5"
+                  >
+                    {this.props.name}
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    alignItems: "end",
+                    justifyContent: "center"
+                  }}
+                >
                   <Button
                     className={classes.button}
-                    onClick={() => selectArticleToExchange(this.props.id)}
+                    onClick={() => this.goToDetail(this.props.id)}
                   >
-                    Sélectionner
+                    Détail
                   </Button>
-                )}
+                  {selectedArticle === this.props.id ? (
+                    <Button className={classes.buttonSelected}>
+                      Sélectionné
+                    </Button>
+                  ) : (
+                    <Button
+                      className={classes.button}
+                      onClick={() => selectArticleToExchange(this.props.id)}
+                    >
+                      Sélectionner
+                    </Button>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Paper>
       </Paper>
     );
   }
