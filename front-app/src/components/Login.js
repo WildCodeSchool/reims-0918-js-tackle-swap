@@ -43,6 +43,7 @@ const Login = props => {
             }
           })
           .then(results => {
+            console.log(results);
             setUserArticles(results.data.response);
             props.history.goBack();
             return;

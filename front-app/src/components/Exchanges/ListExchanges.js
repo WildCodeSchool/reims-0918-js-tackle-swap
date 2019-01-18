@@ -111,7 +111,7 @@ class ListExchanges extends Component {
         className={classes.root}
         style={{
           width: "97%",
-          margin: "90px 5px 0 5px",
+          margin: "0 5px",
           borderRadius: "10px",
           backgroundColor: "transparent"
         }}

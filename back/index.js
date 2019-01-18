@@ -102,7 +102,7 @@ app.get("/articles", async (req, res) => {
       search
         ? `AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`
         : ""
-    }`
+    } AND swap = 0`
   );
 
   if (rawMaxPages.err) {
@@ -130,7 +130,7 @@ app.get("/articles", async (req, res) => {
       search
         ? `AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`
         : ""
-    }ORDER BY id LIMIT ${limit}`
+    }  AND swap = 0 ORDER BY id LIMIT ${limit}`
   );
 
   if (rawMaxPages.err) {
@@ -487,6 +487,9 @@ app.get(
     );
 
     const articles = rawMyArticles.results;
+    if (articles.length === 0) {
+      return sendResponse(res, 200, "success", []);
+    }
     const articles_id = articles.map(article => article.id);
 
     const rawArticlesPictures = await bddQuery(

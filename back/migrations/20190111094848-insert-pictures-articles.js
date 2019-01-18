@@ -27,6 +27,12 @@ exports.up = function(db, callback) {
     ["/data/pictures_articles/2/leurre.jpg", 1, 2],
     callback
   );
+  db.insert(
+    "pictures_articles",
+    ["url_picture", "main_picture", "article_id"],
+    ["/data/pictures_articles/2/leurre01.jpg", 1, 2],
+    callback
+  );
 };
 
 exports.down = function(db) {
