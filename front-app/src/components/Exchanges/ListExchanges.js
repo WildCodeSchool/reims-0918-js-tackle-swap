@@ -21,8 +21,11 @@ const styles = theme => ({
 class ListExchanges extends Component {
   state = {
     value: 0,
+    value2: 0,
+    value3: 0,
     exchangesProposed: [],
-    exchangesReceived: []
+    exchangesReceived: [],
+    exchangesFinished: []
   };
 
   handleChange = (event, value) => {
@@ -31,6 +34,21 @@ class ListExchanges extends Component {
 
   handleChangeIndex = index => {
     this.setState({ value: index });
+  };
+  handleChange2 = (event, value2) => {
+    this.setState({ value2 });
+  };
+
+  handleChangeIndex2 = index2 => {
+    this.setState({ value: index2 });
+  };
+
+  handleChange3 = (event, value3) => {
+    this.setState({ value3 });
+  };
+
+  handleChangeIndex3 = index3 => {
+    this.setState({ value: index3 });
   };
 
   getExchangesProposed() {
@@ -41,9 +59,11 @@ class ListExchanges extends Component {
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
         }
       })
-      .then(results =>
-        this.setState({ exchangesProposed: results.data.response })
-      );
+      .then(results => {
+        if (results.data.response !== "no-data") {
+          this.setState({ exchangesProposed: results.data.response });
+        }
+      });
   }
 
   getExchangesReceived() {
@@ -54,14 +74,34 @@ class ListExchanges extends Component {
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
         }
       })
-      .then(results =>
-        this.setState({ exchangesReceived: results.data.response })
-      );
+      .then(results => {
+        if (results.data.response !== "no-data") {
+          this.setState({ exchangesReceived: results.data.response });
+        }
+      });
+  }
+
+  getExchangesFinished() {
+    axios
+      .get(`${process.env.REACT_APP_URL_API}/exchanges-finished`, {
+        headers: {
+          Accept: "application/json",
+          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+        }
+      })
+      .then(results => {
+        if (results.data.response !== "no-data") {
+          this.setState({
+            exchangesFinished: results.data.response
+          });
+        }
+      });
   }
 
   componentDidMount() {
     this.getExchangesReceived();
     this.getExchangesProposed();
+    this.getExchangesFinished();
   }
 
   render() {
@@ -97,8 +137,8 @@ class ListExchanges extends Component {
               marginBottom: "15px"
             }}
           >
-            <Tab label="Echanges proposés" />
-            <Tab label="Echanges reçus" />
+            <Tab label="Echanges en cours" />
+            <Tab label="Echanges terminés" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -106,51 +146,156 @@ class ListExchanges extends Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <Grid container alignItems="center" direction="column">
-            {this.state.exchangesProposed.length > 0 ? (
-              this.state.exchangesProposed.map((exchangeProposed, index) => (
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgba(255, 255, 255, 0.4)",
-                    borderRadius: "10px",
-                    border: "1px solid #009682",
-                    marginBottom: "5px"
-                  }}
-                  key={index}
-                >
-                  <ThumbnailExchange {...exchangeProposed} />
-                </Grid>
-              ))
-            ) : (
-              <p>Vous n'avez proposé aucun échange</p>
-            )}
-          </Grid>
+          <div>
+            <AppBar
+              position="static"
+              color="default"
+              style={{
+                borderRadius: "10px 10px 0 0",
+                boxShadow: "none",
+                backgroundColor: "transparent"
+              }}
+            >
+              <Tabs
+                value={this.state.value2}
+                onChange={this.handleChange2}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  marginBottom: "15px"
+                }}
+              >
+                <Tab label="Proposés" />
+                <Tab label="Reçus" />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={this.state.value2}
+              onChangeIndex={this.handleChangeIndex2}
+            >
+              <Grid container alignItems="center" direction="column">
+                {this.state.exchangesProposed.length > 0 ? (
+                  this.state.exchangesProposed.map(
+                    (exchangeProposed, index) => (
+                      <Grid
+                        item
+                        xs={12}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "rgba(255, 255, 255, 0.4)",
+                          borderRadius: "10px",
+                          border: "1px solid #009682",
+                          marginBottom: "5px"
+                        }}
+                        key={index}
+                      >
+                        <ThumbnailExchange {...exchangeProposed} />
+                      </Grid>
+                    )
+                  )
+                ) : (
+                  <p>Vous n'avez proposé aucun échange</p>
+                )}
+              </Grid>
 
-          <Grid container alignItems="center" direction="column">
-            {this.state.exchangesReceived.length > 0 ? (
-              this.state.exchangesReceived.map((exchangeReceived, index) => (
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgba(255, 255, 255, 0.4)",
-                    borderRadius: "10px",
-                    border: "1px solid #009682",
-                    marginBottom: "5px"
-                  }}
-                  key={index}
-                >
-                  <ThumbnailExchange {...exchangeReceived} />{" "}
-                </Grid>
-              ))
-            ) : (
-              <p>Vous n'avez reçu aucuns échanges</p>
-            )}
-          </Grid>
+              <Grid container alignItems="center" direction="column">
+                {this.state.exchangesReceived.length > 0 ? (
+                  this.state.exchangesReceived.map(
+                    (exchangeReceived, index) => (
+                      <Grid
+                        item
+                        xs={12}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "rgba(255, 255, 255, 0.4)",
+                          borderRadius: "10px",
+                          border: "1px solid #009682",
+                          marginBottom: "5px"
+                        }}
+                        key={index}
+                      >
+                        <ThumbnailExchange {...exchangeReceived} />{" "}
+                      </Grid>
+                    )
+                  )
+                ) : (
+                  <p>Vous n'avez reçu aucuns échanges</p>
+                )}
+              </Grid>
+            </SwipeableViews>
+          </div>
+          <div>
+            <AppBar
+              position="static"
+              color="default"
+              style={{
+                borderRadius: "10px 10px 0 0",
+                boxShadow: "none",
+                backgroundColor: "transparent"
+              }}
+            >
+              <Tabs
+                value={this.state.value3}
+                onChange={this.handleChange3}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  marginBottom: "15px"
+                }}
+              >
+                <Tab label="Acceptés" />
+                <Tab label="Refusés" />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={this.state.value3}
+              onChangeIndex={this.handleChangeIndex3}
+            >
+              {/* <Grid container alignItems="center" direction="column">
+                {this.state.exchangesFinished.length > 0 ? (
+                  this.state.exchangesFinished.map(
+                    (exchangeFinished, index) => (
+                      <Grid
+                        item
+                        xs={12}
+                        style={{
+                          width: "100%",
+                          backgroundColor: "rgba(255, 255, 255, 0.4)",
+                          borderRadius: "10px",
+                          border: "1px solid #009682",
+                          marginBottom: "5px"
+                        }}
+                        key={index}
+                      >
+                        <ThumbnailExchange {...exchangeFinished} />{" "}
+                      </Grid>
+                    )
+                  )
+                ) : (
+                  <p>Vous n'avez reçu aucuns échanges</p>
+                )}
+              </Grid>
+
+              <Grid container alignItems="center" direction="column" /> */}
+
+              {/* Mettre en place l'affichage des echanges terminés */}
+
+              <Grid container alignItems="center" direction="column">
+                <p>Acceptés</p>
+              </Grid>
+              <Grid container alignItems="center" direction="column">
+                <p>Refusés</p>
+              </Grid>
+            </SwipeableViews>
+          </div>
         </SwipeableViews>
       </div>
     );

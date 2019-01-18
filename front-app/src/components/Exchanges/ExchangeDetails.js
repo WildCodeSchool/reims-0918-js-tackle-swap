@@ -41,7 +41,21 @@ class ExchangeDetails extends Component {
   }
 
   acceptTheProposition() {
-    console.log("I agree with this proposition");
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/confirmation-swap/`,
+        {
+          idAnnonce: this.state.swapDetails.annonce.id,
+          idOffer: this.state.swapDetails.offer.id
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => console.log(results.data.response));
   }
 
   render() {
