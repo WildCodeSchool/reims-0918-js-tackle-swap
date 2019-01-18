@@ -148,7 +148,7 @@ class ListExchanges extends Component {
                 </Grid>
               ))
             ) : (
-              <p>Vous n'avez reçu aucuns échanges</p>
+              <p>Vous n'avez reçu aucun échange</p>
             )}
           </Grid>
         </SwipeableViews>

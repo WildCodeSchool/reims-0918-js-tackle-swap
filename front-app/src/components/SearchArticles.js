@@ -13,7 +13,7 @@ export class SearchArticles extends Component {
           placeholder=" Votre recherche ..."
           style={{
             backgroundColor: "#ffffff",
-            border: "8px solid #00cccc",
+            border: "8px solid #009682",
             width: "96%",
             color: "#009682"
           }}
