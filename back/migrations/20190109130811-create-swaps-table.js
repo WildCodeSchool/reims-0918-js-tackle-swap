@@ -39,8 +39,8 @@ exports.up = function(db, callback) {
           rules: { onDelete: "CASCADE" }
         }
       },
-      resolved: { type: "boolean", defaultValue: false },
-      lastProposition: { type: "boolean", defaultValue: true }
+      accepted: { type: "boolean", defaultValue: false },
+      refused: { type: "boolean", defaultValue: false }
     },
     callback
   );
