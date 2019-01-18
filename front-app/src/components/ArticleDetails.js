@@ -44,7 +44,7 @@ class ArticleDetails extends Component {
       )
       .then(results => {
         this.props.setFlashMessage(results.data.response.flashMessage);
-        this.props.history.push(`/article/${idArticle}`);
+        this.props.history.push(`/mes-articles/`);
       });
   }
   goBack() {
@@ -57,53 +57,62 @@ class ArticleDetails extends Component {
   render() {
     if (
       this.props.match.url.includes("previsualisation") &&
-      this.props.user.id !== this.props.articleDetails.owner_id
+      this.props.user.id !== this.props.articleDetails.owner_id &&
+      this.props.user.id &&
+      this.props.articleDetails.owner_id
     ) {
       this.props.setFlashMessage({
         type: "warning",
         message: "Vous ne pouvez pas accéder à cette page."
       });
       this.props.history.goBack();
+      return;
     }
+
     return (
-      <div style={{ opacity: "0.9" }}>
-        <div
-          className="ArticleDetails"
-          style={{ margin: "90px 10px 10px 10px" }}
-        >
-          <h2
-            style={{
-              maxWidth: "380px",
-              justifyContent: "space-between",
-              display: "flex"
-            }}
-            className="TitleDescription"
-          >
-            {this.props.articleDetails.name}
-            <Button
+      <>
+        {this.props.match.url.includes("previsualisation") && (
+          <InteractionsArticleDetailsPreview
+            {...this.props.articleDetails}
+            onlineArticle={this.onlineArticle}
+          />
+        )}
+        <div style={{ opacity: "0.9" }}>
+          <div className="ArticleDetails" style={{ margin: 10 }}>
+            <h2
               style={{
-                color: "grey"
+                maxWidth: "380px",
+                justifyContent: "space-between",
+                display: "flex"
               }}
-              onClick={() => this.goBack()}
+              className="TitleDescription"
             >
-              <CloseIcon />
-            </Button>
-          </h2>
+              {this.props.articleDetails.name}
+              <Button
+                style={{
+                  color: "grey"
+                }}
+                onClick={() => this.goBack()}
+              >
+                <CloseIcon />
+              </Button>
+            </h2>
 
-          <PicturesArticleDetails {...this.props.articleDetails} />
+            <PicturesArticleDetails {...this.props.articleDetails} />
 
-          <DescriptionArticleDetails {...this.props.articleDetails} />
-          {this.props.match.url.includes("article") ? (
-            <InteractionsArticleDetails
-              setFlashMessage={this.props.setFlashMessage}
-              articleDetails={this.props.articleDetails}
-              user={this.props.user}
-            />
-          ) : (
-            ""
-          )}
+            <DescriptionArticleDetails {...this.props.articleDetails} />
+            {this.props.match.url.includes("article") ? (
+              <InteractionsArticleDetails
+                setFlashMessage={this.props.setFlashMessage}
+                articleDetails={this.props.articleDetails}
+                user={this.props.user}
+              />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
