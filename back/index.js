@@ -884,8 +884,7 @@ app.put(
     const confirmationExchange = await bddQuery(
       `UPDATE articles SET swap = 1 WHERE id = ${idAnnonce} OR id = ${idOffer}`
     );
-    console.log(typeof parseInt(req.body.idAnnonce));
-    console.log(typeof req.body.idOffer);
+
     if (confirmationExchange.err) {
       return sendResponse(res, 200, "error", {
         flashMessage: {
