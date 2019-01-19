@@ -163,7 +163,13 @@ export class PrivateMessagesRoom extends Component {
                 className={classes.chatBox}
               >
                 {this.state.room.map((message, index, array) =>
-                  message.id_sender === this.props.user.id ? (
+                  message.information ? (
+                    <div key={index} className={classes.containerInformation}>
+                      <p className={`${classes.information} hyphens`}>
+                        {message.message}
+                      </p>
+                    </div>
+                  ) : message.id_sender === this.props.user.id ? (
                     <div key={index} className={classes.containerMessage}>
                       <p className={`${classes.myMessage} hyphens`}>
                         {message.message}
@@ -175,7 +181,8 @@ export class PrivateMessagesRoom extends Component {
                       className={classes.containerMessageReceived}
                     >
                       {index > 0 ? (
-                        array[index - 1].id_sender !== message.id_sender && (
+                        (array[index - 1].id_sender !== message.id_sender ||
+                          array[index - 1].information === 1) && (
                           <p className={classes.nicknameMessageReceived}>
                             {message.sender} :
                           </p>
@@ -249,11 +256,25 @@ const styles = createStyles({
     flexDirection: "column",
     margin: "5px 10px"
   },
+  containerInformation: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: "5px 10px"
+  },
   myMessage: {
     color: "#e6f7ff",
     borderRadius: "20px 20px 0 20px",
     backgroundColor: "#009682",
     maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  information: {
+    color: "#e6f7ff",
+    borderRadius: "20px",
+    backgroundColor: "green",
+    textAlign: "center",
     padding: 10,
     margin: 0
   },

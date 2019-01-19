@@ -753,9 +753,7 @@ app.get(
       return acc;
     }, []);
 
-    sendResponse(res, 200, "success", {
-      swapsResult
-    });
+    sendResponse(res, 200, "success", swapsResult);
   }
 );
 
@@ -836,7 +834,7 @@ app.get(
   async (req, res) => {
     const idSwap = req.params.id_swap;
     const swapDetails = await bddQuery(
-      `SELECT a1.id AS id_annonce,a1.name AS name_annonce, a1.owner_id as annonce_owner, a2.id as id_offer, a2.name as name_offer, a2.owner_id as offer_owner
+      `SELECT s.accepted, s.refused, a1.id AS id_annonce,a1.name AS name_annonce, a1.owner_id as annonce_owner, a2.id as id_offer, a2.name as name_offer, a2.owner_id as offer_owner
       FROM swaps as s 
       JOIN articles as a1 ON a1.id = s.id_article_annonce 
       JOIN articles as a2 ON a2.id = s.id_article_offer 
@@ -870,22 +868,41 @@ app.get(
         name: swapDetails.results[0].name_annonce,
         picture: picturesArticles.results[0].annonce_picture,
         owner: swapDetails.results[0].annonce_owner
+      },
+      swap: {
+        accepted: swapDetails.results[0].accepted,
+        refused: swapDetails.results[0].refused
       }
     });
   }
 );
 
 app.put(
-  "/confirmation-swap/",
+  "/accepted-swap/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const idAnnonce = parseInt(req.body.idAnnonce);
     const idOffer = parseInt(req.body.idOffer);
-    const confirmationExchange = await bddQuery(
+    const confirmationExchangeInArticles = await bddQuery(
       `UPDATE articles SET swap = 1 WHERE id = ${idAnnonce} OR id = ${idOffer}`
     );
 
-    if (confirmationExchange.err) {
+    if (confirmationExchangeInArticles.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    const confirmationExchangeInSwaps = await bddQuery(`
+    UPDATE swaps SET accepted = 1
+    WHERE id_article_annonce = ${idAnnonce} 
+    AND id_article_offer = ${idOffer}`);
+
+    if (confirmationExchangeInSwaps.err) {
       return sendResponse(res, 200, "error", {
         flashMessage: {
           message:
@@ -898,6 +915,49 @@ app.put(
     return sendResponse(res, 200, "success", {
       flashMessage: {
         message: "Vous avez accepté la proposition d'échange",
+        type: "success"
+      }
+    });
+  }
+);
+app.put(
+  "/refused-swap/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idAnnonce = parseInt(req.body.idAnnonce);
+    const idOffer = parseInt(req.body.idOffer);
+    const confirmationExchangeInArticles = await bddQuery(
+      `UPDATE articles SET swap = 1 WHERE id = ${idAnnonce} OR id = ${idOffer}`
+    );
+
+    if (confirmationExchangeInArticles.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    const confirmationExchangeInSwaps = await bddQuery(`
+    UPDATE swaps SET refused = 1
+    WHERE id_article_annonce = ${idAnnonce} 
+    AND id_article_offer = ${idOffer}`);
+
+    if (confirmationExchangeInSwaps.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      flashMessage: {
+        message: "Vous avez refusé la proposition d'échange",
         type: "success"
       }
     });

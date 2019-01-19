@@ -5,10 +5,6 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ls from "local-storage";
 
-const goBack = props => {
-  props.history.goBack();
-};
-
 class ExchangeDetails extends Component {
   state = {
     swapDetails: {}
@@ -43,7 +39,7 @@ class ExchangeDetails extends Component {
   acceptTheProposition() {
     axios
       .put(
-        `${process.env.REACT_APP_URL_API}/confirmation-swap/`,
+        `${process.env.REACT_APP_URL_API}/accepted-swap/`,
         {
           idAnnonce: this.state.swapDetails.annonce.id,
           idOffer: this.state.swapDetails.offer.id
@@ -57,16 +53,40 @@ class ExchangeDetails extends Component {
       )
       .then(results => {
         this.props.setFlashMessage(results.data.response.flashMessage);
-        this.props.history.push("/");
+        this.props.history.push(
+          `/conversation-${this.state.swapDetails.annonce.id}-${
+            this.state.swapDetails.annonce.owner
+          }-${this.state.swapDetails.offer.owner}`
+        );
       });
   }
 
   refuseTheProposition() {
-    this.props.history.push("/");
-    this.props.setFlashMessage({
-      message: "Vous avez refusé l'offre d'échange",
-      type: "success"
-    });
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/refused-swap/`,
+        {
+          idAnnonce: this.state.swapDetails.annonce.id,
+          idOffer: this.state.swapDetails.offer.id
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        this.props.setFlashMessage(results.data.response.flashMessage);
+        this.props.history.push(
+          `/conversation-${this.state.swapDetails.annonce.id}-${
+            this.state.swapDetails.annonce.owner
+          }-${this.state.swapDetails.offer.owner}`
+        );
+      });
+  }
+  goExchanges() {
+    this.props.history.push("/mes-echanges/");
   }
 
   render() {
@@ -132,35 +152,6 @@ class ExchangeDetails extends Component {
                       id={this.state.swapDetails.offer.id}
                     />
                   </div>
-                  <div
-                    style={{ position: "fixed", bottom: "15px", width: "97%" }}
-                  >
-                    <Button
-                      onClick={() => this.goToChat()}
-                      style={{
-                        backgroundColor: "#009682",
-                        border: "0.5px solid #009682",
-                        color: "white",
-                        width: "100%",
-                        height: "50px"
-                      }}
-                    >
-                      Aller à la conversation
-                    </Button>
-                    <Button
-                      onClick={() => goBack(this.props)}
-                      style={{
-                        backgroundColor: "#009682",
-                        border: "0.5px solid #009682",
-                        color: "white",
-                        width: "100%",
-                        marginTop: "10px",
-                        height: "50px"
-                      }}
-                    >
-                      Revenir aux échanges
-                    </Button>
-                  </div>
                 </Fragment>
               </div>
             </Fragment>
@@ -223,74 +214,99 @@ class ExchangeDetails extends Component {
                         id={this.state.swapDetails.offer.id}
                       />
                     </div>
-                    <Grid
-                      container
-                      style={{
-                        position: "fixed",
-                        bottom: "10px",
-                        width: "97%"
-                      }}
-                    >
-                      <Grid container justify="space-around">
-                        <Button
-                          onClick={() => this.acceptTheProposition()}
-                          style={{
-                            backgroundColor: "#009682",
-                            border: "0.5px solid #009682",
-                            color: "white",
-                            width: "49%",
-                            height: "50px",
-                            paddingTop: "3px"
-                          }}
-                        >
-                          Accepter cette proposition
-                        </Button>
-                        <Button
-                          onClick={() => this.refuseTheProposition()}
-                          style={{
-                            backgroundColor: "#009682",
-                            border: "0.5px solid #009682",
-                            color: "white",
-                            width: "49%",
-                            height: "50px",
-                            paddingTop: "3px"
-                          }}
-                        >
-                          Refuser cette proposition
-                        </Button>
-                      </Grid>
-                      <Button
-                        onClick={() => this.goToChat()}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          height: "50px",
-                          marginTop: "5px"
-                        }}
-                      >
-                        Aller à la conversation
-                      </Button>
-                      <Button
-                        onClick={() => goBack(this.props)}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          marginTop: "5px",
-                          height: "50px"
-                        }}
-                      >
-                        Revenir aux échanges
-                      </Button>
-                    </Grid>
                   </Fragment>
                 )}
               </div>
             </Fragment>
           ))}
+        <div style={{ position: "fixed", bottom: "15px", width: "97%" }}>
+          <Grid
+            container
+            style={{
+              position: "fixed",
+              bottom: "10px",
+              width: "97%"
+            }}
+          >
+            <Grid container justify="space-around">
+              {this.state.swapDetails.swap &&
+                !this.state.swapDetails.swap.accepted &&
+                !this.state.swapDetails.swap.refused &&
+                this.state.swapDetails.annonce.owner === this.props.user.id && (
+                  <>
+                    <Button
+                      onClick={() => this.acceptTheProposition()}
+                      style={{
+                        backgroundColor: "#009682",
+                        border: "0.5px solid #009682",
+                        color: "white",
+                        width: "49%",
+                        height: "50px",
+                        paddingTop: "3px"
+                      }}
+                    >
+                      Accepter cette proposition
+                    </Button>
+                    <Button
+                      onClick={() => this.refuseTheProposition()}
+                      style={{
+                        backgroundColor: "#009682",
+                        border: "0.5px solid #009682",
+                        color: "white",
+                        width: "49%",
+                        height: "50px",
+                        paddingTop: "3px"
+                      }}
+                    >
+                      Refuser cette proposition
+                    </Button>
+                  </>
+                )}
+              {this.state.swapDetails.swap &&
+                (this.state.swapDetails.swap.accepted === 1 &&
+                  (this.state.swapDetails.annonce.owner ===
+                  this.props.user.id ? (
+                    <p>Vous avez accepté l'échange</p>
+                  ) : (
+                    <p>Le propriétaire du leurre a accepté l'échange</p>
+                  )))}
+              {this.state.swapDetails.swap &&
+                (this.state.swapDetails.swap.refused === 1 &&
+                  (this.state.swapDetails.annonce.owner ===
+                  this.props.user.id ? (
+                    <p>Vous avez refusé l'échange</p>
+                  ) : (
+                    <p>Le propriétaire du leurre a refusé l'échange</p>
+                  )))}
+            </Grid>
+            <Button
+              onClick={() => this.goToChat()}
+              style={{
+                backgroundColor: "#009682",
+                border: "0.5px solid #009682",
+                color: "white",
+                width: "100%",
+                height: "50px",
+                marginTop: "5px"
+              }}
+            >
+              Aller à la conversation
+            </Button>
+            <Button
+              onClick={() => this.goExchanges()}
+              style={{
+                backgroundColor: "#009682",
+                border: "0.5px solid #009682",
+                color: "white",
+                width: "100%",
+                marginTop: "5px",
+                height: "50px"
+              }}
+            >
+              Revenir aux échanges
+            </Button>
+          </Grid>
+        </div>
       </div>
     );
   }
