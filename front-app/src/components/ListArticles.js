@@ -85,11 +85,14 @@ class ListArticles extends Component {
     );
     return (
       <Fragment>
-        {!isConnected() && <WelcomeBanner />}
-        <SearchArticles
-          search={search}
-          handleChangeSearch={this.handleChangeSearch.bind(this)}
-        />
+        <div style={{ margin: "-5px" }}>
+          {!isConnected() && <WelcomeBanner />}
+
+          <SearchArticles
+            search={search}
+            handleChangeSearch={this.handleChangeSearch.bind(this)}
+          />
+        </div>
         <div style={{ padding: "10px" }}>
           {search.length > 0 ? (
             <InfiniteScroll

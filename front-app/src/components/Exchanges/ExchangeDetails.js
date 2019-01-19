@@ -55,7 +55,7 @@ class ExchangeDetails extends Component {
           }
         }
       )
-      .then(results => console.log(results.data.response));
+      .then(results => this.props.set);
   }
 
   render() {
@@ -101,6 +101,7 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.annonce.picture}
                       name={this.state.swapDetails.annonce.name}
+                      id={this.state.swapDetails.annonce.id}
                     />
                   </div>
                   <div>
@@ -117,6 +118,7 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.offer.picture}
                       name={this.state.swapDetails.offer.name}
+                      id={this.state.swapDetails.offer.id}
                     />
                   </div>
                   <div
@@ -190,6 +192,7 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.annonce.picture}
                         name={this.state.swapDetails.annonce.name}
+                        id={this.state.swapDetails.annonce.id}
                       />
                     </div>
                     <div>
@@ -206,6 +209,7 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.offer.picture}
                         name={this.state.swapDetails.offer.name}
+                        id={this.state.swapDetails.offer.id}
                       />
                     </div>
                     <div
