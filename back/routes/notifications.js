@@ -8,7 +8,20 @@ router.get(
   "/messages_not_read/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    return sendResponse(res, 200, "success", { messages_not_read: true });
+    const id_user = req.user.id;
+    const countMessageNotReadRaw = await bddQuery(
+      "SELECT count(*) AS count FROM private_messages WHERE recipient = ? AND not_read = true",
+      [id_user]
+    );
+    if (countMessageNotReadRaw.err) {
+      return sendResponse(res, 200, "error", {
+        type: "error",
+        message:
+          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+      });
+    }
+    const numberNotRead = countMessageNotReadRaw.results[0].count;
+    return sendResponse(res, 200, "success", numberNotRead);
   }
 );
 
@@ -23,6 +36,14 @@ router.put(
       "UPDATE private_messages SET not_read = 0 WHERE room = ? AND recipient = ?",
       [room, id_user_connected]
     );
+
+    if (readMessageRaw.err) {
+      return sendResponse(res, 200, "error", {
+        type: "error",
+        message:
+          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+      });
+    }
     return sendResponse(res, 200, "success", {
       readMessageRaw,
       message: "message lu"

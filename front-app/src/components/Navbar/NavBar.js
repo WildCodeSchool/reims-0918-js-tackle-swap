@@ -60,7 +60,8 @@ const styles = {
 
 class ButtonAppBar extends Component {
   state = {
-    open: false
+    open: false,
+    messageNotRead: 0
   };
 
   toggleDrawer = open => () => {
@@ -80,7 +81,21 @@ class ButtonAppBar extends Component {
     this.props.setUserInformation({});
     this.props.history.push("/");
   };
-
+  componentDidUpdate() {
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/notifications/messages_not_read/`,
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        this.setState({ messageNotRead: results.data.response });
+      });
+  }
   componentDidMount() {
     if (isConnected() && !this.props.user.id) {
       axios
@@ -121,7 +136,35 @@ class ButtonAppBar extends Component {
           path: "/ajouter-un-article",
           icon: <AddCartIcon />
         },
-        { id: 20, name: "Messages", path: "/messagerie", icon: <MailIcon /> },
+        {
+          id: 20,
+          name: "Messages",
+          path: "/messagerie",
+          icon: this.state.messageNotRead ? (
+            <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  right: -5,
+                  top: -5,
+                  width: 15,
+                  height: 15,
+                  borderRadius: "50%",
+                  backgroundColor: "red",
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: 12
+                }}
+              >
+                2
+              </div>
+              <MailIcon />
+            </div>
+          ) : (
+            <MailIcon />
+          )
+        },
         {
           id: 25,
           name: "Mes Echanges",
