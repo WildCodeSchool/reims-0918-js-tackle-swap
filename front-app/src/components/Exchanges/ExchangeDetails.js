@@ -39,7 +39,7 @@ class ExchangeDetails extends Component {
   acceptTheProposition() {
     axios
       .put(
-        `${process.env.REACT_APP_URL_API}/accepted-swap/`,
+        `${process.env.REACT_APP_URL_API}/swap/accept_exchange`,
         {
           idAnnonce: this.state.swapDetails.annonce.id,
           idOffer: this.state.swapDetails.offer.id
@@ -52,12 +52,35 @@ class ExchangeDetails extends Component {
         }
       )
       .then(results => {
-        this.props.setFlashMessage(results.data.response.flashMessage);
-        this.props.history.push(
-          `/conversation-${this.state.swapDetails.annonce.id}-${
-            this.state.swapDetails.annonce.owner
-          }-${this.state.swapDetails.offer.owner}`
-        );
+        if (results.data.type === "error") {
+          this.props.setFlashMessage(results.data.response.flashMessage);
+        } else if (results.data.type === "success") {
+          const flashMessage = results.data.response.flashMessage;
+          axios
+            .post(
+              `${process.env.REACT_APP_URL_API}/sendMessages/accept_exchange/`,
+              {
+                id_article_annonce: this.state.swapDetails.annonce.id,
+                id_owner_offer: this.state.swapDetails.offer.owner
+              },
+              {
+                headers: {
+                  accept: "application/json",
+                  authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+                }
+              }
+            )
+            .then(results => {
+              if (results.data.type === "error") {
+                this.props.setFlashMessage(results.data.response.flashMessage);
+              } else if (results.data.type === "success") {
+                this.props.setFlashMessage(flashMessage);
+                this.props.history.push(
+                  `/conversation-${results.data.response.room}`
+                );
+              }
+            });
+        }
       });
   }
 

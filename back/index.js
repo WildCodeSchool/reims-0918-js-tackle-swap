@@ -11,8 +11,11 @@ const connection = require("./conf");
 const port = 5050;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
 const auth = require("./routes/auth");
 const sendMessages = require("./routes/sendMessages");
+const swap = require("./routes/swap");
+
 const passport = require("passport");
 const fileUpload = require("express-fileupload");
 
@@ -44,6 +47,7 @@ app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", auth);
 app.use("/sendMessages", sendMessages);
+app.use("/swap", swap);
 
 const socketIo = require("./socket-io");
 socketIo(io, app);
@@ -851,49 +855,6 @@ app.get(
   }
 );
 
-app.put(
-  "/accepted-swap/",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    const idAnnonce = parseInt(req.body.idAnnonce);
-    const idOffer = parseInt(req.body.idOffer);
-    const confirmationExchangeInArticles = await bddQuery(
-      `UPDATE articles SET swap = 1 WHERE id = ${idAnnonce} OR id = ${idOffer}`
-    );
-
-    if (confirmationExchangeInArticles.err) {
-      return sendResponse(res, 200, "error", {
-        flashMessage: {
-          message:
-            "Un problème est survenu durant la connection à la base de donnée.",
-          type: "error"
-        }
-      });
-    }
-
-    const confirmationExchangeInSwaps = await bddQuery(`
-    UPDATE swaps SET accepted = 1
-    WHERE id_article_annonce = ${idAnnonce} 
-    AND id_article_offer = ${idOffer}`);
-
-    if (confirmationExchangeInSwaps.err) {
-      return sendResponse(res, 200, "error", {
-        flashMessage: {
-          message:
-            "Un problème est survenu durant la connection à la base de donnée.",
-          type: "error"
-        }
-      });
-    }
-
-    return sendResponse(res, 200, "success", {
-      flashMessage: {
-        message: "Vous avez accepté la proposition d'échange",
-        type: "success"
-      }
-    });
-  }
-);
 app.put(
   "/refused-swap/",
   passport.authenticate("jwt", { session: false }),
