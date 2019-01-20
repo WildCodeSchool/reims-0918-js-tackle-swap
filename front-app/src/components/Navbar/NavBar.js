@@ -154,10 +154,11 @@ class ButtonAppBar extends Component {
                   color: "white",
                   textAlign: "center",
                   fontWeight: "bold",
+                  paddingTop: 2,
                   fontSize: 12
                 }}
               >
-                2
+                {this.state.messageNotRead}
               </div>
               <MailIcon />
             </div>
@@ -258,7 +259,30 @@ class ButtonAppBar extends Component {
               aria-label="Menu"
               onClick={this.toggleDrawer(true)}
             >
-              <MenuIcon style={{ fontSize: "40px" }} />
+              {this.state.messageNotRead ? (
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: -5,
+                      top: -5,
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      backgroundColor: "red",
+                      color: "white",
+                      fontWeight: "bold",
+                      paddingTop: 2,
+                      fontSize: 15
+                    }}
+                  >
+                    {this.state.messageNotRead}
+                  </div>
+                  <MenuIcon style={{ fontSize: "40px" }} />
+                </div>
+              ) : (
+                <MenuIcon style={{ fontSize: "40px" }} />
+              )}
             </IconButton>
             <div style={{ height: "60px", paddingTop: 5, margin: "0 auto" }}>
               <img src={logo} alt="Logo" className={classes.logo} />
