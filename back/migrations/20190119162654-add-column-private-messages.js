@@ -21,10 +21,17 @@ exports.up = function(db, callback) {
     { type: "boolean", defaultValue: false },
     callback
   );
+  db.addColumn(
+    "private_messages",
+    "not_read",
+    { type: "boolean", defaultValue: true },
+    callback
+  );
 };
 
 exports.down = function(db, callback) {
   db.removeColumn("private_messages", "information", callback);
+  db.removeColumn("private_messages", "not_read", callback);
 };
 
 exports._meta = {

@@ -15,6 +15,7 @@ const cors = require("cors");
 const auth = require("./routes/auth");
 const sendMessages = require("./routes/sendMessages");
 const swap = require("./routes/swap");
+const notifications = require("./routes/notifications");
 
 const passport = require("passport");
 const fileUpload = require("express-fileupload");
@@ -48,6 +49,7 @@ app.use(express.static("public"));
 app.use("/auth", auth);
 app.use("/sendMessages", sendMessages);
 app.use("/swap", swap);
+app.use("/notifications", notifications);
 
 const socketIo = require("./socket-io");
 socketIo(io, app);
