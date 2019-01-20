@@ -17,6 +17,7 @@ import ls from "local-storage";
 
 import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
+import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
 
 export class PrivateMessagesRoom extends Component {
@@ -164,11 +165,15 @@ export class PrivateMessagesRoom extends Component {
               >
                 {this.state.room.map((message, index, array) =>
                   message.information ? (
-                    <div key={index} className={classes.containerInformation}>
-                      <p className={`${classes.information} hyphens`}>
-                        {message.message}
-                      </p>
-                    </div>
+                    message.id_sender !== this.props.user.id ? (
+                      <div key={index} className={classes.containerInformation}>
+                        <p className={`${classes.information} hyphens`}>
+                          {parseMessage(message.message)}
+                        </p>
+                      </div>
+                    ) : (
+                      ""
+                    )
                   ) : message.id_sender === this.props.user.id ? (
                     <div key={index} className={classes.containerMessage}>
                       <p className={`${classes.myMessage} hyphens`}>
@@ -271,9 +276,8 @@ const styles = createStyles({
     margin: 0
   },
   information: {
-    color: "#e6f7ff",
     borderRadius: "20px",
-    backgroundColor: "green",
+    backgroundColor: "#00cccc",
     textAlign: "center",
     padding: 10,
     margin: 0

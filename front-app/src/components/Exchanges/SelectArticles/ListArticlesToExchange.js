@@ -135,7 +135,6 @@ class ListArticleToExchange extends Component {
   }
   render() {
     const { classes } = this.props;
-    console.log("article", this.props.match.params.id_article);
     return (
       <Grid container alignItems="center" direction="column">
         {this.state.myArticles.length > 0 ? (

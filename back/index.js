@@ -12,6 +12,7 @@ const port = 5050;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const auth = require("./routes/auth");
+const sendMessages = require("./routes/sendMessages");
 const passport = require("passport");
 const fileUpload = require("express-fileupload");
 
@@ -42,6 +43,7 @@ require("./passport-strategy");
 app.use(cors());
 app.use(express.static("public"));
 app.use("/auth", auth);
+app.use("/sendMessages", sendMessages);
 
 const socketIo = require("./socket-io");
 socketIo(io, app);
@@ -545,34 +547,6 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const idUser = req.user.id;
-
-    // if (swapsId.err) {
-    //   return sendResponse(res, 200, "error", {
-    //     flashMessage: {
-    //       message:
-    //         "Un erreur s'est produite durant la vérification dans la base de donnée.",
-    //       type: "error"
-    //     }
-    //   });
-    // }
-    // const swapsIdArray = swapsId.results.map(ids => {
-    //   return ids.id;
-    // });
-
-    // const articlesId = await bddQuery(
-    //   `SELECT s.id AS id_swap, s.id_article_annonce FROM swaps as s WHERE s.id IN (${swapsIdArray})`
-    // );
-
-    // const swapsIdArticle = articlesId.results.map(articleId => {
-    //   return articleId.id_article_annonce;
-    // });
-
-    // const rawArticlesPictures = await bddQuery(
-    //   `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id IN (${swapsIdArticle}) `
-    // );
-    // const rawArticles = await bddQuery(
-    //   `SELECT a.name, a.id FROM articles AS a WHERE id IN (${swapsIdArticle})`
-    // );
 
     const swapsId = await bddQuery(
       `SELECT s.id FROM swaps as s JOIN articles as a ON a.id = s.id_article_offer WHERE a.owner_id = ${idUser}`
