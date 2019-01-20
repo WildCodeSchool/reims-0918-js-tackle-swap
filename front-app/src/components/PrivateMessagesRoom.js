@@ -62,6 +62,18 @@ export class PrivateMessagesRoom extends Component {
   };
   addToRoom = message => {
     this.setState({ room: [...this.state.room, ...message] });
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
+        { room: this.state.roomConnected.roomName },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => console.log(results));
   };
   componentDidUpdate() {
     const chatScroll = document.getElementById("chatBox");
