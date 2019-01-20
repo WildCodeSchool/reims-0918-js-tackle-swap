@@ -48,4 +48,35 @@ router.put(
   }
 );
 
+router.put(
+  "/refuse_exchange/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const idAnnonce = parseInt(req.body.idAnnonce);
+    const idOffer = parseInt(req.body.idOffer);
+
+    const confirmationExchangeInSwaps = await bddQuery(`
+    UPDATE swaps SET refused = 1
+    WHERE id_article_annonce = ${idAnnonce} 
+    AND id_article_offer = ${idOffer}`);
+
+    if (confirmationExchangeInSwaps.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      flashMessage: {
+        message: "Vous avez refusé la proposition d'échange",
+        type: "success"
+      }
+    });
+  }
+);
+
 module.exports = router;

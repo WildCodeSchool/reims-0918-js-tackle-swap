@@ -138,4 +138,70 @@ router.post(
   }
 );
 
+router.post(
+  "/refuse_exchange/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id_article_annonce = req.body.id_article_annonce;
+    const id_owner_offer = req.body.id_owner_offer;
+    const ownerArticleRaw = await bddQuery(
+      `SELECT a.owner_id, u.nickname, a.name FROM articles AS a JOIN users AS u ON u.id = a.owner_id WHERE a.id = ?`,
+      [id_article_annonce]
+    );
+    if (ownerArticleRaw.err) {
+      return sendResponse(res, 200, "error", {
+        type: "error",
+        message:
+          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+      });
+    }
+    if (ownerArticleRaw.results.length === 0) {
+      return sendResponse(res, 200, "error", {
+        type: "warning",
+        message:
+          "L'article pour lequel vous souhaitez valider un échange n'existe pas."
+      });
+    }
+    const infoOwnerArticle = ownerArticleRaw.results[0];
+    const roomMessage = `${id_article_annonce}-${
+      infoOwnerArticle.owner_id
+    }-${id_owner_offer}`;
+
+    const columnRequest =
+      "message,room,sender,recipient,id_article,information";
+
+    const requestSendMessageOffer = [
+      `Votre demande d'échange a été refusée.`,
+      roomMessage,
+      infoOwnerArticle.owner_id,
+      id_owner_offer,
+      id_article_annonce,
+      1
+    ];
+    const requestSendMessageAnnonce = [
+      `Vous avez refusé l'échange pour l'article ${infoOwnerArticle.name}.`,
+      roomMessage,
+      id_owner_offer,
+      infoOwnerArticle.owner_id,
+      id_article_annonce,
+      1
+    ];
+    const sendMessageRaw = await bddQuery(
+      `INSERT INTO private_messages (${columnRequest}) VALUES (?),(?)`,
+      [requestSendMessageAnnonce, requestSendMessageOffer]
+    );
+    if (sendMessageRaw.err) {
+      return sendResponse(res, 200, "error", {
+        type: "error",
+        message:
+          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+      });
+    }
+
+    return sendResponse(res, 200, "success", {
+      room: roomMessage
+    });
+  }
+);
+
 module.exports = router;
