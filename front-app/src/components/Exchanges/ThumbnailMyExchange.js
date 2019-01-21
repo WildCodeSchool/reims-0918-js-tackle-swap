@@ -13,7 +13,7 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     backgroundColor: "#009682",
-    border: "0.5px solid #009682"
+    color: "#ffffff"
   }
 });
 
@@ -28,10 +28,11 @@ function ThumbnailMyExchange(props) {
     <Grid
       container
       style={{
-        backgroundColor: "rgba(190, 247, 255, 0.4)",
-        height: "100px",
+        width: "100%",
+        backgroundColor: "rgba(230, 247, 255, 0.8)",
+        borderRadius: "4px",
         border: "1px solid #009682",
-        borderRadius: "10px"
+        marginBottom: "5px"
       }}
     >
       <Grid
@@ -63,7 +64,9 @@ function ThumbnailMyExchange(props) {
               justifyContent: "center"
             }}
           >
-            <Typography variant="h5" style={{ color: "#009682" }}>
+            <Typography
+              style={{ color: "#009682", paddingTop: "8px", fontSize: "22px" }}
+            >
               {props.name}
             </Typography>
           </Grid>

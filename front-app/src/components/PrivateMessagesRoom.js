@@ -159,17 +159,19 @@ export class PrivateMessagesRoom extends Component {
             style={{
               backgroundColor: "#009682",
               border: "1px solid #009682",
+              display: "block",
               color: "white",
-              marginTop: 5,
-              marginLeft: 5
+              marginTop: "10px",
+              marginLeft: "10px"
             }}
-            onClick={() => this.props.history.goBack()}
+            onClick={() => this.goBack()}
           >
             Retour
           </Button>
-          <Paper style={{ margin: "0 10px" }}>
-            <div>
-              <h2>Message :</h2>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper>
+            <div style={classes.main_private_messages}>
               <div
                 style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
                 id="chatBox"
