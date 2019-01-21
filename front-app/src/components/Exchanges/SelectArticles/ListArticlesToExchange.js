@@ -164,9 +164,17 @@ class ListArticleToExchange extends Component {
             </Button>
           </form>
         ) : (
-          <p>
+          <p
+            style={{
+              margin: "30px",
+              color: "rgb(0, 150, 130)",
+              fontSize: "18px"
+            }}
+          >
             Vous devez avoir ajouté des leurres pour proposer un échange =>{" "}
-            <a href="/ajouter-un-article">Ajouter un leurre</a>
+            <a style={{ color: "#009682" }} href="/ajouter-un-article">
+              Ajouter un leurre
+            </a>
           </p>
         )}
       </Grid>

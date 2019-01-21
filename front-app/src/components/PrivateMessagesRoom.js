@@ -141,12 +141,23 @@ export class PrivateMessagesRoom extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Button onClick={() => this.goBack()}>Retour</Button>
+          <Button
+            style={{
+              backgroundColor: "#009682",
+              border: "1px solid #009682",
+              display: "block",
+              color: "white",
+              marginTop: "10px",
+              marginLeft: "10px"
+            }}
+            onClick={() => this.goBack()}
+          >
+            Retour
+          </Button>
         </Grid>
         <Grid item xs={12}>
           <Paper>
             <div style={classes.main_private_messages}>
-              <h2>Message :</h2>
               <div
                 style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
                 id="chatBox"
