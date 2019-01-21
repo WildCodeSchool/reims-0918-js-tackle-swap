@@ -19,6 +19,7 @@ import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
 import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
+import SocketContext from "../context/SocketContext";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -223,6 +224,9 @@ export class PrivateMessagesRoom extends Component {
                 }}
               >
                 <Grid container justify="center">
+                  <SocketContext.Consumer>
+                    {context => <p>{context.state.message}</p>}
+                  </SocketContext.Consumer>
                   <Grid
                     item
                     xs={12}
