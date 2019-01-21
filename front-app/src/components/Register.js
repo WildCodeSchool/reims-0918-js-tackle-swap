@@ -38,7 +38,7 @@ const Register = props => {
       })
       .then(result => {
         setFlashMessage(result.data.flashMessage);
-        props.history.push("/se-connecter");
+        props.history.push("/");
       })
       .catch(result => console.log("response ERROR:", result));
 

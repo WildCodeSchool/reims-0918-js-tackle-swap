@@ -3,6 +3,9 @@ import { Grid, Paper, Button } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 
+import axios from "axios";
+import ls from "local-storage";
+
 class ListMyArticles extends Component {
   state = {
     display: "all"
@@ -12,6 +15,18 @@ class ListMyArticles extends Component {
   }
   handleChangeDisplay(display) {
     this.setState({ display });
+  }
+  componentDidMount() {
+    axios
+      .get(`${process.env.REACT_APP_URL_API}/user_articles`, {
+        headers: {
+          Accept: "application/json",
+          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+        }
+      })
+      .then(results => {
+        this.props.setUserArticles(results.data.response);
+      });
   }
   render() {
     const showResults = this.props.userArticles.filter(article =>

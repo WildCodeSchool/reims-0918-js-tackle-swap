@@ -119,7 +119,6 @@ const socketIo = (io, app) => {
         "INSERT INTO private_messages SET ?",
         [message]
       );
-      console.log(insertMessage);
       response = {
         type: "success",
         response: [
@@ -127,7 +126,8 @@ const socketIo = (io, app) => {
             ...message,
             id_sender: message.sender,
             sender: currentRoom.users[message.sender],
-            recipient: currentRoom.users[message.recipient]
+            recipient: currentRoom.users[message.recipient],
+            id_message: insertMessage.results.insertId
           }
         ]
       };

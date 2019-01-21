@@ -106,12 +106,18 @@ class ListExchanges extends Component {
 
   render() {
     const { classes, theme } = this.props;
+    const exchangesAccepted = this.state.exchangesFinished.filter(
+      exchange => exchange.accepted
+    );
+    const exchangesRefused = this.state.exchangesFinished.filter(
+      exchange => exchange.refused
+    );
     return (
       <div
         className={classes.root}
         style={{
           width: "97%",
-          margin: "90px 5px 0 5px",
+          margin: "0 5px",
           borderRadius: "10px",
           backgroundColor: "transparent"
         }}
@@ -259,40 +265,71 @@ class ListExchanges extends Component {
               index={this.state.value3}
               onChangeIndex={this.handleChangeIndex3}
             >
-              {/* <Grid container alignItems="center" direction="column">
-                {this.state.exchangesFinished.length > 0 ? (
-                  this.state.exchangesFinished.map(
-                    (exchangeFinished, index) => (
-                      <Grid
-                        item
-                        xs={12}
-                        style={{
-                          width: "100%",
-                          backgroundColor: "rgba(255, 255, 255, 0.4)",
-                          borderRadius: "10px",
-                          border: "1px solid #009682",
-                          marginBottom: "5px"
-                        }}
-                        key={index}
-                      >
-                        <ThumbnailExchange {...exchangeFinished} />{" "}
-                      </Grid>
-                    )
-                  )
-                ) : (
-                  <p>Vous n'avez reçu aucuns échanges</p>
-                )}
-              </Grid>
-
-              <Grid container alignItems="center" direction="column" /> */}
-
               {/* Mettre en place l'affichage des echanges terminés */}
 
               <Grid container alignItems="center" direction="column">
-                <p>Acceptés</p>
+                {exchangesAccepted.length > 0 ? (
+                  exchangesAccepted.map((exchange, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(255, 255, 255, 0.4)",
+                        borderRadius: "10px",
+                        border: "1px solid #009682",
+                        marginBottom: "5px"
+                      }}
+                      key={index}
+                    >
+                      <ThumbnailExchange
+                        exchanged="accepted"
+                        name={exchange.annonce_name}
+                        id_swap={exchange.swap_id}
+                        pictures={[
+                          {
+                            main_picture: 1,
+                            url_picture: exchange.annonce_picture
+                          }
+                        ]}
+                      />
+                    </Grid>
+                  ))
+                ) : (
+                  <p>Pas d'échanges acceptés</p>
+                )}
               </Grid>
               <Grid container alignItems="center" direction="column">
-                <p>Refusés</p>
+                {exchangesRefused.length > 0 ? (
+                  exchangesRefused.map((exchange, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(255, 255, 255, 0.4)",
+                        borderRadius: "10px",
+                        border: "1px solid #009682",
+                        marginBottom: "5px"
+                      }}
+                      key={index}
+                    >
+                      <ThumbnailExchange
+                        exchanged="refused"
+                        name={exchange.annonce_name}
+                        id_swap={exchange.swap_id}
+                        pictures={[
+                          {
+                            main_picture: 1,
+                            url_picture: exchange.annonce_picture
+                          }
+                        ]}
+                      />
+                    </Grid>
+                  ))
+                ) : (
+                  <p>Pas d'échanges refusés</p>
+                )}
               </Grid>
             </SwipeableViews>
           </div>

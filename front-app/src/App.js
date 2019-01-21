@@ -31,8 +31,8 @@ class App extends Component {
         <NavBarContainer />
         <div
           style={{
-            padding: "0px",
-            marginTop: "90px"
+            padding: "5px",
+            marginTop: "80px"
           }}
         >
           <Switch>

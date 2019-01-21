@@ -60,7 +60,8 @@ const styles = {
 
 class ButtonAppBar extends Component {
   state = {
-    open: false
+    open: false,
+    messageNotRead: 0
   };
 
   toggleDrawer = open => () => {
@@ -80,7 +81,6 @@ class ButtonAppBar extends Component {
     this.props.setUserInformation({});
     this.props.history.push("/");
   };
-
   componentDidMount() {
     if (isConnected() && !this.props.user.id) {
       axios
@@ -106,6 +106,20 @@ class ButtonAppBar extends Component {
           this.props.setUserArticles(results.data.response);
         });
     }
+    // A passer avec socket IO pour le temps réel
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/notifications/messages_not_read/`,
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        this.setState({ messageNotRead: results.data.response });
+      });
   }
   render() {
     const { classes } = this.props;
@@ -121,7 +135,36 @@ class ButtonAppBar extends Component {
           path: "/ajouter-un-article",
           icon: <AddCartIcon />
         },
-        { id: 20, name: "Messages", path: "/messagerie", icon: <MailIcon /> },
+        {
+          id: 20,
+          name: "Messages",
+          path: "/messagerie",
+          icon: this.state.messageNotRead ? (
+            <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  right: -5,
+                  top: -5,
+                  width: 15,
+                  height: 15,
+                  borderRadius: "50%",
+                  backgroundColor: "red",
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  paddingTop: 2,
+                  fontSize: 12
+                }}
+              >
+                {this.state.messageNotRead}
+              </div>
+              <MailIcon />
+            </div>
+          ) : (
+            <MailIcon />
+          )
+        },
         {
           id: 25,
           name: "Mes Echanges",
@@ -215,7 +258,30 @@ class ButtonAppBar extends Component {
               aria-label="Menu"
               onClick={this.toggleDrawer(true)}
             >
-              <MenuIcon style={{ fontSize: "40px" }} />
+              {this.state.messageNotRead ? (
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      right: -5,
+                      top: -5,
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      backgroundColor: "red",
+                      color: "white",
+                      fontWeight: "bold",
+                      paddingTop: 2,
+                      fontSize: 15
+                    }}
+                  >
+                    {this.state.messageNotRead}
+                  </div>
+                  <MenuIcon style={{ fontSize: "40px" }} />
+                </div>
+              ) : (
+                <MenuIcon style={{ fontSize: "40px" }} />
+              )}
             </IconButton>
             <div style={{ height: "60px", paddingTop: 5, margin: "0 auto" }}>
               <img src={logo} alt="Logo" className={classes.logo} />
