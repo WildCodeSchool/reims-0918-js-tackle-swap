@@ -65,8 +65,32 @@ class ListArticleToExchange extends Component {
           if (results.data.type === "error") {
             this.props.setFlashMessage(results.data.response.flashMessage);
           } else if (results.data.type === "success") {
-            this.props.setFlashMessage(results.data.response.flashMessage);
-            this.props.history.push("/mes-echanges");
+            const flashMessage = results.data.response.flashMessage;
+            axios
+              .post(
+                `${
+                  process.env.REACT_APP_URL_API
+                }/sendMessages/propositionExchange/`,
+                { id_article: this.props.match.params.id_article },
+                {
+                  headers: {
+                    accept: "application/json",
+                    authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+                  }
+                }
+              )
+              .then(results => {
+                if (results.data.type === "error") {
+                  this.props.setFlashMessage(
+                    results.data.response.flashMessage
+                  );
+                } else if (results.data.type === "success") {
+                  this.props.setFlashMessage(flashMessage);
+                  this.props.history.push(
+                    `/conversation-${results.data.response.room}`
+                  );
+                }
+              });
           }
         });
     }
@@ -135,7 +159,6 @@ class ListArticleToExchange extends Component {
   }
   render() {
     const { classes } = this.props;
-    console.log("article", this.props.match.params.id_article);
     return (
       <Grid container alignItems="center" direction="column">
         {this.state.myArticles.length > 0 ? (

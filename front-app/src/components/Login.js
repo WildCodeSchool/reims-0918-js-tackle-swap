@@ -21,21 +21,37 @@ const styles = theme => ({
 });
 
 const Login = props => {
-  const { handleSubmit, setFlashMessage, setUserInformation } = props;
+  const {
+    handleSubmit,
+    setFlashMessage,
+    setUserInformation,
+    setUserArticles
+  } = props;
 
   const submit = values =>
     axios
       .post(`${process.env.REACT_APP_URL_API}/auth/login`, values)
       .then(results => {
-        console.log("login");
         ls.set("jwt-tackle-swap", results.data.token);
         setFlashMessage(results.data.flashMessage);
         setUserInformation(results.data.user);
-        props.history.push("/");
+        axios
+          .get(`${process.env.REACT_APP_URL_API}/user_articles`, {
+            headers: {
+              Accept: "application/json",
+              authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+            }
+          })
+          .then(results => {
+            setUserArticles(results.data.response);
+            props.history.goBack();
+            return;
+          });
       })
       .catch(result => console.log("response ERROR:", result));
 
   const { classes } = props;
+  console.log(props.history);
   return (
     <Grid container>
       <Grid item xs={12}>

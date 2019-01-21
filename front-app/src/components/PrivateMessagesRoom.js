@@ -17,6 +17,7 @@ import ls from "local-storage";
 
 import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
+import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
 
 export class PrivateMessagesRoom extends Component {
@@ -44,6 +45,7 @@ export class PrivateMessagesRoom extends Component {
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
     if (this._isMounted) {
+      console.log(this.state.roomConnected);
       this.socket.emit("sendPrivateMessage", {
         sender: this.props.user.id,
         recipient: recipient,
@@ -60,6 +62,18 @@ export class PrivateMessagesRoom extends Component {
   };
   addToRoom = message => {
     this.setState({ room: [...this.state.room, ...message] });
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
+        { room: this.state.roomConnected.roomName },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => console.log(results));
   };
   componentDidUpdate() {
     const chatScroll = document.getElementById("chatBox");
@@ -159,12 +173,22 @@ export class PrivateMessagesRoom extends Component {
           <Paper>
             <div style={classes.main_private_messages}>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 235px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >
                 {this.state.room.map((message, index, array) =>
-                  message.id_sender === this.props.user.id ? (
+                  message.information ? (
+                    message.id_sender !== this.props.user.id ? (
+                      <div key={index} className={classes.containerInformation}>
+                        <p className={`${classes.information} hyphens`}>
+                          {parseMessage(message.message)}
+                        </p>
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : message.id_sender === this.props.user.id ? (
                     <div key={index} className={classes.containerMessage}>
                       <p className={`${classes.myMessage} hyphens`}>
                         {message.message}
@@ -176,7 +200,8 @@ export class PrivateMessagesRoom extends Component {
                       className={classes.containerMessageReceived}
                     >
                       {index > 0 ? (
-                        array[index - 1].id_sender !== message.id_sender && (
+                        (array[index - 1].id_sender !== message.id_sender ||
+                          array[index - 1].information === 1) && (
                           <p className={classes.nicknameMessageReceived}>
                             {message.sender} :
                           </p>
@@ -250,11 +275,24 @@ const styles = createStyles({
     flexDirection: "column",
     margin: "5px 10px"
   },
+  containerInformation: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: "5px 10px"
+  },
   myMessage: {
     color: "#e6f7ff",
     borderRadius: "20px 20px 0 20px",
     backgroundColor: "#009682",
     maxWidth: "45%",
+    padding: 10,
+    margin: 0
+  },
+  information: {
+    borderRadius: "20px",
+    backgroundColor: "#00cccc",
+    textAlign: "center",
     padding: 10,
     margin: 0
   },

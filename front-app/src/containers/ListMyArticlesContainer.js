@@ -1,20 +1,17 @@
 import { connect } from "react-redux";
-import NavBar from "../components/Navbar/NavBar";
+import ListMyArticles from "../components/MyArticles/ListMyArticles";
 import {
   makeShowFlashMessageAction,
-  makeUserProfileInformationReceivedAction,
   makeSetUserArticlesAction
 } from "../actions/actions";
 
 const mapStateToProps = state => ({
-  user: state.user
+  userArticles: state.userArticles
 });
 
 const mapDispatchToProps = dispatch => ({
   setFlashMessage: responseApi =>
     dispatch(makeShowFlashMessageAction(responseApi)),
-  setUserInformation: responseApi =>
-    dispatch(makeUserProfileInformationReceivedAction(responseApi)),
   setUserArticles: responseApi =>
     dispatch(makeSetUserArticlesAction(responseApi))
 });
@@ -22,4 +19,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavBar);
+)(ListMyArticles);

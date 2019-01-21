@@ -8,6 +8,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import SearchArticles from "./SearchArticles";
+import isConnected from "../functions/isConnected";
 
 class ListArticles extends Component {
   constructor(props) {
@@ -84,11 +85,14 @@ class ListArticles extends Component {
     );
     return (
       <Fragment>
-        <WelcomeBanner />
-        <SearchArticles
-          search={search}
-          handleChangeSearch={this.handleChangeSearch.bind(this)}
-        />
+        <div style={{ margin: "-5px" }}>
+          {!isConnected() && <WelcomeBanner />}
+
+          <SearchArticles
+            search={search}
+            handleChangeSearch={this.handleChangeSearch.bind(this)}
+          />
+        </div>
         <div style={{ padding: "10px" }}>
           {search.length > 0 ? (
             <InfiniteScroll

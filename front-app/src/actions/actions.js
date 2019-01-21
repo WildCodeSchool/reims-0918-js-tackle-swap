@@ -8,7 +8,8 @@ import {
   USER_PROFIL_RECEIVED,
   SEARCH_ARTICLES,
   RECEIVED_SEARCH_ARTICLES,
-  RECEIVED_NEW_SEARCH_ARTICLES
+  RECEIVED_NEW_SEARCH_ARTICLES,
+  SET_USER_ARTICLES
 } from "./actionTypes";
 
 export const makeArticlesReceivedAction = responseApi => ({
@@ -53,7 +54,13 @@ export const makeSearchReceivedAction = responseApi => ({
   type: RECEIVED_SEARCH_ARTICLES,
   responseApi
 });
+
 export const makeNewSearchReceivedAction = responseApi => ({
   type: RECEIVED_NEW_SEARCH_ARTICLES,
   responseApi
+});
+
+export const makeSetUserArticlesAction = userArticles => ({
+  type: SET_USER_ARTICLES,
+  userArticles
 });

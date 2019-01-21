@@ -63,7 +63,7 @@ exports.up = function(db, callback) {
       "jaune",
       "5",
       true,
-      2
+      1
     ],
     callback
   );

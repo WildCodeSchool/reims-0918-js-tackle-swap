@@ -13,7 +13,7 @@ function InteractionsArticleDetails(props) {
   const { classes, onlineArticle, online } = props;
   const idArticle = props.id;
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <Button
         variant="contained"
         style={{ border: "2px solid #009682", color: "white" }}

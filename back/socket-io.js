@@ -88,6 +88,7 @@ const socketIo = (io, app) => {
     // Defined room to send and received message
     let currentRoom = {};
     socket.on("room", async connectedToRoom => {
+      console.log("room", connectedToRoom);
       roomName = `${connectedToRoom.id_article}-${connectedToRoom.id_owner}-${
         connectedToRoom.id_user
       }`;
@@ -125,7 +126,8 @@ const socketIo = (io, app) => {
             ...message,
             id_sender: message.sender,
             sender: currentRoom.users[message.sender],
-            recipient: currentRoom.users[message.recipient]
+            recipient: currentRoom.users[message.recipient],
+            id_message: insertMessage.results.insertId
           }
         ]
       };

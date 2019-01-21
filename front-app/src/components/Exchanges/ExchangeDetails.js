@@ -1,13 +1,9 @@
 import React, { Component, Fragment } from "react";
-import Button from "@material-ui/core/Button";
+import { Button, Grid } from "@material-ui/core";
 import ThumbnailMyExchange from "./ThumbnailMyExchange";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ls from "local-storage";
-
-const goBack = props => {
-  props.history.goBack();
-};
 
 class ExchangeDetails extends Component {
   state = {
@@ -41,7 +37,102 @@ class ExchangeDetails extends Component {
   }
 
   acceptTheProposition() {
-    console.log("I agree with this proposition");
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/swap/accept_exchange`,
+        {
+          idAnnonce: this.state.swapDetails.annonce.id,
+          idOffer: this.state.swapDetails.offer.id
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        if (results.data.type === "error") {
+          this.props.setFlashMessage(results.data.response.flashMessage);
+        } else if (results.data.type === "success") {
+          const flashMessage = results.data.response.flashMessage;
+          axios
+            .post(
+              `${process.env.REACT_APP_URL_API}/sendMessages/accept_exchange/`,
+              {
+                id_article_annonce: this.state.swapDetails.annonce.id,
+                id_owner_offer: this.state.swapDetails.offer.owner
+              },
+              {
+                headers: {
+                  accept: "application/json",
+                  authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+                }
+              }
+            )
+            .then(results => {
+              if (results.data.type === "error") {
+                this.props.setFlashMessage(results.data.response.flashMessage);
+              } else if (results.data.type === "success") {
+                this.props.setFlashMessage(flashMessage);
+                this.props.history.push(
+                  `/conversation-${results.data.response.room}`
+                );
+              }
+            });
+        }
+      });
+  }
+
+  refuseTheProposition() {
+    axios
+      .put(
+        `${process.env.REACT_APP_URL_API}/swap/refuse_exchange/`,
+        {
+          idAnnonce: this.state.swapDetails.annonce.id,
+          idOffer: this.state.swapDetails.offer.id
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        if (results.data.type === "error") {
+          this.props.setFlashMessage(results.data.response.flashMessage);
+        } else if (results.data.type === "success") {
+          const flashMessage = results.data.response.flashMessage;
+          axios
+            .post(
+              `${process.env.REACT_APP_URL_API}/sendMessages/refuse_exchange/`,
+              {
+                id_article_annonce: this.state.swapDetails.annonce.id,
+                id_owner_offer: this.state.swapDetails.offer.owner
+              },
+              {
+                headers: {
+                  accept: "application/json",
+                  authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+                }
+              }
+            )
+            .then(results => {
+              if (results.data.type === "error") {
+                this.props.setFlashMessage(results.data.response.flashMessage);
+              } else if (results.data.type === "success") {
+                this.props.setFlashMessage(flashMessage);
+                this.props.history.push(
+                  `/conversation-${results.data.response.room}`
+                );
+              }
+            });
+        }
+      });
+  }
+  goExchanges() {
+    this.props.history.push("/mes-echanges/");
   }
 
   render() {
@@ -88,6 +179,7 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.annonce.picture}
                       name={this.state.swapDetails.annonce.name}
+                      id={this.state.swapDetails.annonce.id}
                     />
                   </div>
                   <hr style={{ marginTop: "30px" }} />
@@ -105,39 +197,8 @@ class ExchangeDetails extends Component {
                     <ThumbnailMyExchange
                       picture={this.state.swapDetails.offer.picture}
                       name={this.state.swapDetails.offer.name}
+                      id={this.state.swapDetails.offer.id}
                     />
-                  </div>
-                  <div
-                    style={{ position: "fixed", bottom: "15px", width: "97%" }}
-                  >
-                    <div style={{ padding: "5px" }}>
-                      <Button
-                        onClick={() => this.goToChat()}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "1px solid #009682",
-                          display: "block",
-                          color: "white",
-                          margin: "0 auto",
-                          width: "320px"
-                        }}
-                      >
-                        Aller à la conversation
-                      </Button>
-                    </div>
-                    <Button
-                      onClick={() => goBack(this.props)}
-                      style={{
-                        backgroundColor: "#009682",
-                        border: "1px solid #009682",
-                        display: "block",
-                        color: "white",
-                        margin: "0 auto",
-                        width: "320px"
-                      }}
-                    >
-                      Revenir aux échanges
-                    </Button>
                   </div>
                 </Fragment>
               </div>
@@ -181,6 +242,7 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.annonce.picture}
                         name={this.state.swapDetails.annonce.name}
+                        id={this.state.swapDetails.annonce.id}
                       />
                     </div>
                     <div>
@@ -197,59 +259,102 @@ class ExchangeDetails extends Component {
                       <ThumbnailMyExchange
                         picture={this.state.swapDetails.offer.picture}
                         name={this.state.swapDetails.offer.name}
+                        id={this.state.swapDetails.offer.id}
                       />
-                    </div>
-                    <div
-                      style={{
-                        position: "fixed",
-                        bottom: "10px",
-                        width: "97%"
-                      }}
-                    >
-                      <Button
-                        onClick={() => this.acceptTheProposition()}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          height: "50px"
-                        }}
-                      >
-                        Accepter cette proposition
-                      </Button>
-                      <Button
-                        onClick={() => this.goToChat()}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          height: "50px",
-                          marginTop: "5px"
-                        }}
-                      >
-                        Aller à la conversation
-                      </Button>
-                      <Button
-                        onClick={() => goBack(this.props)}
-                        style={{
-                          backgroundColor: "#009682",
-                          border: "0.5px solid #009682",
-                          color: "white",
-                          width: "100%",
-                          marginTop: "5px",
-                          height: "50px"
-                        }}
-                      >
-                        Revenir aux échanges
-                      </Button>
                     </div>
                   </Fragment>
                 )}
               </div>
             </Fragment>
           ))}
+        <div style={{ position: "fixed", bottom: "15px", width: "97%" }}>
+          <Grid
+            container
+            style={{
+              position: "fixed",
+              bottom: "10px",
+              width: "97%"
+            }}
+          >
+            <Grid container justify="space-around">
+              {this.state.swapDetails.swap &&
+                !this.state.swapDetails.swap.accepted &&
+                !this.state.swapDetails.swap.refused &&
+                this.state.swapDetails.annonce.owner === this.props.user.id && (
+                  <>
+                    <Button
+                      onClick={() => this.acceptTheProposition()}
+                      style={{
+                        backgroundColor: "#009682",
+                        border: "0.5px solid #009682",
+                        color: "white",
+                        width: "49%",
+                        height: "50px",
+                        paddingTop: "3px"
+                      }}
+                    >
+                      Accepter cette proposition
+                    </Button>
+                    <Button
+                      onClick={() => this.refuseTheProposition()}
+                      style={{
+                        backgroundColor: "#009682",
+                        border: "0.5px solid #009682",
+                        color: "white",
+                        width: "49%",
+                        height: "50px",
+                        paddingTop: "3px"
+                      }}
+                    >
+                      Refuser cette proposition
+                    </Button>
+                  </>
+                )}
+              {this.state.swapDetails.swap &&
+                (this.state.swapDetails.swap.accepted === 1 &&
+                  (this.state.swapDetails.annonce.owner ===
+                  this.props.user.id ? (
+                    <p>Vous avez accepté l'échange</p>
+                  ) : (
+                    <p>Le propriétaire du leurre a accepté l'échange</p>
+                  )))}
+              {this.state.swapDetails.swap &&
+                (this.state.swapDetails.swap.refused === 1 &&
+                  (this.state.swapDetails.annonce.owner ===
+                  this.props.user.id ? (
+                    <p>Vous avez refusé l'échange</p>
+                  ) : (
+                    <p>Le propriétaire du leurre a refusé l'échange</p>
+                  )))}
+            </Grid>
+            <Button
+              onClick={() => this.goToChat()}
+              style={{
+                backgroundColor: "#009682",
+                border: "0.5px solid #009682",
+                color: "white",
+                width: "100%",
+                height: "50px",
+                marginTop: "5px"
+              }}
+            >
+              Aller à la conversation
+            </Button>
+            <Button
+              onClick={() => this.goExchanges()}
+              style={{
+                backgroundColor: "#009682",
+                border: "0.5px solid #009682",
+                color: "white",
+                width: "100%",
+                marginTop: "5px",
+                height: "50px"
+              }}
+            >
+              Revenir aux échanges
+            </Button>
+          </Grid>
+        </div>
       </div>
     );
   }
