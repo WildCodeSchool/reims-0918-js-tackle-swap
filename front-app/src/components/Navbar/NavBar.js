@@ -81,21 +81,6 @@ class ButtonAppBar extends Component {
     this.props.setUserInformation({});
     this.props.history.push("/");
   };
-  componentDidUpdate() {
-    axios
-      .get(
-        `${process.env.REACT_APP_URL_API}/notifications/messages_not_read/`,
-        {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
-        }
-      )
-      .then(results => {
-        this.setState({ messageNotRead: results.data.response });
-      });
-  }
   componentDidMount() {
     if (isConnected() && !this.props.user.id) {
       axios
@@ -121,6 +106,20 @@ class ButtonAppBar extends Component {
           this.props.setUserArticles(results.data.response);
         });
     }
+    // A passer avec socket IO pour le temps réel
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/notifications/messages_not_read/`,
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results => {
+        this.setState({ messageNotRead: results.data.response });
+      });
   }
   render() {
     const { classes } = this.props;
