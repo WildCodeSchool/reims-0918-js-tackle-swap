@@ -106,70 +106,100 @@ class ListMyArticles extends Component {
                 margin: "5px 0"
               }}
             >
-              <Paper>
-                <Grid
-                  container
-                  style={{
-                    padding: "10px",
-                    backgroundColor: "rgba(230, 247, 255, 0.8)",
-                    borderRadius: "4px",
-                    border: "1px solid #009682"
-                  }}
-                >
-                  <Grid item xs={12}>
-                    <p style={{ margin: "0", paddingBottom: "10px" }}>
-                      Status de l'article :{" "}
-                      {article.online ? (
-                        <span style={{ color: "green" }}>
-                          <DoneIcon />
-                          {"  "} En ligne
-                        </span>
-                      ) : (
-                        <span style={{ color: "red" }}>
-                          <CloseIcon />
-                          {"  "} Hors ligne
-                        </span>
-                      )}
-                    </p>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={4}
+              <Grid
+                container
+                style={{
+                  padding: "10px",
+                  backgroundColor: "rgba(230, 247, 255, 0.8)",
+                  borderRadius: "4px",
+                  border: "1px solid rgb(0, 150, 130)"
+                }}
+              >
+                <Grid item xs={12}>
+                  <p
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center"
+                      margin: "0",
+                      paddingBottom: "10px",
+                      color: "#009682",
+                      paddingTop: "8px",
+                      fontSize: "20px"
                     }}
                   >
-                    <img
-                      src={`${process.env.REACT_APP_URL_API}${
-                        article.pictures[0].url_picture
-                      }`}
-                      alt={`${process.env.REACT_APP_URL_API}${
-                        article.pictures[0].url_picture
-                      }`}
-                      style={{
-                        maxWidth: "95%",
-                        maxHeight: "95%"
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
-                          {article.name}
-                        </p>
-                      </Grid>
-                      <Grid item xs={12} style={{ textAlign: "center" }}>
-                        <Button onClick={() => this.goToPreview(article.id)}>
-                          Modifier mon article
-                        </Button>
-                      </Grid>
+                    Status de l'article :{" "}
+                    {article.online ? (
+                      <span style={{ color: "green" }}>
+                        <DoneIcon />
+                        {"  "} En ligne
+                      </span>
+                    ) : (
+                      <span style={{ color: "red" }}>
+                        <CloseIcon />
+                        {"  "} Hors ligne
+                      </span>
+                    )}
+                  </p>
+                  <hr
+                    style={{
+                      border: "0.5px solid #009682"
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={4}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center"
+                  }}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_URL_API}${
+                      article.pictures[0].url_picture
+                    }`}
+                    alt={`${process.env.REACT_APP_URL_API}${
+                      article.pictures[0].url_picture
+                    }`}
+                    style={{
+                      maxWidth: "95%",
+                      maxHeight: "95%"
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={8}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <p
+                        style={{
+                          paddingLeft: "40px",
+                          fontWeight: "bold",
+                          color: "#009682",
+                          paddingTop: "8px",
+                          fontSize: "20px"
+                        }}
+                      >
+                        {article.name}
+                      </p>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      style={{ textAlign: "center", paddingLeft: "20px" }}
+                    >
+                      <Button
+                        style={{
+                          backgroundColor: "#009682",
+                          color: "#e6f7ff",
+                          border: "0.5px solid #009682"
+                        }}
+                        onClick={() => this.goToPreview(article.id)}
+                      >
+                        Modifier mon article
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Paper>
+              </Grid>
             </Grid>
           ))}
         </Grid>

@@ -17,9 +17,22 @@ const AddArticleSecondPage = props => {
   return (
     <Fragment>
       <div>
-        <form style={{ padding: "20px" }}>
+        <p
+          style={{
+            color: "rgb(0, 204, 204)",
+            fontSize: "1.2em",
+            margin: "0px",
+            padding: "15px",
+            textAlign: "center",
+            fontWeight: "bold"
+          }}
+        >
+          Ajouter Une photo:{" "}
+        </p>
+        <form style={{ padding: "15px", textAlign: "center" }}>
           {picturesUploaded.length < 3 && (
             <input
+              className="picture"
               type="file"
               name="picture"
               id="picture"
@@ -27,7 +40,6 @@ const AddArticleSecondPage = props => {
             />
           )}
         </form>
-
         {picturesUploaded.length > 0 && (
           <Grid container>
             {picturesUploaded.map((pictureUploaded, index) => (
@@ -80,7 +92,7 @@ const AddArticleSecondPage = props => {
         )}
       </div>
       <div style={{ padding: "20px" }}>
-        <button
+        <Button
           style={{
             backgroundColor: "#009682",
             border: "1px solid #009682",
@@ -92,7 +104,7 @@ const AddArticleSecondPage = props => {
           onClick={() => goToPreview(idArticle)}
         >
           Prévisualiser mon annonce
-        </button>
+        </Button>
       </div>
     </Fragment>
   );
