@@ -151,7 +151,6 @@ class ButtonAppBar extends Component {
                   this.setState({ messageNotRead: results.data.response });
                 });
             }
-            console.log("NOT READ", messageNotRead);
           }
         }
       });

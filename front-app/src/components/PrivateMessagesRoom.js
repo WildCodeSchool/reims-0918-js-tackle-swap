@@ -44,7 +44,6 @@ export class PrivateMessagesRoom extends Component {
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
     if (this._isMounted) {
-      console.log(this.state.roomConnected);
       this.socket.emit("sendPrivateMessage", {
         sender: this.props.user.id,
         recipient: recipient,
@@ -61,18 +60,16 @@ export class PrivateMessagesRoom extends Component {
   };
   addToRoom = message => {
     this.setState({ room: [...this.state.room, ...message] });
-    axios
-      .put(
-        `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
-        { room: this.state.roomConnected.roomName },
-        {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
+    axios.put(
+      `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
+      { room: this.state.roomConnected.roomName },
+      {
+        headers: {
+          Accept: "application/json",
+          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
         }
-      )
-      .then(results => console.log(results));
+      }
+    );
   };
   componentDidUpdate() {
     const chatScroll = document.getElementById("chatBox");
@@ -83,8 +80,6 @@ export class PrivateMessagesRoom extends Component {
   }
   async componentDidMount() {
     this._isMounted = true;
-    console.log(this.socket);
-    console.log("connected");
     if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
       if (this._isMounted) {
         this.props.setFlashMessage({
@@ -125,7 +120,7 @@ export class PrivateMessagesRoom extends Component {
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    console.log("CONNECTED ROOM ", connectedToRoom);
+
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
       this.setState({ roomConnected });

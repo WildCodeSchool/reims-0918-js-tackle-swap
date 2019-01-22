@@ -8,7 +8,7 @@ export class SocketProvider extends Component {
     return (
       <SocketContext.Provider
         value={{
-          socket: io.connect(`${process.env.REACT_APP_URL_API}/kawacke`)
+          socket: io.connect(`${process.env.REACT_APP_URL_API}`)
         }}
       >
         {this.props.children}
