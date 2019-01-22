@@ -193,7 +193,7 @@ class ListExchanges extends Component {
                         style={{
                           width: "100%",
                           backgroundColor: "rgba(255, 255, 255, 0.9)",
-                          borderRadius: "10px",
+                          borderRadius: "4px",
                           border: "1px solid #009682",
                           marginBottom: "5px"
                         }}

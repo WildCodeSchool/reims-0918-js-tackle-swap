@@ -68,7 +68,7 @@ export class PrivateMessagesDashboard extends Component {
                         alt={`${process.env.REACT_APP_URL_API}${
                           room.url_picture
                         }`}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", paddingTop: "20px" }}
                       />
                     </Grid>
                     <Grid item xs={8}>
