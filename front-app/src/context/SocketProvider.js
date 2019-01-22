@@ -2,15 +2,13 @@ import React, { Component } from "react";
 import SocketContext from "./SocketContext";
 
 import io from "socket.io-client";
-//const socket = io();
+
 export class SocketProvider extends Component {
-  state = { message: "test Socket" };
   render() {
     return (
       <SocketContext.Provider
         value={{
-          state: this.state
-          //socket
+          socket: io.connect(`${process.env.REACT_APP_URL_API}/kawacke`)
         }}
       >
         {this.props.children}

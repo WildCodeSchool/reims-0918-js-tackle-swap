@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import PrivateMessagesRoom from "../components/PrivateMessagesRoom";
+import PrivateMessagesRoomContext from "../components/PrivateMessagesRoomContext";
 import {
   makeUserProfileInformationReceivedAction,
   makeShowFlashMessageAction
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PrivateMessagesRoom);
+)(PrivateMessagesRoomContext);

@@ -82,7 +82,7 @@ const socketIo = (io, app) => {
     }
   );
 
-  io.on("connection", socket => {
+  io.of("/kawacke").on("connection", socket => {
     console.log("New user connected");
 
     // Defined room to send and received message
@@ -131,11 +131,11 @@ const socketIo = (io, app) => {
           }
         ]
       };
-      io.sockets
+      io.of("/kawacke")
         .in(currentRoom.roomName)
         .emit("receivedPrivateMessage", response);
+      io.of("/kawacke").emit("messageNotRead", true);
     });
-
     socket.on("login", async () => {
       const rawAllPrivateMessages = await bddQuery(
         `SELECT * FROM private_messages WHERE room = '${currentRoom.roomName}'`
@@ -159,9 +159,13 @@ const socketIo = (io, app) => {
         };
       }
 
-      io.to(socket.id).emit("receivedPrivateMessage", responseSocket);
+      io.of("/kawacke")
+        .to(socket.id)
+        .in(currentRoom.roomName)
+        .emit("receivedPrivateMessage", responseSocket);
+      io.of("/kawacke").emit("messageNotRead", true);
     });
-
+    io.of("/kawacke").emit("messageNotRead", true);
     socket.on("disconnect", () => {
       socket.disconnect();
       console.log("user disconnected");

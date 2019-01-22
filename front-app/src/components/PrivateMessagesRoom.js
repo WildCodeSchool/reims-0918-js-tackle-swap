@@ -11,7 +11,6 @@ import {
 import SendIcon from "@material-ui/icons/Send";
 import { withRouter } from "react-router-dom";
 
-import io from "socket.io-client";
 import axios from "axios";
 import ls from "local-storage";
 
@@ -19,7 +18,6 @@ import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
 import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
-import SocketContext from "../context/SocketContext";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -30,8 +28,8 @@ export class PrivateMessagesRoom extends Component {
       roomConnected: {}
     };
   }
+  socket = this.props.socket;
   _isMounted = false;
-  socket = null;
   submitMessage = e => {
     e.preventDefault();
 
@@ -82,55 +80,52 @@ export class PrivateMessagesRoom extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
-    this.socket = null;
   }
   async componentDidMount() {
     this._isMounted = true;
-
-    if (!this.socket) {
-      if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
-        if (this._isMounted) {
-          this.props.setFlashMessage({
-            type: "error",
-            message:
-              "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
-          });
-        }
-        return this.props.history.push("/");
-      }
-
-      if (isConnected() && !this.props.user.id) {
-        axios
-          .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-            headers: {
-              Accept: "application/json",
-              authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-            }
-          })
-          .then(results => {
-            if (this._isMounted) {
-              this.props.setUserInformation(results.data.response);
-              this.connectedToChat();
-            }
-          });
-      } else if (!isConnected()) {
+    console.log(this.socket);
+    console.log("connected");
+    if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
+      if (this._isMounted) {
         this.props.setFlashMessage({
           type: "error",
-          message: "Vous devez être connecté pour contacter un vendeur."
+          message:
+            "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
         });
-        return this.props.history.push("/se-connecter");
-      } else {
-        if (this._isMounted) {
-          this.connectedToChat();
-        }
+      }
+      return this.props.history.push("/");
+    }
+
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          if (this._isMounted) {
+            this.props.setUserInformation(results.data.response);
+            this.connectedToChat();
+          }
+        });
+    } else if (!isConnected()) {
+      this.props.setFlashMessage({
+        type: "error",
+        message: "Vous devez être connecté pour contacter un vendeur."
+      });
+      return this.props.history.push("/se-connecter");
+    } else {
+      if (this._isMounted) {
+        this.connectedToChat();
       }
     }
   }
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.socket = io.connect(`${process.env.REACT_APP_URL_API}`);
-
+    console.log("CONNECTED ROOM ", connectedToRoom);
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
       this.setState({ roomConnected });
@@ -224,9 +219,6 @@ export class PrivateMessagesRoom extends Component {
                 }}
               >
                 <Grid container justify="center">
-                  <SocketContext.Consumer>
-                    {context => <p>{context.state.message}</p>}
-                  </SocketContext.Consumer>
                   <Grid
                     item
                     xs={12}
