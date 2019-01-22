@@ -17,7 +17,7 @@ router.get(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
     const numberNotRead = countMessageNotReadRaw.results[0].count;
@@ -41,7 +41,7 @@ router.put(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
     return sendResponse(res, 200, "success", {

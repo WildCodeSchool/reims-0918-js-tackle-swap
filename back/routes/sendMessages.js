@@ -18,7 +18,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
     if (ownerArticleRaw.results.length === 0) {
@@ -33,7 +33,7 @@ router.post(
     const columnRequest =
       "message,room,sender,recipient,id_article,information";
     const requestSendMessageOffer = [
-      `Votre demande d'échange a bien été trasmise à ${
+      `Votre demande d'échange a bien été transmise à ${
         infoOwnerArticle.nickname
       }, propriétaire de l'article.`,
       roomMessage,
@@ -60,7 +60,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
 
@@ -84,7 +84,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
     if (ownerArticleRaw.results.length === 0) {
@@ -128,7 +128,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
 
@@ -152,7 +152,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
     if (ownerArticleRaw.results.length === 0) {
@@ -194,7 +194,7 @@ router.post(
       return sendResponse(res, 200, "error", {
         type: "error",
         message:
-          "Une erreur est survenu, si cela persiste merci de contacter l'administrateur."
+          "Une erreur est survenue, si cela persiste merci de contacter l'administrateur."
       });
     }
 

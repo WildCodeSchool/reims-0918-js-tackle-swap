@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Grid, Paper, Button } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { withStyles } from "@material-ui/core/styles";
-import SwipeableViews from "react-swipeable-views";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -48,7 +47,6 @@ class ListMyArticles extends Component {
       });
   }
   render() {
-    const { classes, theme } = this.props;
     const showResults = this.props.userArticles.filter(article =>
       this.state.display === "all"
         ? true
