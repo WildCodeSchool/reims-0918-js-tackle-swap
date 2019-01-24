@@ -137,19 +137,22 @@ class ExchangeDetails extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          align: "center"
+        }}
+      >
         {this.state.swapDetails.annonce &&
           (this.state.swapDetails.annonce.owner !== this.props.user.id ? (
             <Fragment>
               <h1
                 style={{
                   textAlign: "center",
-                  color: "black",
-                  width: "100%",
-                  margin: "5px 0 20px 0",
-                  padding: "5px 0 5px 0",
-                  height: "40px",
-                  borderRadius: "10px"
+                  color: "rgb(0, 150, 130)",
+                  fontSize: "1.5em",
+                  paddingTop: "15px",
+                  margin: "0"
                 }}
               >
                 Détails de l'échange
@@ -158,7 +161,6 @@ class ExchangeDetails extends Component {
                 style={{
                   padding: "10px 5px 10px 5px",
                   borderRadius: "10px",
-
                   height: "100%"
                 }}
               >
@@ -167,10 +169,9 @@ class ExchangeDetails extends Component {
                     <h2
                       style={{
                         textAlign: "center",
-                        color: "#212223",
-                        width: "100%",
-                        marginTop: "0",
-                        borderRadius: "10px"
+                        color: "rgba(0, 0, 0, 0.54)",
+                        fontSize: "1.2em",
+                        paddingTop: "2px"
                       }}
                     >
                       Article désiré
@@ -181,13 +182,14 @@ class ExchangeDetails extends Component {
                       id={this.state.swapDetails.annonce.id}
                     />
                   </div>
+                  <hr style={{ marginTop: "30px" }} />
                   <div>
                     <h2
                       style={{
                         textAlign: "center",
-                        color: "#212223",
-                        width: "100%",
-                        borderRadius: "10px"
+                        color: "rgba(0, 0, 0, 0.54)",
+                        fontSize: "1.2em",
+                        paddingTop: "12px"
                       }}
                     >
                       Votre proposition

@@ -5,7 +5,7 @@ import Picturebanner from "./../images/peche-coupe.jpg";
 class WelcomeBanner extends Component {
   render() {
     return (
-      <div style={{ backgroundColor: "#00cccc", height: "250px" }}>
+      <div style={{ backgroundColor: "#009682", height: "250px" }}>
         <img src={Picturebanner} alt="John" style={{ width: "100%" }} />
         <h4
           style={{

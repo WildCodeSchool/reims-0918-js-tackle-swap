@@ -3,13 +3,32 @@ import { Grid, Paper, Button } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { withStyles } from "@material-ui/core/styles";
+import SwipeableViews from "react-swipeable-views";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
 import axios from "axios";
 import ls from "local-storage";
 
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: 500
+  }
+});
+
 class ListMyArticles extends Component {
   state = {
-    display: "all"
+    display: "all",
+    value: 0
   };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   goToPreview(id) {
     this.props.history.push(`/previsualisation/${id}`);
   }
@@ -29,6 +48,7 @@ class ListMyArticles extends Component {
       });
   }
   render() {
+    const { classes, theme } = this.props;
     const showResults = this.props.userArticles.filter(article =>
       this.state.display === "all"
         ? true
@@ -42,19 +62,40 @@ class ListMyArticles extends Component {
           padding: "0 5px"
         }}
       >
-        <Grid container>
-          <Grid item xs={12}>
-            <Button onClick={() => this.handleChangeDisplay("all")}>
-              Tous
-            </Button>
-            <Button onClick={() => this.handleChangeDisplay("online")}>
-              En ligne
-            </Button>
-            <Button onClick={() => this.handleChangeDisplay("offline")}>
-              Hors Ligne
-            </Button>
-          </Grid>
-        </Grid>
+        <AppBar
+          position="static"
+          color="default"
+          style={{
+            borderRadius: "10px 10px 0 0",
+            boxShadow: "none",
+            backgroundColor: "transparent"
+          }}
+        >
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginBottom: "15px"
+            }}
+          >
+            <Tab label="Tous" onClick={() => this.handleChangeDisplay("all")} />
+
+            <Tab
+              label="En ligne"
+              onClick={() => this.handleChangeDisplay("online")}
+            />
+            <Tab
+              label="Hors ligne"
+              onClick={() => this.handleChangeDisplay("offline")}
+            />
+          </Tabs>
+        </AppBar>
+
         <Grid container>
           {showResults.map((article, index) => (
             <Grid
@@ -69,11 +110,14 @@ class ListMyArticles extends Component {
                 <Grid
                   container
                   style={{
-                    padding: "0 5px"
+                    padding: "10px",
+                    backgroundColor: "rgba(230, 247, 255, 0.8)",
+                    borderRadius: "4px",
+                    border: "1px solid #009682"
                   }}
                 >
                   <Grid item xs={12}>
-                    <p>
+                    <p style={{ margin: "0", paddingBottom: "10px" }}>
                       Status de l'article :{" "}
                       {article.online ? (
                         <span style={{ color: "green" }}>
@@ -134,4 +178,4 @@ class ListMyArticles extends Component {
   }
 }
 
-export default ListMyArticles;
+export default withStyles(styles, { withTheme: true })(ListMyArticles);

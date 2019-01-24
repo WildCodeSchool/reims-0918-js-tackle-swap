@@ -80,7 +80,17 @@ const AddArticleSecondPage = props => {
         )}
       </div>
       <div style={{ padding: "20px" }}>
-        <button onClick={() => goToPreview(idArticle)}>
+        <button
+          style={{
+            backgroundColor: "#009682",
+            border: "1px solid #009682",
+            display: "block",
+            color: "white",
+            margin: "0 auto",
+            width: "320px"
+          }}
+          onClick={() => goToPreview(idArticle)}
+        >
           Prévisualiser mon annonce
         </button>
       </div>
