@@ -177,7 +177,7 @@ class ButtonAppBar extends Component {
           path: "/mes-articles",
           icon: <AccountCircle />
         },
-        { id: 30, name: "Profil", path: "/profil", icon: <FaceIcon /> },
+        // { id: 30, name: "Profil", path: "/profil", icon: <FaceIcon /> }, A developper dans /components/UserProfil
         { id: 99, name: "Se déconnecter", path: "/", icon: <PowerOffIcon /> }
       ];
     } else {
