@@ -18,6 +18,8 @@ import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
 import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
+import ThumbnailMyExchange from "./Exchanges/ThumbnailMyExchange";
+import ThumbnailMyExchangeMessage from "./Exchanges/ThumbnailMyExchangeMessage";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -25,7 +27,9 @@ export class PrivateMessagesRoom extends Component {
     this.state = {
       message: "",
       room: [],
-      roomConnected: {}
+      roomConnected: {},
+      exchange: {},
+      swap_in_progress: []
     };
   }
   socket = this.props.socket;
@@ -116,11 +120,34 @@ export class PrivateMessagesRoom extends Component {
         this.connectedToChat();
       }
     }
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/article/${
+          this.props.match.params.id_article
+        }`
+      )
+      .then(results => this.setState({ exchange: results.data.response[0] }));
+
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/swap/in_progress_message/${
+          this.props.match.params.id_article
+        }/${this.props.match.params.id_user}`,
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results =>
+        this.setState({ swap_in_progress: results.data.response })
+      );
   }
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-
+    console.log(connectedToRoom);
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
       this.setState({ roomConnected });
@@ -143,6 +170,13 @@ export class PrivateMessagesRoom extends Component {
 
   render() {
     const { classes } = this.props;
+
+    if (this.state.exchange.pictures) {
+      const mainPicture = this.state.exchange.pictures.filter(
+        picture => picture.main_picture
+      )[0].url_picture;
+      const picture = mainPicture[0].url_picture;
+    }
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -161,10 +195,37 @@ export class PrivateMessagesRoom extends Component {
           </Button>
         </Grid>
         <Grid item xs={12}>
+          {console.log(this.state.swap_in_progress.length)}
+          {this.state.exchange.pictures &&
+            this.state.swap_in_progress.length < 1 && (
+              <ThumbnailMyExchange
+                id={this.props.match.params.id_article}
+                name={this.state.exchange.name}
+                picture={
+                  this.state.exchange.pictures.filter(
+                    picture => picture.main_picture
+                  )[0].url_picture
+                }
+              />
+            )}
+          {this.state.swap_in_progress.length > 0 && (
+            <ThumbnailMyExchangeMessage
+              id={this.props.match.params.id_article}
+              name={this.state.exchange.name}
+              picture={
+                this.state.exchange.pictures.filter(
+                  picture => picture.main_picture
+                )[0].url_picture
+              }
+              swap_in_progress={this.state.swap_in_progress}
+            />
+          )}
+        </Grid>
+        <Grid item xs={12}>
           <Paper>
             <div style={classes.main_private_messages}>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 330px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >

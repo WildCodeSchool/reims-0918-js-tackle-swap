@@ -134,7 +134,7 @@ app.get("/articles", async (req, res) => {
       : 1;
   const limit = defineLimit(pageCalled, numberArticlesPerPage);
   const rawResponseApi = await bddQuery(
-    `SELECT id, name FROM articles WHERE online = true ${
+    `SELECT id, name, description FROM articles WHERE online = true ${
       search
         ? `AND (name LIKE '%${search}%' OR description LIKE '%${search}%')`
         : ""
@@ -221,6 +221,72 @@ app.get("/article/:id/", async (req, res) => {
 
   const rawIsExist = await bddQuery(
     `SELECT COUNT(*) AS count FROM articles WHERE id = ${idArticle} AND online = true`
+  );
+
+  if (rawIsExist.err) {
+    addLog(rawIsExist.err, "error-bdd");
+    return sendResponse(res, 200, "error", {
+      flashMessage: {
+        message: "Une erreur est survenu avec la base de donnée.",
+        type: "error"
+      }
+    });
+  }
+  const isExist = rawIsExist.results[0].count;
+  if (!isExist) {
+    return sendResponse(res, 200, "error", {
+      flashMessage: {
+        message: "L'article demandé n'existe pas",
+        type: "error"
+      }
+    });
+  }
+
+  const rawArticleDetails = await bddQuery(
+    `SELECT a.*, u.email, u.nickname FROM articles AS a JOIN users AS u ON a.owner_id = u.id WHERE a.id = ${idArticle}`
+  );
+
+  if (rawArticleDetails.err) {
+    addLog(rawArticleDetails.err, "error-bdd");
+    return sendResponse(
+      res,
+      409,
+      "error",
+      "Erreur avec la base de donnée, veuillez contacter un administrateur"
+    );
+  }
+
+  const rawArticlePictures = await bddQuery(
+    `SELECT article_id, url_picture, main_picture FROM pictures_articles WHERE article_id = ${idArticle}`
+  );
+
+  const pictures = rawArticlePictures.results.reduce((acc, obj) => {
+    return [
+      ...acc,
+      { url_picture: obj.url_picture, main_picture: obj.main_picture }
+    ];
+  }, []);
+
+  let responseApi = rawArticleDetails.results;
+  responseApi[0].pictures =
+    pictures.length > 0
+      ? pictures
+      : [
+          {
+            url_picture: "/data/pictures_articles/logo_poisson.svg",
+            main_picture: 1
+          }
+        ];
+
+  return sendResponse(res, 200, "success", responseApi);
+});
+
+// Return Article Details, selected with his id
+app.get("/article_all_status/:id/", async (req, res) => {
+  const idArticle = [req.params.id];
+
+  const rawIsExist = await bddQuery(
+    `SELECT COUNT(*) AS count FROM articles WHERE id = ${idArticle}`
   );
 
   if (rawIsExist.err) {

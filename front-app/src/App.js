@@ -17,6 +17,7 @@ import ListArticlesToExchangesContainer from "./containers/ListArticlesToExchang
 import ExchangeDetailsContainer from "./containers/ExchangeDetailsContainer";
 import UserProfileContainer from "./containers/UserProfileContainer";
 import ListMyArticlesContainer from "./containers/ListMyArticlesContainer";
+import ArticleDetailsMessageContainer from "./containers/ArticleDetailsMessageContainer";
 
 class App extends Component {
   render() {
@@ -41,6 +42,11 @@ class App extends Component {
               exact
               path="/article/:id"
               component={ArticleDetailsContainer}
+            />
+            <Route
+              exact
+              path="/detail_article/:id"
+              component={ArticleDetailsMessageContainer}
             />
             <Route
               exact
