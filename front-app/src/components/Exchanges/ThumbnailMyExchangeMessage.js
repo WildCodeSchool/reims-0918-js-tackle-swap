@@ -17,11 +17,11 @@ const styles = theme => ({
   }
 });
 
-function ThumbnailMyExchange(props) {
+function ThumbnailMyExchangeMessage(props) {
   const { classes } = props;
 
-  const goToArticleDetails = id => {
-    props.history.push(`/detail_article/${id}`);
+  const goToExchangeDetails = id => {
+    props.history.push(`/details-echange-${id}`);
   };
 
   return (
@@ -65,12 +65,7 @@ function ThumbnailMyExchange(props) {
             }}
           >
             <Typography
-              style={{
-                color: "#009682",
-                textAlign: "center",
-                paddingTop: "8px",
-                fontSize: "22px"
-              }}
+              style={{ color: "#009682", paddingTop: "8px", fontSize: "22px" }}
             >
               {props.name}
             </Typography>
@@ -89,10 +84,12 @@ function ThumbnailMyExchange(props) {
           >
             <Button
               className={classes.button}
-              onClick={() => goToArticleDetails(props.id)}
+              onClick={() =>
+                goToExchangeDetails(props.swap_in_progress[0].id_swap)
+              }
               style={{ color: "white" }}
             >
-              Détails de l'article
+              Détails de l'échange
             </Button>
           </Grid>
         </Grid>
@@ -101,8 +98,8 @@ function ThumbnailMyExchange(props) {
   );
 }
 
-ThumbnailMyExchange.propTypes = {
+ThumbnailMyExchangeMessage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter(withStyles(styles)(ThumbnailMyExchange));
+export default withRouter(withStyles(styles)(ThumbnailMyExchangeMessage));

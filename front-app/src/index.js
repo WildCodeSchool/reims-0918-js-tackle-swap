@@ -14,6 +14,8 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"; // 
 import { MuiThemeProvider as V0MuiThemeProvider } from "material-ui";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 
+import SocketProvider from "./context/SocketProvider";
+
 const history = createBrowserHistory();
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -44,15 +46,17 @@ const themeV0 = getMuiTheme({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
-      <V0MuiThemeProvider muiTheme={themeV0}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </V0MuiThemeProvider>
-    </MuiThemeProvider>
-  </Provider>,
+  <SocketProvider>
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <V0MuiThemeProvider muiTheme={themeV0}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </V0MuiThemeProvider>
+      </MuiThemeProvider>
+    </Provider>
+  </SocketProvider>,
   document.getElementById("root")
 );
 // If you want your app to work offline and load faster, you can change

@@ -79,4 +79,30 @@ router.put(
   }
 );
 
+router.get(
+  "/in_progress_message/:id_article/:id_offer",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id_article = parseInt(req.params.id_article);
+    const id_offer = parseInt(req.params.id_offer);
+
+    const swapInProgressRaw = await bddQuery(
+      "SELECT s.id AS id_swap, s.*, a.* FROM swaps AS s JOIN articles AS a ON s.id_article_offer = a.id WHERE s.id_article_annonce = ? AND a.owner_id = ?",
+      [id_article, id_offer]
+    );
+
+    if (swapInProgressRaw.err) {
+      return sendResponse(res, 200, "error", {
+        flashMessage: {
+          message:
+            "Un problème est survenu durant la connection à la base de donnée.",
+          type: "error"
+        }
+      });
+    }
+
+    return sendResponse(res, 200, "success", swapInProgressRaw.results);
+  }
+);
+
 module.exports = router;

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import NavBar from "../components/Navbar/NavBar";
+import NavBarContext from "../components/Navbar/NavBarContext";
 import {
   makeShowFlashMessageAction,
   makeUserProfileInformationReceivedAction,
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavBar);
+)(NavBarContext);

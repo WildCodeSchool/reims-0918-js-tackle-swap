@@ -33,7 +33,7 @@ const styles = {
 };
 
 function ThumbnailArticle(props) {
-  const { classes, pictures, name, id } = props;
+  const { classes, pictures, name, description, id } = props;
   const mainPicture = pictures.filter(picture => picture.main_picture);
   const picture = mainPicture[0].url_picture;
   return (
@@ -55,22 +55,19 @@ function ThumbnailArticle(props) {
               >
                 {name}
               </Typography>
-              <Typography
+              <p
                 className={classes.textDescription}
-                variant="subtitle1"
-                component="p"
-              >
-                Trop beau leurre et bonne qualité...
-              </Typography>
-              <div
                 style={{
-                  textAlign: "right",
-                  color: "#009682",
-                  paddingRight: "0px"
+                  display: "block",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 15,
+                  lineHeight: "30px",
+                  maxHeight: "60px"
                 }}
               >
-                <i style={{ color: "#00cccc" }} className="far fa-heart" />
-              </div>
+                {description}
+              </p>
             </CardContent>
           </CardActionArea>
         </Card>

@@ -114,7 +114,6 @@ const socketIo = (io, app) => {
     });
 
     socket.on("sendPrivateMessage", async message => {
-      console.log("send", message);
       const insertMessage = await bddQuery(
         "INSERT INTO private_messages SET ?",
         [message]
@@ -131,11 +130,11 @@ const socketIo = (io, app) => {
           }
         ]
       };
-      io.sockets
-        .in(currentRoom.roomName)
+      io.in(currentRoom.roomName)
+        .to(socket.id)
         .emit("receivedPrivateMessage", response);
+      io.emit("messageNotRead", true);
     });
-
     socket.on("login", async () => {
       const rawAllPrivateMessages = await bddQuery(
         `SELECT * FROM private_messages WHERE room = '${currentRoom.roomName}'`
@@ -158,10 +157,9 @@ const socketIo = (io, app) => {
           }))
         };
       }
-
       io.to(socket.id).emit("receivedPrivateMessage", responseSocket);
+      io.emit("messageNotRead", true);
     });
-
     socket.on("disconnect", () => {
       socket.disconnect();
       console.log("user disconnected");

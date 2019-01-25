@@ -64,6 +64,8 @@ class ButtonAppBar extends Component {
     messageNotRead: 0
   };
 
+  _isMounted = false;
+  socket = this.props.socket;
   toggleDrawer = open => () => {
     this.setState({
       open
@@ -81,7 +83,12 @@ class ButtonAppBar extends Component {
     this.props.setUserInformation({});
     this.props.history.push("/");
   };
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   componentDidMount() {
+    this._isMounted = true;
     if (isConnected() && !this.props.user.id) {
       axios
         .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
@@ -106,20 +113,33 @@ class ButtonAppBar extends Component {
           this.props.setUserArticles(results.data.response);
         });
     }
-    // A passer avec socket IO pour le temps réel
-    axios
-      .get(
-        `${process.env.REACT_APP_URL_API}/notifications/messages_not_read/`,
-        {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+    if (isConnected()) {
+      this.socket.on("messageNotRead", messageNotRead => {
+        if (this._isMounted) {
+          if (messageNotRead.type === "error") {
+            console.log("STOP ERROR", messageNotRead.message);
+          } else {
+            if (messageNotRead) {
+              axios
+                .get(
+                  `${
+                    process.env.REACT_APP_URL_API
+                  }/notifications/messages_not_read/`,
+                  {
+                    headers: {
+                      Accept: "application/json",
+                      authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+                    }
+                  }
+                )
+                .then(results => {
+                  this.setState({ messageNotRead: results.data.response });
+                });
+            }
           }
         }
-      )
-      .then(results => {
-        this.setState({ messageNotRead: results.data.response });
       });
+    }
   }
   render() {
     const { classes } = this.props;

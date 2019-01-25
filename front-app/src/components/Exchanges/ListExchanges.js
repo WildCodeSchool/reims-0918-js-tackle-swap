@@ -265,8 +265,6 @@ class ListExchanges extends Component {
               index={this.state.value3}
               onChangeIndex={this.handleChangeIndex3}
             >
-              {/* Mettre en place l'affichage des echanges terminés */}
-
               <Grid container alignItems="center" direction="column">
                 {exchangesAccepted.length > 0 ? (
                   exchangesAccepted.map((exchange, index) => (

@@ -11,7 +11,6 @@ import {
 import SendIcon from "@material-ui/icons/Send";
 import { withRouter } from "react-router-dom";
 
-import io from "socket.io-client";
 import axios from "axios";
 import ls from "local-storage";
 
@@ -19,6 +18,8 @@ import isConnected from "../functions/isConnected";
 import isArticle from "../functions/isArticle";
 import parseMessage from "../functions/parseMessage";
 import "./hyphens.css";
+import ThumbnailMyExchange from "./Exchanges/ThumbnailMyExchange";
+import ThumbnailMyExchangeMessage from "./Exchanges/ThumbnailMyExchangeMessage";
 
 export class PrivateMessagesRoom extends Component {
   constructor(props) {
@@ -26,11 +27,13 @@ export class PrivateMessagesRoom extends Component {
     this.state = {
       message: "",
       room: [],
-      roomConnected: {}
+      roomConnected: {},
+      exchange: {},
+      swap_in_progress: []
     };
   }
+  socket = this.props.socket;
   _isMounted = false;
-  socket = null;
   submitMessage = e => {
     e.preventDefault();
 
@@ -45,7 +48,6 @@ export class PrivateMessagesRoom extends Component {
         : parseInt(this.state.roomConnected.roomName.split("-")[1]);
 
     if (this._isMounted) {
-      console.log(this.state.roomConnected);
       this.socket.emit("sendPrivateMessage", {
         sender: this.props.user.id,
         recipient: recipient,
@@ -62,18 +64,16 @@ export class PrivateMessagesRoom extends Component {
   };
   addToRoom = message => {
     this.setState({ room: [...this.state.room, ...message] });
-    axios
-      .put(
-        `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
-        { room: this.state.roomConnected.roomName },
-        {
-          headers: {
-            Accept: "application/json",
-            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-          }
+    axios.put(
+      `${process.env.REACT_APP_URL_API}/notifications/read_my_message`,
+      { room: this.state.roomConnected.roomName },
+      {
+        headers: {
+          Accept: "application/json",
+          authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
         }
-      )
-      .then(results => console.log(results));
+      }
+    );
   };
   componentDidUpdate() {
     const chatScroll = document.getElementById("chatBox");
@@ -81,55 +81,73 @@ export class PrivateMessagesRoom extends Component {
   }
   componentWillUnmount() {
     this._isMounted = false;
-    this.socket = null;
   }
   async componentDidMount() {
     this._isMounted = true;
-
-    if (!this.socket) {
-      if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
-        if (this._isMounted) {
-          this.props.setFlashMessage({
-            type: "error",
-            message:
-              "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
-          });
-        }
-        return this.props.history.push("/");
-      }
-
-      if (isConnected() && !this.props.user.id) {
-        axios
-          .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
-            headers: {
-              Accept: "application/json",
-              authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
-            }
-          })
-          .then(results => {
-            if (this._isMounted) {
-              this.props.setUserInformation(results.data.response);
-              this.connectedToChat();
-            }
-          });
-      } else if (!isConnected()) {
+    if (!(await isArticle(parseInt(this.props.match.params.id_article)))) {
+      if (this._isMounted) {
         this.props.setFlashMessage({
           type: "error",
-          message: "Vous devez être connecté pour contacter un vendeur."
+          message:
+            "L'article pour lequel vous souhaitez démarrer une conversation n'existe pas."
         });
-        return this.props.history.push("/se-connecter");
-      } else {
-        if (this._isMounted) {
-          this.connectedToChat();
-        }
+      }
+      return this.props.history.push("/");
+    }
+
+    if (isConnected() && !this.props.user.id) {
+      axios
+        .get(`${process.env.REACT_APP_URL_API}/personnal-informations`, {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        })
+        .then(results => {
+          if (this._isMounted) {
+            this.props.setUserInformation(results.data.response);
+            this.connectedToChat();
+          }
+        });
+    } else if (!isConnected()) {
+      this.props.setFlashMessage({
+        type: "error",
+        message: "Vous devez être connecté pour contacter un vendeur."
+      });
+      return this.props.history.push("/se-connecter");
+    } else {
+      if (this._isMounted) {
+        this.connectedToChat();
       }
     }
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/article/${
+          this.props.match.params.id_article
+        }`
+      )
+      .then(results => this.setState({ exchange: results.data.response[0] }));
+
+    axios
+      .get(
+        `${process.env.REACT_APP_URL_API}/swap/in_progress_message/${
+          this.props.match.params.id_article
+        }/${this.props.match.params.id_user}`,
+        {
+          headers: {
+            Accept: "application/json",
+            authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
+          }
+        }
+      )
+      .then(results =>
+        this.setState({ swap_in_progress: results.data.response })
+      );
   }
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    this.socket = io.connect(`${process.env.REACT_APP_URL_API}`);
-
+    console.log(connectedToRoom);
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
       this.setState({ roomConnected });
@@ -152,6 +170,13 @@ export class PrivateMessagesRoom extends Component {
 
   render() {
     const { classes } = this.props;
+
+    if (this.state.exchange.pictures) {
+      const mainPicture = this.state.exchange.pictures.filter(
+        picture => picture.main_picture
+      )[0].url_picture;
+      const picture = mainPicture[0].url_picture;
+    }
     return (
       <Grid container>
         <Grid item xs={12}>
@@ -170,10 +195,37 @@ export class PrivateMessagesRoom extends Component {
           </Button>
         </Grid>
         <Grid item xs={12}>
+          {console.log(this.state.swap_in_progress.length)}
+          {this.state.exchange.pictures &&
+            this.state.swap_in_progress.length < 1 && (
+              <ThumbnailMyExchange
+                id={this.props.match.params.id_article}
+                name={this.state.exchange.name}
+                picture={
+                  this.state.exchange.pictures.filter(
+                    picture => picture.main_picture
+                  )[0].url_picture
+                }
+              />
+            )}
+          {this.state.swap_in_progress.length > 0 && (
+            <ThumbnailMyExchangeMessage
+              id={this.props.match.params.id_article}
+              name={this.state.exchange.name}
+              picture={
+                this.state.exchange.pictures.filter(
+                  picture => picture.main_picture
+                )[0].url_picture
+              }
+              swap_in_progress={this.state.swap_in_progress}
+            />
+          )}
+        </Grid>
+        <Grid item xs={12}>
           <Paper>
             <div style={classes.main_private_messages}>
               <div
-                style={{ overflow: "scroll", height: "calc(100vh - 250px)" }}
+                style={{ overflow: "scroll", height: "calc(100vh - 330px)" }}
                 id="chatBox"
                 className={classes.chatBox}
               >
