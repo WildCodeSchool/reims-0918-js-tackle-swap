@@ -31,9 +31,11 @@ function ThumbnailExchange(props) {
         item
         xs={4}
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
+          width: "100%",
+          backgroundColor: "rgba(230, 247, 255, 0.8)",
+          borderRadius: "4px",
+          margin: "auto",
+          paddingLeft: "5px"
         }}
       >
         <img
@@ -57,7 +59,12 @@ function ThumbnailExchange(props) {
             }}
           >
             <Typography
-              style={{ color: "#009682", paddingTop: "8px", fontSize: "22px" }}
+              style={{
+                color: "#009682",
+                textAlign: "center",
+                paddingTop: "8px",
+                fontSize: "22px"
+              }}
             >
               {props.name}
             </Typography>
