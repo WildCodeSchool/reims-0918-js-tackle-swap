@@ -113,7 +113,7 @@ class ThumbnailArticleToExchange extends Component {
                     className={classes.button}
                     onClick={() => this.goToDetail(this.props.id)}
                   >
-                    Détail
+                    Détails
                   </Button>
                   {selectedArticle === this.props.id ? (
                     <Button className={classes.buttonSelected}>
