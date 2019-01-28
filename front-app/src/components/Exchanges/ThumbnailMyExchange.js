@@ -65,7 +65,12 @@ function ThumbnailMyExchange(props) {
             }}
           >
             <Typography
-              style={{ color: "#009682", paddingTop: "8px", fontSize: "22px" }}
+              style={{
+                color: "#009682",
+                textAlign: "center",
+                paddingTop: "8px",
+                fontSize: "22px"
+              }}
             >
               {props.name}
             </Typography>

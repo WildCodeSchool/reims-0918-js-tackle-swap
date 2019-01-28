@@ -140,7 +140,7 @@ class ListArticleToExchange extends Component {
                   if (isMyArticle.length > 0) {
                     this.props.setFlashMessage({
                       type: "warning",
-                      message: "Vous propriétaire de cet article."
+                      message: "Vous êtes propriétaire de cet article."
                     });
                     return this.props.history.goBack();
                   }

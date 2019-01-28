@@ -50,7 +50,7 @@ const DescriptionArticleDetails = ({
         <li>
           <div className={classes.divLeft}>
             <div className={classes.color}>Longueur:</div>
-            <div className={classes.divRight}>{article_length} mm</div>
+            <div className={classes.divRight}>{article_length} cm</div>
           </div>
         </li>
         <li>

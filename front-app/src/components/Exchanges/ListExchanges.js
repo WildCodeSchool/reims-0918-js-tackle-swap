@@ -192,8 +192,8 @@ class ListExchanges extends Component {
                         xs={12}
                         style={{
                           width: "100%",
-                          backgroundColor: "rgba(255, 255, 255, 0.4)",
-                          borderRadius: "10px",
+                          backgroundColor: "rgba(255, 255, 255, 0.8)",
+                          borderRadius: "4px",
                           border: "1px solid #009682",
                           marginBottom: "5px"
                         }}
@@ -217,8 +217,8 @@ class ListExchanges extends Component {
                         xs={12}
                         style={{
                           width: "100%",
-                          backgroundColor: "rgba(255, 255, 255, 0.4)",
-                          borderRadius: "10px",
+                          backgroundColor: "rgba(255, 255, 255, 0.8)",
+                          borderRadius: "4px",
                           border: "1px solid #009682",
                           marginBottom: "5px"
                         }}
@@ -273,8 +273,8 @@ class ListExchanges extends Component {
                       xs={12}
                       style={{
                         width: "100%",
-                        backgroundColor: "rgba(255, 255, 255, 0.4)",
-                        borderRadius: "10px",
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "4px",
                         border: "1px solid #009682",
                         marginBottom: "5px"
                       }}
@@ -294,7 +294,7 @@ class ListExchanges extends Component {
                     </Grid>
                   ))
                 ) : (
-                  <p>Pas d'échanges acceptés</p>
+                  <p>Pas d'échange accepté</p>
                 )}
               </Grid>
               <Grid container alignItems="center" direction="column">
@@ -305,8 +305,8 @@ class ListExchanges extends Component {
                       xs={12}
                       style={{
                         width: "100%",
-                        backgroundColor: "rgba(255, 255, 255, 0.4)",
-                        borderRadius: "10px",
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "4px",
                         border: "1px solid #009682",
                         marginBottom: "5px"
                       }}
@@ -326,7 +326,7 @@ class ListExchanges extends Component {
                     </Grid>
                   ))
                 ) : (
-                  <p>Pas d'échanges refusés</p>
+                  <p>Pas d'échange refusé</p>
                 )}
               </Grid>
             </SwipeableViews>

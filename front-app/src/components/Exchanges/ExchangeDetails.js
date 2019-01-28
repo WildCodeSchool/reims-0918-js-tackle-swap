@@ -208,12 +208,10 @@ class ExchangeDetails extends Component {
               <h1
                 style={{
                   textAlign: "center",
-                  color: "black",
-                  width: "100%",
-                  margin: "2px 0 10px 0",
-                  padding: "5px 0 5px 0",
-                  height: "40px",
-                  borderRadius: "10px"
+                  color: "rgb(0, 150, 130)",
+                  fontSize: "1.5em",
+                  paddingTop: "15px",
+                  margin: "0px"
                 }}
               >
                 Détails de l'échange
@@ -231,10 +229,9 @@ class ExchangeDetails extends Component {
                       <h2
                         style={{
                           textAlign: "center",
-                          color: "#212223",
-                          width: "100%",
-                          marginTop: "0",
-                          borderRadius: "10px"
+                          color: "rgba(0, 0, 0, 0.54)",
+                          fontSize: "1.2em",
+                          paddingTop: "2px"
                         }}
                       >
                         Votre article
@@ -245,13 +242,14 @@ class ExchangeDetails extends Component {
                         id={this.state.swapDetails.annonce.id}
                       />
                     </div>
+                    <hr style={{ marginTop: "30px" }} />
                     <div>
                       <h2
                         style={{
                           textAlign: "center",
-                          color: "#212223",
-                          width: "100%",
-                          borderRadius: "10px"
+                          color: "rgba(0, 0, 0, 0.54)",
+                          fontSize: "1.2em",
+                          paddingTop: "2px"
                         }}
                       >
                         Article proposé en échange
@@ -267,13 +265,20 @@ class ExchangeDetails extends Component {
               </div>
             </Fragment>
           ))}
-        <div style={{ position: "fixed", bottom: "15px", width: "97%" }}>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "15px",
+            width: "97%",
+            padding: "5px"
+          }}
+        >
           <Grid
             container
             style={{
               position: "fixed",
               bottom: "10px",
-              width: "97%"
+              width: "93%"
             }}
           >
             <Grid container justify="space-around">
@@ -282,32 +287,38 @@ class ExchangeDetails extends Component {
                 !this.state.swapDetails.swap.refused &&
                 this.state.swapDetails.annonce.owner === this.props.user.id && (
                   <>
-                    <Button
-                      onClick={() => this.acceptTheProposition()}
-                      style={{
-                        backgroundColor: "#009682",
-                        border: "0.5px solid #009682",
-                        color: "white",
-                        width: "49%",
-                        height: "50px",
-                        paddingTop: "3px"
-                      }}
-                    >
-                      Accepter cette proposition
-                    </Button>
-                    <Button
-                      onClick={() => this.refuseTheProposition()}
-                      style={{
-                        backgroundColor: "#009682",
-                        border: "0.5px solid #009682",
-                        color: "white",
-                        width: "49%",
-                        height: "50px",
-                        paddingTop: "3px"
-                      }}
-                    >
-                      Refuser cette proposition
-                    </Button>
+                    <div style={{ margin: "0 auto", paddingBottom: "15px" }}>
+                      <Button
+                        onClick={() => this.acceptTheProposition()}
+                        style={{
+                          color: "#006053",
+                          backgroundColor: "#009682",
+                          border: "0.5px solid #009682",
+                          color: "white",
+                          width: "49%",
+                          float: "left",
+                          height: "50px",
+                          paddingTop: "3px"
+                        }}
+                      >
+                        Accepter cette proposition
+                      </Button>
+                      <Button
+                        onClick={() => this.refuseTheProposition()}
+                        style={{
+                          color: "#006053",
+                          backgroundColor: "#009682",
+                          border: "0.5px solid #009682",
+                          color: "white",
+                          width: "49%",
+                          height: "50px",
+                          float: "right",
+                          paddingTop: "3px"
+                        }}
+                      >
+                        Refuser cette proposition
+                      </Button>
+                    </div>
                   </>
                 )}
               {this.state.swapDetails.swap &&
@@ -327,32 +338,36 @@ class ExchangeDetails extends Component {
                     <p>Le propriétaire du leurre a refusé l'échange</p>
                   )))}
             </Grid>
-            <Button
-              onClick={() => this.goToChat()}
-              style={{
-                backgroundColor: "#009682",
-                border: "0.5px solid #009682",
-                color: "white",
-                width: "100%",
-                height: "50px",
-                marginTop: "5px"
-              }}
-            >
-              Aller à la conversation
-            </Button>
-            <Button
-              onClick={() => this.goExchanges()}
-              style={{
-                backgroundColor: "#009682",
-                border: "0.5px solid #009682",
-                color: "white",
-                width: "100%",
-                marginTop: "5px",
-                height: "50px"
-              }}
-            >
-              Revenir aux échanges
-            </Button>
+
+            <div style={{ padding: "10px", margin: "0 auto" }}>
+              <Button
+                onClick={() => this.goToChat()}
+                style={{
+                  backgroundColor: "#009682",
+                  border: "1px solid #009682",
+                  display: "block",
+                  color: "white",
+
+                  width: "320px"
+                }}
+              >
+                Aller à la conversation
+              </Button>
+            </div>
+            <div style={{ margin: "0 auto" }}>
+              <Button
+                onClick={() => this.goExchanges()}
+                style={{
+                  backgroundColor: "#009682",
+                  border: "1px solid #009682",
+                  display: "block",
+                  color: "white",
+                  width: "320px"
+                }}
+              >
+                Revenir aux échanges
+              </Button>
+            </div>
           </Grid>
         </div>
       </div>

@@ -195,7 +195,6 @@ export class PrivateMessagesRoom extends Component {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          {console.log(this.state.swap_in_progress.length)}
           {this.state.exchange.pictures &&
             this.state.swap_in_progress.length < 1 && (
               <ThumbnailMyExchange
@@ -208,18 +207,19 @@ export class PrivateMessagesRoom extends Component {
                 }
               />
             )}
-          {this.state.swap_in_progress.length > 0 && (
-            <ThumbnailMyExchangeMessage
-              id={this.props.match.params.id_article}
-              name={this.state.exchange.name}
-              picture={
-                this.state.exchange.pictures.filter(
-                  picture => picture.main_picture
-                )[0].url_picture
-              }
-              swap_in_progress={this.state.swap_in_progress}
-            />
-          )}
+          {this.state.exchange.pictures &&
+            this.state.swap_in_progress.length > 0 && (
+              <ThumbnailMyExchangeMessage
+                id={this.props.match.params.id_article}
+                name={this.state.exchange.name}
+                picture={
+                  this.state.exchange.pictures.filter(
+                    picture => picture.main_picture
+                  )[0].url_picture
+                }
+                swap_in_progress={this.state.swap_in_progress}
+              />
+            )}
         </Grid>
         <Grid item xs={12}>
           <Paper>

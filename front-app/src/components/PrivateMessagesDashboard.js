@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Paper, Button } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import axios from "axios";
 import ls from "local-storage";
 import { withRouter } from "react-router-dom";
@@ -42,21 +42,24 @@ export class PrivateMessagesDashboard extends Component {
                 color: "rgb(0, 150, 130)",
                 fontSize: "1.5em",
                 paddingTop: "15px",
-                margin: "0px"
+                margin: "0px",
+                padding: "10px"
               }}
             >
               Mes conversations
             </h2>
             {this.state.listRooms.length > 0 ? (
               this.state.listRooms.map((room, index) => (
-                <Paper
-                  key={index}
-                  style={{
-                    marginBottom: 10,
-                    padding: 5
-                  }}
-                >
-                  <Grid container>
+                <div key={index} style={{ marginBottom: 10, padding: 5 }}>
+                  <Grid
+                    container
+                    style={{
+                      padding: "10px",
+                      backgroundColor: "rgba(230, 247, 255, 0.8)",
+                      borderRadius: "4px",
+                      border: "1px solid #009682"
+                    }}
+                  >
                     <Grid item xs={4}>
                       <img
                         src={`${process.env.REACT_APP_URL_API}${
@@ -65,7 +68,7 @@ export class PrivateMessagesDashboard extends Component {
                         alt={`${process.env.REACT_APP_URL_API}${
                           room.url_picture
                         }`}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", paddingTop: "20px" }}
                       />
                       {/* {room.not_read === 1 && (
                         <div
@@ -84,21 +87,35 @@ export class PrivateMessagesDashboard extends Component {
                         </div>
                       )} */}
                     </Grid>
-                    <Grid item xs={8} style={{ paddingLeft: 5 }}>
-                      <p>
+                    <Grid item xs={8}>
+                      <p
+                        style={{
+                          paddingLeft: "25px",
+                          color: "rgb(0, 150, 130)",
+                          fontSize: "1.1em"
+                        }}
+                      >
                         Article : {room.name}
                         <br />
                         Propriétaire : {room.nickname}
                         <br />
                         Interlocuteur : {room.nickname_interlocutor}
                       </p>
-
-                      <Button onClick={() => this.goToChat(room.room)}>
+                      <Button
+                        style={{
+                          backgroundColor: "#009682",
+                          color: "#e6f7ff",
+                          border: "0.5px solid #009682",
+                          width: "75%",
+                          marginLeft: "30px"
+                        }}
+                        onClick={() => this.goToChat(room.room)}
+                      >
                         Aller à la conversation
                       </Button>
                     </Grid>
                   </Grid>
-                </Paper>
+                </div>
               ))
             ) : (
               <h3

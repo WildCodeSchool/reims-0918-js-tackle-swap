@@ -92,7 +92,8 @@ class ThumbnailArticleToExchange extends Component {
                     style={{
                       color: "#009682",
                       paddingTop: "8px",
-                      fontSize: "22px"
+                      fontSize: "22px",
+                      textAlign: "center"
                     }}
                     variant="h5"
                   >
@@ -112,7 +113,7 @@ class ThumbnailArticleToExchange extends Component {
                     className={classes.button}
                     onClick={() => this.goToDetail(this.props.id)}
                   >
-                    Détail
+                    Détails
                   </Button>
                   {selectedArticle === this.props.id ? (
                     <Button className={classes.buttonSelected}>
