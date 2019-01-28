@@ -33,13 +33,74 @@ exports.up = function(db, callback) {
     [
       "THOMAS",
       "Mathieu",
-      "Kawacke",
+      "Mathieu",
       "kawacke@gmail.com",
       "password",
       "NULL",
       "NULL",
       "NULL",
       "08330",
+      "M",
+      "NULL"
+    ],
+
+    callback
+  );
+  db.insert(
+    "users",
+    [
+      "lastname",
+      "firstname",
+      "nickname",
+      "email",
+      "password",
+      "profil_picture",
+      "adress",
+      "city",
+      "postal_code",
+      "gender",
+      "description"
+    ],
+    [
+      "DSC",
+      "Corentin",
+      "Corentin",
+      "corentin@gmail.com",
+      "password",
+      "NULL",
+      "NULL",
+      "NULL",
+      "51100",
+      "M",
+      "NULL"
+    ],
+    callback
+  );
+  db.insert(
+    "users",
+    [
+      "lastname",
+      "firstname",
+      "nickname",
+      "email",
+      "password",
+      "profil_picture",
+      "adress",
+      "city",
+      "postal_code",
+      "gender",
+      "description"
+    ],
+    [
+      "Simonin",
+      "Gautier",
+      "Gautier",
+      "gautier@gmail.com",
+      "password",
+      "NULL",
+      "NULL",
+      "NULL",
+      "51100",
       "M",
       "NULL"
     ],

@@ -49,7 +49,13 @@ export class PrivateMessagesDashboard extends Component {
             </h2>
             {this.state.listRooms.length > 0 ? (
               this.state.listRooms.map((room, index) => (
-                <Paper key={index} style={{ marginBottom: 10, padding: 5 }}>
+                <Paper
+                  key={index}
+                  style={{
+                    marginBottom: 10,
+                    padding: 5
+                  }}
+                >
                   <Grid container>
                     <Grid item xs={4}>
                       <img
@@ -61,6 +67,22 @@ export class PrivateMessagesDashboard extends Component {
                         }`}
                         style={{ width: "100%" }}
                       />
+                      {/* {room.not_read === 1 && (
+                        <div
+                          style={{
+                            borderRadius: "5px",
+                            backgroundColor: "#009682",
+                            color: "white",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            paddingTop: 2,
+                            fontSize: 12
+                          }}
+                        >
+                          Nouveaux
+                          <br /> Messages
+                        </div>
+                      )} */}
                     </Grid>
                     <Grid item xs={8} style={{ paddingLeft: 5 }}>
                       <p>
@@ -70,6 +92,7 @@ export class PrivateMessagesDashboard extends Component {
                         <br />
                         Interlocuteur : {room.nickname_interlocutor}
                       </p>
+
                       <Button onClick={() => this.goToChat(room.room)}>
                         Aller à la conversation
                       </Button>

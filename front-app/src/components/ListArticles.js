@@ -108,7 +108,6 @@ class ListArticles extends Component {
                 direction="row"
                 justify="space-around"
               >
-                <h2>Search</h2>
                 {searchResults.map((article, index) => (
                   <ThumbnailArticle {...article} key={index} />
                 ))}
