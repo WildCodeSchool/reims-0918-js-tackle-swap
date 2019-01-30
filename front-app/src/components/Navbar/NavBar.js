@@ -257,6 +257,19 @@ class ButtonAppBar extends Component {
               </div>
             ))}
         </List>
+        <a
+          href="https://www.ikoula.com"
+          title="Ikoula Hébergement web, serveurs dédiés et solutions sur mesure"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            style={{ height: "40px" }}
+            src="https://www.ikoula.com/img/hosted_by_ikoula_150_blanc.png"
+            alt="Ikoula"
+            border="0"
+          />
+        </a>
       </div>
     );
 
