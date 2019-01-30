@@ -240,32 +240,6 @@ exports.up = function(db, callback) {
       "owner_id"
     ],
     [
-      "ILLEX Tiny Fry 38 SP",
-      "Le poisson-nageur TINY FRY 38 d'ILLEX fait partie des meilleurs leurres suspending pour la pêche de la truite. Il imite un petit vairon qui tente d'échapper à l'attaque d'un carnassier et s'avère très efficace pour pêcher là où le courant est modéré. Avec une animation par de petits coups de scion (twitching), le leurre Illex Tiny Fry 38 SP prend vie et fait miroiter ses flancs en provoquant des écarts très attractifs. Cette version spécialement conçue pour la pêche à l'ultra-léger sera parfaite pour les ruisseaux et les zones peu profondes.",
-      "ILLEX",
-      "3.8",
-      "1.5",
-      "jaune",
-      "5",
-      true,
-      1
-    ],
-    callback
-  );
-  db.insert(
-    "articles",
-    [
-      "name",
-      "description",
-      "brand",
-      "article_length",
-      "article_weight",
-      "article_color",
-      "article_state",
-      "online",
-      "owner_id"
-    ],
-    [
       "DEPS F-SONIC 10CM",
       "Ce poisson nageur de chez Deps propose un profil complètement atypique qui lui permet d'offrir des vibrations et une action nouvelle. Il est très peu connu des pêcheurs et regroupent les qualités aussi bien du vibration que du crankbait.",
       "Deps",
@@ -398,32 +372,6 @@ exports.up = function(db, callback) {
       "owner_id"
     ],
     [
-      "ILLEX Tiny Fry 38 SP",
-      "Le poisson-nageur TINY FRY 38 d'ILLEX fait partie des meilleurs leurres suspending pour la pêche de la truite. Il imite un petit vairon qui tente d'échapper à l'attaque d'un carnassier et s'avère très efficace pour pêcher là où le courant est modéré. Avec une animation par de petits coups de scion (twitching), le leurre Illex Tiny Fry 38 SP prend vie et fait miroiter ses flancs en provoquant des écarts très attractifs. Cette version spécialement conçue pour la pêche à l'ultra-léger sera parfaite pour les ruisseaux et les zones peu profondes.",
-      "ILLEX",
-      "3.8",
-      "1.5",
-      "jaune",
-      "5",
-      true,
-      1
-    ],
-    callback
-  );
-  db.insert(
-    "articles",
-    [
-      "name",
-      "description",
-      "brand",
-      "article_length",
-      "article_weight",
-      "article_color",
-      "article_state",
-      "online",
-      "owner_id"
-    ],
-    [
       "DEPS F-SONIC 10CM",
       "Ce poisson nageur de chez Deps propose un profil complètement atypique qui lui permet d'offrir des vibrations et une action nouvelle. Il est très peu connu des pêcheurs et regroupent les qualités aussi bien du vibration que du crankbait.",
       "Deps",
@@ -537,32 +485,6 @@ exports.up = function(db, callback) {
       "3.2",
       "verte",
       "4",
-      true,
-      1
-    ],
-    callback
-  );
-  db.insert(
-    "articles",
-    [
-      "name",
-      "description",
-      "brand",
-      "article_length",
-      "article_weight",
-      "article_color",
-      "article_state",
-      "online",
-      "owner_id"
-    ],
-    [
-      "ILLEX Tiny Fry 38 SP",
-      "Le poisson-nageur TINY FRY 38 d'ILLEX fait partie des meilleurs leurres suspending pour la pêche de la truite. Il imite un petit vairon qui tente d'échapper à l'attaque d'un carnassier et s'avère très efficace pour pêcher là où le courant est modéré. Avec une animation par de petits coups de scion (twitching), le leurre Illex Tiny Fry 38 SP prend vie et fait miroiter ses flancs en provoquant des écarts très attractifs. Cette version spécialement conçue pour la pêche à l'ultra-léger sera parfaite pour les ruisseaux et les zones peu profondes.",
-      "ILLEX",
-      "3.8",
-      "1.5",
-      "jaune",
-      "5",
       true,
       1
     ],
