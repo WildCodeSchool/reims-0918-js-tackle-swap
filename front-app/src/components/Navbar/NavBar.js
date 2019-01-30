@@ -8,7 +8,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import MailIcon from "@material-ui/icons/Mail";
-import FaceIcon from "@material-ui/icons/Face";
 import CompareArrows from "@material-ui/icons/CompareArrows";
 import PowerIcon from "@material-ui/icons/Power";
 import CreateIcon from "@material-ui/icons/Create";

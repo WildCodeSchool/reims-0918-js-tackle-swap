@@ -51,7 +51,6 @@ const Login = props => {
       .catch(result => console.log("response ERROR:", result));
 
   const { classes } = props;
-  console.log(props.history);
   return (
     <Grid container>
       <Grid item xs={12}>

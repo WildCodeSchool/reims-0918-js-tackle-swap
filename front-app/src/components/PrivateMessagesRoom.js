@@ -147,7 +147,6 @@ export class PrivateMessagesRoom extends Component {
 
   connectedToChat() {
     const connectedToRoom = { ...this.props.match.params };
-    console.log(connectedToRoom);
     this.socket.emit("room", connectedToRoom);
     this.socket.on("roomConnected", roomConnected => {
       this.setState({ roomConnected });
@@ -171,12 +170,6 @@ export class PrivateMessagesRoom extends Component {
   render() {
     const { classes } = this.props;
 
-    if (this.state.exchange.pictures) {
-      const mainPicture = this.state.exchange.pictures.filter(
-        picture => picture.main_picture
-      )[0].url_picture;
-      const picture = mainPicture[0].url_picture;
-    }
     return (
       <Grid container>
         <Grid item xs={12}>
