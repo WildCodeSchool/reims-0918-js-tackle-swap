@@ -8,7 +8,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import MailIcon from "@material-ui/icons/Mail";
-import FaceIcon from "@material-ui/icons/Face";
 import CompareArrows from "@material-ui/icons/CompareArrows";
 import PowerIcon from "@material-ui/icons/Power";
 import CreateIcon from "@material-ui/icons/Create";
@@ -114,6 +113,7 @@ class ButtonAppBar extends Component {
         });
     }
     if (isConnected()) {
+      this.socket.emit("haveMessage");
       this.socket.on("messageNotRead", messageNotRead => {
         if (this._isMounted) {
           if (messageNotRead.type === "error") {
@@ -197,7 +197,6 @@ class ButtonAppBar extends Component {
           path: "/mes-articles",
           icon: <AccountCircle />
         },
-        { id: 30, name: "Profil", path: "/profil", icon: <FaceIcon /> },
         { id: 99, name: "Se déconnecter", path: "/", icon: <PowerOffIcon /> }
       ];
     } else {
@@ -258,6 +257,19 @@ class ButtonAppBar extends Component {
               </div>
             ))}
         </List>
+        <a
+          href="https://www.ikoula.com"
+          title="Ikoula Hébergement web, serveurs dédiés et solutions sur mesure"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            style={{ height: "40px" }}
+            src="https://www.ikoula.com/img/hosted_by_ikoula_150_blanc.png"
+            alt="Ikoula"
+            border="0"
+          />
+        </a>
       </div>
     );
 

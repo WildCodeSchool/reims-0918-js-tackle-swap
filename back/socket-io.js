@@ -112,7 +112,7 @@ const socketIo = (io, app) => {
       socket.join(roomName);
       socket.emit("roomConnected", currentRoom);
     });
-
+    socket.on("haveMessage", socket => io.emit("messageNotRead", true));
     socket.on("sendPrivateMessage", async message => {
       const insertMessage = await bddQuery(
         "INSERT INTO private_messages SET ?",

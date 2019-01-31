@@ -70,6 +70,22 @@ export class PrivateMessagesDashboard extends Component {
                         }`}
                         style={{ width: "100%", paddingTop: "20px" }}
                       />
+                      {/* {room.not_read === 1 && (
+                        <div
+                          style={{
+                            borderRadius: "5px",
+                            backgroundColor: "#009682",
+                            color: "white",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            paddingTop: 2,
+                            fontSize: 12
+                          }}
+                        >
+                          Nouveaux
+                          <br /> Messages
+                        </div>
+                      )} */}
                     </Grid>
                     <Grid item xs={8}>
                       <p

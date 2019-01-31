@@ -31,19 +31,19 @@ const currencies = [
     label: ""
   },
   {
-    value: "Usé",
+    value: "2",
     label: "Usé"
   },
   {
-    value: "Bon état",
+    value: "3",
     label: "Bon état"
   },
   {
-    value: "Très bon état",
+    value: "4",
     label: "Très bon état"
   },
   {
-    value: "Comme neuf",
+    value: "5",
     label: "Comme neuf"
   }
 ];
@@ -136,6 +136,7 @@ class AddArticleFirstPage extends React.Component {
             />
           </div>
           <TextField
+            name="article_state"
             id="standard-select-currency-native"
             select
             label="Etat de l'article"

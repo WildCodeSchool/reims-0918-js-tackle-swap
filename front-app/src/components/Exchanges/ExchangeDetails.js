@@ -287,13 +287,13 @@ class ExchangeDetails extends Component {
                 !this.state.swapDetails.swap.refused &&
                 this.state.swapDetails.annonce.owner === this.props.user.id && (
                   <>
-                    <div style={{ margin: "0 auto" }}>
+                    <div style={{ margin: "0 auto", paddingBottom: "15px" }}>
                       <Button
                         onClick={() => this.acceptTheProposition()}
                         style={{
+                          color: "#006053",
                           backgroundColor: "#009682",
                           border: "0.5px solid #009682",
-                          color: "white",
                           width: "49%",
                           float: "left",
                           height: "50px",
@@ -305,9 +305,9 @@ class ExchangeDetails extends Component {
                       <Button
                         onClick={() => this.refuseTheProposition()}
                         style={{
+                          color: "#006053",
                           backgroundColor: "#009682",
                           border: "0.5px solid #009682",
-                          color: "white",
                           width: "49%",
                           height: "50px",
                           float: "right",

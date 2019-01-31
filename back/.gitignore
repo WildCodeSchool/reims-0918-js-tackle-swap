@@ -81,3 +81,10 @@ typings/
 # Folder Data Upload 
 /data/pictures_articles/*
 !/data/pictures_articles/logo_poisson.svg
+!/data/pictures_articles/1/
+!/data/pictures_articles/2/
+!/data/pictures_articles/3/
+!/data/pictures_articles/4/
+!/data/pictures_articles/5/
+!/data/pictures_articles/6/
+!/data/pictures_articles/7/

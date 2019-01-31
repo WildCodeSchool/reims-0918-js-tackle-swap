@@ -18,6 +18,7 @@ import ExchangeDetailsContainer from "./containers/ExchangeDetailsContainer";
 import UserProfileContainer from "./containers/UserProfileContainer";
 import ListMyArticlesContainer from "./containers/ListMyArticlesContainer";
 import ArticleDetailsMessageContainer from "./containers/ArticleDetailsMessageContainer";
+import Ikoula from "./components/Ikoula";
 
 class App extends Component {
   render() {
@@ -77,6 +78,7 @@ class App extends Component {
             />
           </Switch>
           <FlashMessageContainer />
+          <Ikoula />
         </div>
       </div>
     );
