@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { HardwareDesktopWindows } from "material-ui/svg-icons";
 
 export class Ikoula extends Component {
   constructor(props) {
@@ -55,16 +54,18 @@ export class Ikoula extends Component {
               <a
                 style={{ color: "#FF6C00" }}
                 href="https://www.ikoula.com/fr/serveur-dedie"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Cloud Public
-              </a>{" "}
+              </a>
               IKOULA
             </p>
             <a
               href="https://www.ikoula.com"
               title="Ikoula Hébergement web, serveurs dédiés et solutions sur mesure"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
             >
               <img
                 style={{ height: "40px" }}
