@@ -45,7 +45,7 @@ export class Ikoula extends Component {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "center",
               alignItems: "center"
             }}
           >
