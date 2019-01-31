@@ -1,22 +1,45 @@
 import React, { Fragment } from "react";
 import { Grid, Button } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 const AddArticleSecondPage = props => {
   const {
-    handleChangeAddPicture,
+    submitPicture,
     picturesUploaded,
     defineMainPicture,
-    deletePicture
+    deletePicture,
+    idArticle
   } = props;
+
+  const goToPreview = idArticle => {
+    props.history.push(`/previsualisation/${idArticle}`);
+  };
   return (
     <Fragment>
       <div>
-        <input
-          type="file"
-          name="picture"
-          id="picture"
-          onChange={event => handleChangeAddPicture(event)}
-        />
+        <p
+          style={{
+            color: "rgb(0, 204, 204)",
+            fontSize: "1.2em",
+            margin: "0px",
+            padding: "15px",
+            textAlign: "center",
+            fontWeight: "bold"
+          }}
+        >
+          Ajouter Une photo:{" "}
+        </p>
+        <form style={{ padding: "15px", textAlign: "center" }}>
+          {picturesUploaded.length < 3 && (
+            <input
+              className="picture"
+              type="file"
+              name="picture"
+              id="picture"
+              onChange={event => submitPicture(event)}
+            />
+          )}
+        </form>
         {picturesUploaded.length > 0 && (
           <Grid container>
             {picturesUploaded.map((pictureUploaded, index) => (
@@ -68,10 +91,22 @@ const AddArticleSecondPage = props => {
           </Grid>
         )}
       </div>
-      <div>
-        <button>Prévisualiser mon annonce</button>
+      <div style={{ padding: "20px" }}>
+        <Button
+          style={{
+            backgroundColor: "#009682",
+            border: "1px solid #009682",
+            display: "block",
+            color: "white",
+            margin: "0 auto",
+            width: "320px"
+          }}
+          onClick={() => goToPreview(idArticle)}
+        >
+          Prévisualiser mon annonce
+        </Button>
       </div>
     </Fragment>
   );
 };
-export default AddArticleSecondPage;
+export default withRouter(AddArticleSecondPage);

@@ -22,19 +22,17 @@
   color: #61dafb;
 }
 
-.ArticleDetails {
-  background-color: white;
-  opacity: 0.8;
-}
-
 .TextDescription {
   padding-left: 10px;
-  color: #009682;
+  color: rgb(0, 204, 204);
+  font-size: 1.3em;
 }
 .TitleDescription {
   padding-left: 10px;
-  color: #00cccc;
-  margin-top: 0px;
+  color: rgb(0, 204, 204);
+  font-size: 25px;
+  font-weight: bold;
+  padding-top: 8px;
   display: flex;
   justify-content: space-between;
 }
@@ -43,6 +41,7 @@
   font-size: 20px;
   padding-left: 10px;
   color: #293d3d;
+  padding-right: 10px;
 }
 
 .ColorButton {
@@ -61,4 +60,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+.ikoula p.withBorder::after {
+  content: "";
+  display: block;
+  margin: 5px auto 0;
+  width: 40px;
+  background: none;
+  height: 1px;
+  border-bottom: 1px solid #321656;
 }

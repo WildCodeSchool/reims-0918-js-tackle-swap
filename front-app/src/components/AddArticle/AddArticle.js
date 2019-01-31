@@ -11,7 +11,6 @@ class AddArticle extends Component {
   constructor(props) {
     super(props);
     this.onSubmitInformations = this.onSubmitInformations.bind(this);
-    this.handleChangeAddPicture = this.handleChangeAddPicture.bind(this);
     this.submitPicture = this.submitPicture.bind(this);
     this.defineMainPicture = this.defineMainPicture.bind(this);
     this.deletePicture = this.deletePicture.bind(this);
@@ -26,7 +25,7 @@ class AddArticle extends Component {
   }
   onSubmitInformations = values =>
     axios
-      .post("http://localhost:5000/article", values, {
+      .post(`${process.env.REACT_APP_URL_API}/article`, values, {
         headers: {
           accept: "application/json",
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
@@ -42,19 +41,15 @@ class AddArticle extends Component {
         }
       });
 
-  handleChangeAddPicture = event => {
-    this.setState({ selectedFilesUpload: event.target.files[0] }, () =>
-      this.submitPicture()
-    );
-  };
-
-  submitPicture = () => {
+  submitPicture = event => {
     const data = new FormData();
-    data.append("picture", this.state.selectedFilesUpload);
+    data.append("picture", event.target.files[0]);
 
     axios
       .post(
-        `http://localhost:5000/picture/article/${this.state.idArticle}`,
+        `${process.env.REACT_APP_URL_API}/picture/article/${
+          this.state.idArticle
+        }`,
         data,
         {
           headers: {
@@ -67,12 +62,19 @@ class AddArticle extends Component {
       .then(result => {
         console.log(result);
         document.getElementById("picture").value = "";
-        this.setState({
-          picturesUploaded: [
-            ...this.state.picturesUploaded,
-            result.data.response
-          ]
-        });
+        this.setState(
+          {
+            picturesUploaded: [
+              ...this.state.picturesUploaded,
+              result.data.response
+            ]
+          },
+          () => {
+            if (this.state.picturesUploaded.length === 1) {
+              this.defineMainPicture(this.state.picturesUploaded[0].idPicture);
+            }
+          }
+        );
       })
       .catch(error =>
         console.log(error.response.data.response.flashMessage.message)
@@ -82,9 +84,9 @@ class AddArticle extends Component {
   defineMainPicture(idPicture) {
     axios
       .put(
-        `http://localhost:5000/main?idPicture=${idPicture}&idArticle=${
-          this.state.idArticle
-        }`,
+        `${
+          process.env.REACT_APP_URL_API
+        }/main?idPicture=${idPicture}&idArticle=${this.state.idArticle}`,
         {
           headers: {
             Accept: "application/json",
@@ -105,7 +107,7 @@ class AddArticle extends Component {
   }
   deletePicture(idPicture) {
     axios
-      .delete(`http://localhost:5000/picture/${idPicture}`, {
+      .delete(`${process.env.REACT_APP_URL_API}/picture/${idPicture}`, {
         headers: {
           Accept: "application/json",
           authorization: `Bearer ${ls.get("jwt-tackle-swap")}`
@@ -117,12 +119,15 @@ class AddArticle extends Component {
         const newPicturesUplaoded = picturesUploaded.filter(
           picture => picture.idPicture !== parseInt(idPicture)
         );
-        this.setState({ picturesUploaded: newPicturesUplaoded });
+        this.setState({ picturesUploaded: newPicturesUplaoded }, () => {
+          if (this.state.picturesUploaded.length === 1) {
+            this.defineMainPicture(this.state.picturesUploaded[0].idPicture);
+          }
+        });
       });
   }
 
-  nextPage(e) {
-    e.preventDefault();
+  nextPage() {
     this.setState({ page: this.state.page + 1 });
   }
 
@@ -135,15 +140,12 @@ class AddArticle extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Paper>
-            <h4>Ajouter un article à votre vitrine :</h4>
+          <Paper style={{ opacity: "0.9" }}>
             {page === 1 && (
               <AddArticleFirstPage onSubmit={this.onSubmitInformations} />
             )}
             {page === 2 && (
               <AddArticleSecondPage
-                onSubmit={this.nextPage}
-                handleChangeAddPicture={this.handleChangeAddPicture}
                 submitPicture={this.submitPicture}
                 picturesUploaded={this.state.picturesUploaded}
                 idArticle={this.state.idArticle}

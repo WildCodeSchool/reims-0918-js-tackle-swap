@@ -1,21 +1,24 @@
 import React from "react";
 
-import RadioGroup from "@material-ui/core/RadioGroup";
+import TextField from "material-ui/TextField";
+import { RadioButtonGroup } from "material-ui/RadioButton";
 
 export const renderField = ({
   input,
   label,
   type,
-  meta: { touched, error, warning }
+  meta: { touched, error, warning },
+  ...custom
 }) => (
   <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type} />
-      {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
-    </div>
+    <TextField
+      type={type}
+      hintText={label}
+      floatingLabelText={label}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+    />
   </div>
 );
 
@@ -29,9 +32,10 @@ export const renderRadioGroup = ({
     <label>{label} : </label>{" "}
     {touched &&
       ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-    <RadioGroup
+    <RadioButtonGroup
       {...input}
       {...rest}
+      floatingLabelText={label}
       valueselected={input.value}
       onChange={(event, value) => input.onChange(value)}
     />

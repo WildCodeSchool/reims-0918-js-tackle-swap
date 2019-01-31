@@ -4,7 +4,9 @@ import {
   CHANGE_PAGE,
   SHOW_ARTICLE_DETAILS,
   SHOW_FLASH_MESSAGE,
-  CLOSE_FLASH_MESSAGE
+  CLOSE_FLASH_MESSAGE,
+  USER_PROFIL_RECEIVED,
+  SEARCH_ARTICLES
 } from "./actionTypes";
 import {
   makeArticlesReceivedAction,
@@ -12,7 +14,9 @@ import {
   makeChangePageAction,
   makeShowArticleDetailsAction,
   makeShowFlashMessageAction,
-  makeCloseFlashMessageAction
+  makeCloseFlashMessageAction,
+  makeUserProfileInformationReceivedAction,
+  makeSearchArticlesAction
 } from "./actions";
 
 describe("makeArticlesReceivedAction", () => {
@@ -100,12 +104,16 @@ describe("makeShowArticleDetailsAction", () => {
 
 describe("makeShowFlashMessageAction", () => {
   it("should display the correct flash message in the snackbar", () => {
-    const message = "Connection réussie";
+    const flashMessage = {
+      message: "Connection réussie",
+      open: true,
+      type: "success"
+    };
     const expected = {
       type: SHOW_FLASH_MESSAGE,
-      message
+      flashMessage
     };
-    expect(makeShowFlashMessageAction(message)).toEqual(expected);
+    expect(makeShowFlashMessageAction(flashMessage)).toEqual(expected);
   });
 });
 
@@ -115,5 +123,34 @@ describe("makeCloseFlashMessageAction", () => {
       type: CLOSE_FLASH_MESSAGE
     };
     expect(makeCloseFlashMessageAction()).toEqual(expected);
+  });
+});
+
+describe("makeUserProfileInformationReceivedAction", () => {
+  it("should store user profil infromation", () => {
+    const responseApi = {
+      nickname: "KoKo",
+      id: 345
+    };
+    const expected = {
+      type: USER_PROFIL_RECEIVED,
+      user: responseApi
+    };
+
+    expect(makeUserProfileInformationReceivedAction(responseApi)).toEqual(
+      expected
+    );
+  });
+});
+
+describe("makeSearchArticlesAction", () => {
+  it("should return content input search into store", () => {
+    const search = "my search";
+    const expected = {
+      type: SEARCH_ARTICLES,
+      search
+    };
+
+    expect(makeSearchArticlesAction(search)).toEqual(expected);
   });
 });

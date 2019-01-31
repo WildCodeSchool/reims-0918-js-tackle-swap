@@ -7,6 +7,10 @@ import paginationReducer from "./paginationReducer";
 import loadingReducer from "./loadingReducer";
 import showArticleDetailsReducer from "./showArticleDetailsReducer";
 import FlashMessageReducer from "./FlashMessageReducer";
+import userProfileReducer from "./userProfileReducer";
+import searchReducer from "./searchReducer";
+import searchReceivedReducer from "./searchReceivedReducer";
+import userArticlesReducer from "./userArticlesReducer";
 
 const rootReducers = history =>
   combineReducers({
@@ -16,7 +20,11 @@ const rootReducers = history =>
     pagination: paginationReducer,
     loading: loadingReducer,
     articleDetails: showArticleDetailsReducer,
-    flashMessage: FlashMessageReducer
+    flashMessage: FlashMessageReducer,
+    user: userProfileReducer,
+    search: searchReducer,
+    searchResults: searchReceivedReducer,
+    userArticles: userArticlesReducer
   });
 
 export default rootReducers;

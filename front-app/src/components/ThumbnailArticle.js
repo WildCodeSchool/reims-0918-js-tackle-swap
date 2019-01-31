@@ -11,14 +11,18 @@ import Grid from "@material-ui/core/Grid";
 const styles = {
   card: {
     maxWidth: 300,
-    backgroundColor: "#e6f7ff",
+    backgroundColor: "rgba(230, 247, 255, 0.9)",
     border: "2px solid white"
   },
   media: {
     height: 140
   },
   textTitle: {
-    color: "#00cccc"
+    color: "#00cccc",
+    whiteSpace: "nowrap",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   textDescription: {
     color: "#009682"
@@ -29,7 +33,7 @@ const styles = {
 };
 
 function ThumbnailArticle(props) {
-  const { classes, pictures, name, id } = props;
+  const { classes, pictures, name, description, id } = props;
   const mainPicture = pictures.filter(picture => picture.main_picture);
   const picture = mainPicture[0].url_picture;
   return (
@@ -47,26 +51,23 @@ function ThumbnailArticle(props) {
                 className={classes.textTitle}
                 gutterBottom
                 variant="h6"
-                component="h2"
+                component="p"
               >
                 {name}
               </Typography>
-              <Typography
+              <p
                 className={classes.textDescription}
-                variant="subtitle1"
-                component="p"
-              >
-                Trop beau leurre et bonne qualité...
-              </Typography>
-              <div
                 style={{
-                  textAlign: "right",
-                  color: "#009682",
-                  paddingRight: "0px"
+                  display: "block",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  fontSize: 15,
+                  lineHeight: "30px",
+                  maxHeight: "60px"
                 }}
               >
-                <i style={{ color: "#00cccc" }} className="far fa-heart" />
-              </div>
+                {description}
+              </p>
             </CardContent>
           </CardActionArea>
         </Card>
