@@ -261,7 +261,7 @@ class ButtonAppBar extends Component {
           href="https://www.ikoula.com"
           title="Ikoula Hébergement web, serveurs dédiés et solutions sur mesure"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           <img
             style={{ height: "40px" }}
