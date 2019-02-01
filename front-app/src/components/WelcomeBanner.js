@@ -6,7 +6,11 @@ class WelcomeBanner extends Component {
   render() {
     return (
       <div style={{ backgroundColor: "#009682", height: "250px" }}>
-        <img src={Picturebanner} alt="John" style={{ width: "100%" }} />
+        <img
+          src={Picturebanner}
+          alt="John"
+          style={{ width: "100%", maxHeight: 170 }}
+        />
         <h4
           style={{
             margin: "0px",
